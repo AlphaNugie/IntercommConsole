@@ -41,6 +41,10 @@
     <Reference Include="connect_server">
       <HintPath>..\..\connect_server\connect_server_lib\connect_server.dll</HintPath>
     </Reference>
+    <Reference Include="Oracle.ManagedDataAccess, Version=4.121.2.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Softwares\Oracle Developer Tools for VS2013\odp.net\managed\common\Oracle.ManagedDataAccess.dll</HintPath>
+    </Reference>
     <Reference Include="protobuf-net, Version=2.4.0.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.4.6\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
@@ -64,6 +68,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Const.cs" />
+    <Compile Include="DataService_Machine.cs" />
     <Compile Include="DataService_Radar.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -71,6 +76,8 @@
   <ItemGroup>
     <None Include=".editorconfig" />
     <None Include="App.config" />
+    <None Include="bin\Debug\base.db" />
+    <None Include="bin\Debug\Config.ini" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

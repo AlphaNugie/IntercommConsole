@@ -19,6 +19,11 @@ namespace SerializationFactory
         /// <summary>
         /// 雷达消息
         /// </summary>
-        RADAR = 2
+        RADAR = 2,
+
+        /// <summary>
+        /// 雷达详细信息
+        /// </summary>
+        RADAR_DETAIL = 3
     }
 }

@@ -62,5 +62,19 @@ namespace SerializationFactory
         /// </summary>
         [ProtoMember(5)]
         public double DistWheelDiff { get; set; }
+
+        /// <summary>
+        /// 雷达基础信息列表
+        /// </summary>
+        [ProtoMember(6)]
+        public List<RadarInfoDetail> RadarList { get; set; }
+
+        /// <summary>
+        /// 构造器
+        /// </summary>
+        public RadarProtoInfo()
+        {
+            this.RadarList = new List<RadarInfoDetail>();
+        }
     }
 }

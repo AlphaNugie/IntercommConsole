@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="Enum.cs" />
     <Compile Include="GnssProtoInfo.cs" />
+    <Compile Include="RadarInfoDetail.cs" />
     <Compile Include="RadarProtoInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -82,6 +82,11 @@ namespace IntercommConsole
         public static bool Save2Sqlite = ini_helper.ReadData("Main", "Save2Sqlite").Equals("1");
 
         /// <summary>
+        /// 是否将数据保存到Oracle数据库
+        /// </summary>
+        public static bool Save2Oracle = ini_helper.ReadData("Main", "Save2Oracle").Equals("1");
+
+        /// <summary>
         /// 数据库服务器IP
         /// </summary>
         public static string DataServerIp = ini_helper.ReadData("Main", "DataServerIp");

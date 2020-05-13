@@ -17,6 +17,7 @@ using SerializationFactory;
 //using static SocketHelper.SocketTcpClient;
 using gprotocol;
 using ConnectServerWrapper;
+using CommonLib.Extensions;
 
 namespace IntercommConsole
 {
@@ -26,6 +27,10 @@ namespace IntercommConsole
         {
             string local_ip = Functions.GetIPAddressV4(); //本地IP
             DataService_Radar dataservice = new DataService_Radar(); //数据库链接
+            DataService_Machine dataservice_machine = new DataService_Machine();
+            //RadarProtoInfo info = new RadarProtoInfo() { DistWheelAverage = 7.5, RadarList = new List<RadarInfoDetail>() { new RadarInfoDetail() { CurrentDistance = 7.5 } } };
+            //string resulttemp = ProtobufNetWrapper.SerializeToString(info);
+            //RadarProtoInfo info2 = ProtobufNetWrapper.DeserializeFromString<RadarProtoInfo>(resulttemp);
 
             #region 堆场模型浏览服务连接
             NetworkGateway.Start(Const.DataServerIp, Const.UserName, Const.Password);
@@ -124,11 +129,18 @@ namespace IntercommConsole
                         catch (Exception) { }
                     }
                     #endregion
-                    #region 保存到sqlite3
+                    #region 保存到数据库（sqlite3 / Oracle）
+                    if (Const.Save2Oracle)
+                    {
+                        int ora_result = 0;
+                        try { ora_result = dataservice_machine.UpdateMachinePosture(Const.MachineName, gnss_info); }
+                        catch (Exception) { }
+                        Console.WriteLine(string.Format("Oracle数据保存：{0}", ora_result));
+                    }
                     if (Const.Save2Sqlite)
                     {
-                        int result2 = dataservice.InsertRadarDistance(gnss_info, radar_info);
-                        Console.WriteLine(string.Format("数据保存：{0}", result2));
+                        int sqlite_result = dataservice.InsertRadarDistance(gnss_info, radar_info);
+                        Console.WriteLine(string.Format("Sqlite数据保存：{0}", sqlite_result));
                     }
                     #endregion
 
@@ -153,6 +165,7 @@ namespace IntercommConsole
         private static RadarProtoInfo radar_info = new RadarProtoInfo(); //雷达信息
         private static GnssProtoInfo gnss_info = new GnssProtoInfo(); //北斗信息
         private static string message = string.Empty;
+
 
         /// <summary>
         /// 接收事件
