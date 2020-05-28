@@ -32,6 +32,17 @@ namespace SerializationFactory
         public double LocalCoor_Tipz { get; set; }
 
         /// <summary>
+        /// 该点煤堆高度
+        /// </summary>
+        public double PileHeight { get; set; }
+
+        ///// <summary>
+        ///// 臂架顶端本地坐标
+        ///// </summary>
+        //[ProtoMember(1)]
+        //public Coordinate LocalCoor_Tip { get; set; }
+
+        /// <summary>
         /// 行走位置
         /// </summary>
         [ProtoMember(4)]
@@ -48,5 +59,23 @@ namespace SerializationFactory
         /// </summary>
         [ProtoMember(6)]
         public double YawAngle { get; set; }
+
+        /// <summary>
+        /// 是否收到数据
+        /// </summary>
+        [ProtoMember(7)]
+        public bool Working { get; set; }
+
+        /// <summary>
+        /// 是否为固定解
+        /// </summary>
+        [ProtoMember(8)]
+        public bool IsFixed { get; set; }
+
+        /// <summary>
+        /// 定位质量
+        /// </summary>
+        [ProtoMember(9)]
+        public string PositionQuality { get; set; }
     }
 }

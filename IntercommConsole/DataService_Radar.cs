@@ -15,7 +15,8 @@ namespace IntercommConsole
     /// </summary>
     public class DataService_Radar
     {
-        private readonly SqliteProvider provider = new SqliteProvider();
+        private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
+        //private readonly SqliteProvider provider = new SqliteProvider();
 
         /// <summary>
         /// 插入雷达测距值

@@ -1,4 +1,5 @@
-﻿using CommonLib.Function;
+﻿using CommonLib.Clients;
+using CommonLib.Function;
 using ConnectServerWrapper;
 using gprotocol;
 using System;
@@ -15,6 +16,11 @@ namespace IntercommConsole
     public struct Const
     {
         private static readonly IniFileHelper ini_helper = new IniFileHelper("Config.ini");
+
+        /// <summary>
+        /// 日志
+        /// </summary>
+        public static readonly LogClient Log = new LogClient("logs", "intercomm", "executable.log", false, true);
 
         /// <summary>
         /// 大机名称
@@ -100,6 +106,26 @@ namespace IntercommConsole
         /// 用户密码
         /// </summary>
         public static string Password = ini_helper.ReadData("Main", "Password");
+
+        /// <summary>
+        /// 是否使用OPC
+        /// </summary>
+        public static bool OpcEnabled = ini_helper.ReadData("OPC", "OpcEnabled").Equals("1");
+
+        /// <summary>
+        /// OPC SERVER IP地址
+        /// </summary>
+        public static string OpcServerIp = ini_helper.ReadData("OPC", "OpcServerIp");
+
+        /// <summary>
+        /// OPC SERVER 名称
+        /// </summary>
+        public static string OpcServerName = ini_helper.ReadData("OPC", "OpcServerName");
+
+        /// <summary>
+        /// 是否写入PLC
+        /// </summary>
+        public static bool Write2Plc = ini_helper.ReadData("OPC", "Write2Plc").Equals("1");
     }
 
     /// <summary>

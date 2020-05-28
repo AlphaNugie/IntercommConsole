@@ -26,4 +26,36 @@ namespace SerializationFactory
         /// </summary>
         RADAR_DETAIL = 3
     }
+
+    /// <summary>
+    /// 定位解算状态
+    /// </summary>
+    [Flags]
+    public enum SolutionType
+    {
+        /// <summary>
+        /// 定位不可用或无解
+        /// </summary>
+        Invalid = 1,
+
+        /// <summary>
+        /// 单点定位
+        /// </summary>
+        Single = 2,
+
+        /// <summary>
+        /// 浮点解
+        /// </summary>
+        Float = 4,
+
+        /// <summary>
+        /// 固定解
+        /// </summary>
+        Fixed = 8,
+
+        /// <summary>
+        /// 其它情况
+        /// </summary>
+        Other = 16
+    }
 }
