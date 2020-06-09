@@ -41,7 +41,8 @@ namespace ConnectServerWrapper
             set
             {
                 this._machine_name = value;
-                this._machine_name_prop.SetValue(this._base, this._machine_name);
+                if (this._machine_name_prop != null)
+                    this._machine_name_prop.SetValue(this._base, this._machine_name);
             }
         }
 
@@ -112,7 +113,8 @@ namespace ConnectServerWrapper
             //为属性赋初始值
             this.MachineName = machine_name;
             //找到floatarray属性并初始化
-            this._float_list = (List<float>)this._float_array_prop.GetValue(this._base);
+            if (this._float_array_prop != null && this._float_array_prop.GetGetMethod() != null)
+                this._float_list = (List<float>)this._float_array_prop.GetValue(this._base);
             this._float_list.Clear();
             this._float_list.AddRange(new float[] { 0, 0, 0 }); //长度不可小于3
             //this._float_array_prop.SetValue(this._base, this._float_list);

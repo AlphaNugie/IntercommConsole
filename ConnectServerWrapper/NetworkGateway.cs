@@ -15,6 +15,7 @@ namespace ConnectServerWrapper
     /// </summary>
     public static class NetworkGateway
     {
+        #region 属性
         /// <summary>
         /// 服务器IP
         /// </summary>
@@ -43,6 +44,23 @@ namespace ConnectServerWrapper
         }
 
         /// <summary>
+        /// 是否已连上3D模型server
+        /// </summary>
+        public static bool Connected { get { return login_server.Instance.is_connect; } }
+
+        private static bool _logged_in = false;
+        /// <summary>
+        /// 是否已登录
+        /// </summary>
+        public static bool LoggedIn
+        {
+            get { return _logged_in; }
+            private set { _logged_in = value; }
+        }
+        #endregion
+
+        #region 功能
+        /// <summary>
         /// 以默认服务器IP以及来宾身份启动连接
         /// </summary>
         public static bool Start()
@@ -70,9 +88,40 @@ namespace ConnectServerWrapper
             ServerIp = server_ip;
             try
             {
+                event_manager.Instance.add_event_listener("connect success!!!", ConnectSuccess); //登录成功
+                event_manager.Instance.add_event_listener("connect error!!!", ConnectError); //登录失败
+                event_manager.Instance.add_event_listener("login_logic_server", BeginSend); //重新发送
+                UserName = user_name;
+                Password = password;
                 network.Instance.Start();
                 network.Instance.Update();
                 login_server.Instance.init();
+                Login(UserName, Password);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// 以特定用户名以及用户密码登录
+        /// </summary>
+        public static bool Login()
+        {
+            return Login(UserName, Password);
+        }
+
+        /// <summary>
+        /// 以特定用户名以及用户密码登录，假如用户名或密码为空则以来客身份登录
+        /// </summary>
+        /// <param name="user_name">用户名，假如为空则以来客身份登录</param>
+        /// <param name="password">用户密码，假如为空则以来客身份登录</param>
+        public static bool Login(string user_name, string password)
+        {
+            try
+            {
                 if (string.IsNullOrWhiteSpace(user_name) || string.IsNullOrWhiteSpace(password))
                     login_server.Instance.guest_login();
                 else
@@ -84,9 +133,9 @@ namespace ConnectServerWrapper
             }
             catch (Exception)
             {
-                return false;
+                return LoggedIn = false;
             }
-            return true;
+            return LoggedIn = true;
         }
 
         /// <summary>
@@ -96,6 +145,8 @@ namespace ConnectServerWrapper
         /// <param name="body">发送实体类</param>
         public static bool SendProtobufCmd(Cmd cmd, IExtensible body)
         {
+            if (!LoggedIn)
+                return false;
             try { network.Instance.send_protobuf_cmd((int)Stype.Logic, (int)cmd, body); }
             catch (Exception)
             {
@@ -103,6 +154,23 @@ namespace ConnectServerWrapper
                 return false;
             }
             return true;
+        }
+        #endregion
+
+        private static void ConnectSuccess(string name, object udata)
+        {
+            Login();
+        }
+
+        private static void ConnectError(string name, object udata)
+        {
+            //throw new NotImplementedException();
+        }
+
+        private static void BeginSend(string name, object udata)
+        {
+            LoggedIn = true;
+            //throw new NotImplementedException();
         }
     }
 }

@@ -64,6 +64,12 @@ namespace SerializationFactory
         public double DistWheelDiff { get; set; }
 
         /// <summary>
+        /// 皮带料流雷达下方距离
+        /// </summary>
+        [ProtoMember(7)]
+        public double DistBelt { get; set; }
+
+        /// <summary>
         /// 雷达基础信息列表
         /// </summary>
         [ProtoMember(6)]
