@@ -18,6 +18,7 @@ namespace IntercommConsole
                 new OpcTask(),
                 new ModelBuildingServiceTask(),
                 new ModelDisplayServiceTask(),
+                new StrategyServiceTask(),
                 new DbOracleTask(),
                 new DbSqliteTask()
             };

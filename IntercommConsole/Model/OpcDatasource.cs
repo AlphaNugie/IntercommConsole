@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IntercommConsole.Model
 {
-    public class OpcDatasource
+    public class OpcDataSource
     {
         /// <summary>
         /// 行走位置
@@ -52,5 +52,15 @@ namespace IntercommConsole.Model
         /// 皮带是否有料
         /// </summary>
         public bool CoalOnBelt { get; set; }
+
+        /// <summary>
+        /// 瞬时流量
+        /// </summary>
+        public double StreamPerHour { get; set; }
+
+        /// <summary>
+        /// 累计流量
+        /// </summary>
+        public double StreamTotal { get; set; }
     }
 }

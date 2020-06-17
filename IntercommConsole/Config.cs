@@ -59,6 +59,31 @@ namespace IntercommConsole
         public static string ModelServerIp = _iniHelper.ReadData("Main", "ModelServerIp");
 
         /// <summary>
+        /// 建模服务数据发送UDP本地端口
+        /// </summary>
+        public static int UdpModelLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpLocalPort"));
+
+        /// <summary>
+        /// 建模服务数据发送UDP远程端口
+        /// </summary>
+        public static int UdpModelRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpRemotePort"));
+
+        /// <summary>
+        /// 策略工控机IP
+        /// </summary>
+        public static string StrategyIPCIp = _iniHelper.ReadData("Main", "StrategyIPCIp");
+
+        /// <summary>
+        /// 策略工控机数据发送UDP本地端口
+        /// </summary>
+        public static int UdpStrategyLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyLocalPort"));
+
+        /// <summary>
+        /// 策略工控机数据发送UDP远程端口
+        /// </summary>
+        public static int UdpStrategyRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyRemotePort"));
+
+        /// <summary>
         /// 雷达子系统端口
         /// </summary>
         public static int RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));
@@ -67,16 +92,6 @@ namespace IntercommConsole
         /// 北斗子系统端口
         /// </summary>
         public static int GnssPort = int.Parse(_iniHelper.ReadData("Main", "GnssPort"));
-
-        /// <summary>
-        /// UDP本地端口
-        /// </summary>
-        public static int UdpLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpLocalPort"));
-
-        /// <summary>
-        /// UDP远程端口
-        /// </summary>
-        public static int UdpRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpRemotePort"));
 
         /// <summary>
         /// 是否将数据保存到Sqlite

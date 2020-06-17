@@ -52,15 +52,15 @@ namespace IntercommConsole
             set { _gnssInfo = value; }
         }
 
-        //private static OpcDatasource _opc_source = new OpcDatasource();
         /// <summary>
         /// OPC数据源
         /// </summary>
-        public static OpcDatasource OpcDatasource = new OpcDatasource();
-        //{
-        //    get { return _opc_source; }
-        //    set { _opc_source = value; }
-        //}
+        public static OpcDataSource OpcDatasource = new OpcDataSource();
+
+        /// <summary>
+        /// 策略工控机数据源
+        /// </summary>
+        public static StrategyDataSource StrategyDataSource = new StrategyDataSource();
 
         /// <summary>
         /// 写入日志同时在控制台输出

@@ -10,7 +10,7 @@ namespace IntercommConsole.Tasks
 {
     public class ModelBuildingServiceTask : Task
     {
-        DerivedUdpClient udp = null;
+        private DerivedUdpClient udp = null;
 
         /// <summary>
         /// 构造器
@@ -19,9 +19,9 @@ namespace IntercommConsole.Tasks
 
         public override void Init()
         {
-            Const.WriteConsoleLog("初始化UDP...");
-            udp = new DerivedUdpClient(Const.LocalIp, Config.UdpLocalPort, true, false);
-            Const.WriteConsoleLog(string.Format("{0}已启动", udp.Name));
+            Const.WriteConsoleLog("初始化建模服务数据发送UDP...");
+            udp = new DerivedUdpClient(Const.LocalIp, Config.UdpModelLocalPort, true, false);
+            Const.WriteConsoleLog(string.Format("建模服务数据发送UDP{0}已启动", udp.Name));
         }
 
         public override void LoopContent()
@@ -38,11 +38,9 @@ namespace IntercommConsole.Tasks
             bool is_coal_valid = !Const.IsStacker || Const.OpcDatasource.CoalOnBelt;
             //所有条件均符合要求后才发送消息，否则发送随机字符
             result = is_radar_valid && is_gnss_valid && additional && is_coal_valid ? result : "#";
-            udp.SendString(result, Config.ModelServerIp, Config.UdpRemotePort);
+            udp.SendString(result, Config.ModelServerIp, Config.UdpModelRemotePort);
 
             _taskLogs = new List<string>() { result };
-            //PrintTaskLogs();
-            //Console.WriteLine(_taskLogs);
         }
     }
 }

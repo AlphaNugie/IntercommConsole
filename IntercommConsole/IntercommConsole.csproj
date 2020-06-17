@@ -91,13 +91,15 @@
     <Compile Include="DataService_Machine.cs" />
     <Compile Include="DataService_Opc.cs" />
     <Compile Include="DataService_Radar.cs" />
-    <Compile Include="Model\OpcDatasource.cs" />
+    <Compile Include="Model\OpcDataSource.cs" />
+    <Compile Include="Model\StrategyDataSource.cs" />
     <Compile Include="Tasks\DataProcessTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />
     <Compile Include="Tasks\DbSqliteTask.cs" />
     <Compile Include="Tasks\ModelBuildingServiceTask.cs" />
     <Compile Include="Tasks\ModelDisplayServiceTask.cs" />
     <Compile Include="Tasks\OpcTask.cs" />
+    <Compile Include="Tasks\StrategyServiceTask.cs" />
     <Compile Include="Tasks\Task.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
