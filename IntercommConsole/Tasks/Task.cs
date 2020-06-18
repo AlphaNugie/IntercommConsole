@@ -14,7 +14,7 @@ namespace IntercommConsole.Tasks
         private readonly AutoResetEvent _auto = new AutoResetEvent(false);
         private bool _ended = false;
         private bool _paused = true;
-        protected List<string> _taskLogs = new List<string>();
+        protected List<string> _taskLogsBuffer = new List<string>(); //日志存放缓冲区，每次循环可以直接向里添加（Add）而不必清除（Clear）
         protected string _errorMessage = string.Empty;
 
         /// <summary>
@@ -29,11 +29,11 @@ namespace IntercommConsole.Tasks
         /// <summary>
         /// 任务日志
         /// </summary>
-        public List<string> TaskLogs
-        {
-            get { return _taskLogs; }
-            private set { _taskLogs = value; }
-        }
+        public List<string> TaskLogs { get; private set; }
+        //{
+        //    get { return _taskLogs; }
+        //    private set { _taskLogs = value; }
+        //}
 
         /// <summary>
         /// 是否打印任务日志
@@ -120,11 +120,12 @@ namespace IntercommConsole.Tasks
                 Thread.Sleep(Interval);
                 if (_paused)
                     _auto.WaitOne();
-                if (_taskLogs == null)
-                    _taskLogs = new List<string>();
-                //else
-                //    _taskLogs.Clear();
+                if (_taskLogsBuffer == null)
+                    _taskLogsBuffer = new List<string>();
+                else
+                    _taskLogsBuffer.Clear();
                 LoopContent();
+                TaskLogs = _taskLogsBuffer.ToList();
             }
         }
 
@@ -133,14 +134,13 @@ namespace IntercommConsole.Tasks
         /// </summary>
         public void PrintTaskLogs()
         {
-            if (!AllowPrintTaskLog || _taskLogs == null || _taskLogs.Count == 0)
+            if (!AllowPrintTaskLog || TaskLogs == null || TaskLogs.Count == 0)
                 return;
-            _taskLogs.ForEach(log =>
+            TaskLogs.ForEach(log =>
             {
                 if (!string.IsNullOrWhiteSpace(log))
                     Console.WriteLine(log);
             });
-            //Console.WriteLine(_taskLogs);
         }
     }
 }

@@ -48,6 +48,7 @@
     <Compile Include="Machines.cs" />
     <Compile Include="NetworkGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RadioAlarmWrapper.cs" />
     <Compile Include="RadioWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -17,5 +17,10 @@ namespace IntercommConsole
         /// 单机包裹类对象
         /// </summary>
         public static RadioWrapper<Radio_S1> Wrapper = new RadioWrapper<Radio_S1>(Config.MachineName);
+
+        /// <summary>
+        /// 单机雷达报警包括类
+        /// </summary>
+        public static RadioAlarmWrapper<Radio_S1Alarm> WrapperAlarm = new RadioAlarmWrapper<Radio_S1Alarm>();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using ConnectServerWrapper;
 using gprotocol;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,26 +29,42 @@ namespace IntercommConsole.Tasks
 
         public override void LoopContent()
         {
+            //_taskLogs.Clear();
+            //皮带料流状态
+            beltWrapper.MachineName = JsonConvert.SerializeObject(new { ID = Const.OpcDatasource.CoalOnBelt ? 1 : 0, status = Config.WrapperId }, Formatting.None);
+            //string.Format(_format, Const.OpcDatasource.CoalOnBelt ? 1 : 0, Config.WrapperId).Replace('[', '{').Replace(']', '}');
+
+            //单机姿态
             bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;
+            Const.Wrapper.Walking = (float)Const.GnssInfo.WalkingPosition;
+            Const.Wrapper.PitchAngle = (float)Const.GnssInfo.PitchAngle;
+            Const.Wrapper.YawAngle = (float)Const.GnssInfo.YawAngle;
+
+            //雷达报警级别
+            List<int> levels = Const.RadarInfo.RadarList == null ? null : Const.RadarInfo.RadarList.Select(r => r.ThreatLevel).ToList();
+            Const.WrapperAlarm.ThreatLevels = levels;
+
+            //开始发送
             if (++_counter >= _send_interval)
             {
                 _counter = 0;
-                beltWrapper.MachineName = string.Format(_format, Const.OpcDatasource.CoalOnBelt ? 1 : 0, Config.WrapperId).Replace('[', '{').Replace(']', '}');
+                //beltWrapper.MachineName = string.Format(_format, Const.OpcDatasource.CoalOnBelt ? 1 : 0, Config.WrapperId).Replace('[', '{').Replace(']', '}');
                 NetworkGateway.SendProtobufCmd(beltWrapper.MachineType, beltWrapper.Instance);
             }
-            if (is_gnss_valid)
+            try
             {
-                try
+                if (is_gnss_valid)
                 {
-                    Const.Wrapper.Walking = (float)Const.GnssInfo.WalkingPosition;
-                    Const.Wrapper.PitchAngle = (float)Const.GnssInfo.PitchAngle;
-                    Const.Wrapper.YawAngle = (float)Const.GnssInfo.YawAngle;
                     NetworkGateway.SendProtobufCmd(Const.Wrapper.MachineType, Const.Wrapper.Instance);
-                    _taskLogs = new List<string>() { "已向3维成像服务器发送数据..." };
-                    //Console.WriteLine("已向3维成像服务器发送数据...");
+                    _taskLogsBuffer.Add("已向3维成像服务器发送单机姿态数据");
                 }
-                catch (Exception) { }
+                if (Const.WrapperAlarm.ThreatStatus == 1)
+                {
+                    NetworkGateway.SendProtobufCmd(Const.WrapperAlarm.MachineType, Const.WrapperAlarm.Instance);
+                    _taskLogsBuffer.Add("已向3维成像服务器发送雷达数据");
+                }
             }
+            catch (Exception) { }
         }
     }
 }

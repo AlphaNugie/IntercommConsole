@@ -40,7 +40,7 @@ namespace IntercommConsole.Tasks
             result = is_radar_valid && is_gnss_valid && additional && is_coal_valid ? result : "#";
             udp.SendString(result, Config.ModelServerIp, Config.UdpModelRemotePort);
 
-            _taskLogs = new List<string>() { result };
+            _taskLogsBuffer = new List<string>() { result };
         }
     }
 }

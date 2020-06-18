@@ -31,7 +31,7 @@ namespace IntercommConsole.Tasks
             catch (Exception e) { Const.WriteConsoleLog("GNSS数据保存失败：" + e.Message); }
             try { radar_result = _dataService.UpdateRadarInfo(Config.MachineName, Const.RadarInfo); }
             catch (Exception e) { Const.WriteConsoleLog("雷达数据保存失败：" + e.Message); }
-            _taskLogs = new List<string>() { string.Format("GNSS数据保存：{0}", gnss_result), string.Format("雷达数据保存：{0}", radar_result) };
+            _taskLogsBuffer = new List<string>() { string.Format("GNSS数据保存：{0}", gnss_result), string.Format("雷达数据保存：{0}", radar_result) };
         }
     }
 }

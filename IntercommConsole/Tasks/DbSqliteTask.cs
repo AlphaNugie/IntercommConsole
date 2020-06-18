@@ -28,7 +28,7 @@ namespace IntercommConsole.Tasks
             int sqlite_result = 0;
             try { sqlite_result = _dataService.InsertRadarDistance(Const.GnssInfo, Const.RadarInfo); }
             catch (Exception e) { Const.WriteConsoleLog("Sqlite保存失败：" + e.Message); }
-            _taskLogs = new List<string>() { string.Format("Sqlite数据保存：{0}", sqlite_result) };
+            _taskLogsBuffer = new List<string>() { string.Format("Sqlite数据保存：{0}", sqlite_result) };
         }
     }
 }

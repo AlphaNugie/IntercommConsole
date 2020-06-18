@@ -89,6 +89,6 @@ namespace IntercommConsole.Model
         /// <summary>
         /// 防碰数据
         /// </summary>
-        public double CollisionInfo { get; set; }
+        public string CollisionInfo { get; set; }
     }
 }

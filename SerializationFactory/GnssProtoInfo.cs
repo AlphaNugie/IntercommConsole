@@ -14,6 +14,11 @@ namespace SerializationFactory
     [ProtoContract]
     public class GnssProtoInfo
     {
+        ///// <summary>
+        ///// 单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
+        ///// </summary>
+        //public bool IsPostureValid { get { return WalkingPosition != 0 || PitchAngle != 0 || YawAngle != 0; } }
+
         /// <summary>
         /// 是否收到数据
         /// </summary>

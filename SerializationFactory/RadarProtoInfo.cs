@@ -70,6 +70,36 @@ namespace SerializationFactory
         public double DistBelt { get; set; }
 
         /// <summary>
+        /// 臂架左侧
+        /// </summary>
+        [ProtoMember(8)]
+        public double DistArmLeft { get; set; }
+
+        /// <summary>
+        /// 臂架右侧距离
+        /// </summary>
+        [ProtoMember(9)]
+        public double DistArmRight { get; set; }
+
+        /// <summary>
+        /// 臂架下方距离
+        /// </summary>
+        [ProtoMember(10)]
+        public double DistArmBelow { get; set; }
+
+        /// <summary>
+        /// 配重左侧距离
+        /// </summary>
+        [ProtoMember(11)]
+        public double DistCounterLeft { get; set; }
+
+        /// <summary>
+        /// 配重右侧距离
+        /// </summary>
+        [ProtoMember(12)]
+        public double DistCounterRight { get; set; }
+
+        /// <summary>
         /// 雷达基础信息列表
         /// </summary>
         [ProtoMember(6)]

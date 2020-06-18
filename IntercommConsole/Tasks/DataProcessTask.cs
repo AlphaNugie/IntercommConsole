@@ -42,18 +42,21 @@ namespace IntercommConsole.Tasks
         {
             //渐变的雷达距离校正值，当斗轮两侧距离差不大于第1阶阈值时采用（否则为0），形如d'=(1-d/m)n，d为两侧距离差值，m为第1阶阈值，n为距离拟合校正值
             double dist_offset = !Const.RadarInfo.DistWheelDiff.Between(0, Config.DistDiffThres[0]) ? 0 : (1 - Const.RadarInfo.DistWheelDiff / Config.DistDiffThres[0]) * Config.DistOffset;
+            //落料口到落料点的高度：落料口雷达平均距离+渐变的雷达距离校正值（取料机此值为0）
+            Const.StrategyDataSource.BlankingDistance = Const.IsStacker ? Const.RadarInfo.DistWheelAverage + dist_offset : 0;
             #region 料堆高度高斯过滤
-            //煤堆高度=落料口Z坐标 - (斗轮雷达平均距离+渐变的雷达距离校正值)（取料机此值为0）
-            double height = Math.Round(Const.GnssInfo.LocalCoor_Tipz - (Const.IsStacker ? Const.RadarInfo.DistWheelAverage + dist_offset : 0) + Config.HeightOffset + Config.HeightOffset2, 3);
+            //煤堆高度=落料口Z坐标 - 落料口到落料点的高度
+            //double height = Math.Round(Const.GnssInfo.LocalCoor_Tipz - (Const.IsStacker ? Const.RadarInfo.DistWheelAverage + dist_offset : 0) + Config.HeightOffset + Config.HeightOffset2, 3);
+            double height = Math.Round(Const.GnssInfo.LocalCoor_Tipz - Const.StrategyDataSource.BlankingDistance + Config.HeightOffset + Config.HeightOffset2, 3);
             _filterSamples.Add(height);
             if (_filterSamples.Count >= (Config.UseGaussianFilter ? Config.FilterLength : 1))
             {
-                Const.OpcDatasource.PileHeight = Math.Round(_filterClient.GetGaussianValue(_filterSamples), 3);
+                Const.StrategyDataSource.MaterialHeight = Const.OpcDatasource.PileHeight = Math.Round(_filterClient.GetGaussianValue(_filterSamples), 3);
                 _filterSamples.Clear();
             }
             #endregion
             string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口X:{2},落料口Y:{3},落料口Z:{4},雷达距离:{5},煤堆高度:{6},行走:{7},俯仰:{8},回转:{9},是否有料流:{10}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.RadarInfo.DistWheelAverage, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.OpcDatasource.CoalOnBelt);
-            _taskLogs = new List<string>() { result };
+            _taskLogsBuffer = new List<string>() { result };
         }
 
         private void InitClients()

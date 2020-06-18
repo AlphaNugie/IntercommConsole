@@ -15,6 +15,20 @@ namespace IntercommConsole.Tasks
     public class StrategyServiceTask : Task
     {
         private DerivedUdpClient udp = null;
+        //序列化设置
+        private JsonSerializerSettings _jsonSetting = new JsonSerializerSettings()
+        {
+            ContractResolver = new DefaultContractResolver()
+            {
+                //大小写格式
+                NamingStrategy = new CamelCaseNamingStrategy() //lowerCamelCase
+                //NamingStrategy = new DefaultNamingStrategy() //UpperCamelCase
+                //NamingStrategy = new SnakeCaseNamingStrategy() //snake_case
+                //NamingStrategy = new KebabCaseNamingStrategy() //kebab-case
+            },
+            Formatting = Formatting.None //无特殊格式，一行输出
+            //Formatting = Formatting.Indented //带缩进多行输出
+        };
 
         /// <summary>
         /// 构造器
@@ -36,23 +50,18 @@ namespace IntercommConsole.Tasks
         /// </summary>
         public override void LoopContent()
         {
-            //序列化设置
-            JsonSerializerSettings setting = new JsonSerializerSettings()
+            bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;
+            if (is_gnss_valid)
             {
-                ContractResolver = new DefaultContractResolver()
-                {
-                    NamingStrategy = new CamelCaseNamingStrategy() //lowerCamelCase
-                    //NamingStrategy = new DefaultNamingStrategy() //UpperCamelCase
-                    //NamingStrategy = new SnakeCaseNamingStrategy() //snake_case
-                    //NamingStrategy = new KebabCaseNamingStrategy() //kebab-case
-                },
-                Formatting = Formatting.None //无特殊格式，一行输出
-                //Formatting = Formatting.Indented //带缩进多行输出
-            };
-            string result = JsonConvert.SerializeObject(Const.StrategyDataSource, setting);
+                Const.StrategyDataSource.RunningPosition = Const.GnssInfo.WalkingPosition;
+                Const.StrategyDataSource.PitchAngle = Const.GnssInfo.PitchAngle;
+                Const.StrategyDataSource.RotationAngle = Const.GnssInfo.YawAngle;
+            }
+            Const.StrategyDataSource.CollisionInfo = Const.RadarInfo.RadarList == null ? string.Empty : string.Join("", Const.RadarInfo.RadarList.Select(r => Convert.ToString(r.ThreatLevel, 2).PadLeft(2, '0')));
+            string result = JsonConvert.SerializeObject(Const.StrategyDataSource, _jsonSetting);
             udp.SendString(result, Config.StrategyIPCIp, Config.UdpStrategyRemotePort);
 
-            _taskLogs = new List<string>() { result };
+            _taskLogsBuffer = new List<string>() { result };
         }
     }
 }
