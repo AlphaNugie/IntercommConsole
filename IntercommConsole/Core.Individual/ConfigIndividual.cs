@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole
+namespace IntercommConsole.Core
 {
     /// <summary>
     /// 配置（不要替换）

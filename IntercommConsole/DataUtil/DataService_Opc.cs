@@ -1,4 +1,5 @@
 ﻿using CommonLib.DataUtil;
+using IntercommConsole.Core;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -6,11 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole
+namespace IntercommConsole.DataUtil
 {
     public class DataService_Opc
     {
-        private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
+        //private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
+        private readonly SqliteProvider provider = new SqliteProvider(Config.SqliteFileDir, Config.SqliteFileName);
 
         public DataTable GetOpcInfo()
         {

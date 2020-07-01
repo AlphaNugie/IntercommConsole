@@ -1,4 +1,6 @@
 ﻿using CommonLib.Function;
+using IntercommConsole.Core;
+using IntercommConsole.DataUtil;
 using OpcLibrary;
 using System;
 using System.Collections.Generic;

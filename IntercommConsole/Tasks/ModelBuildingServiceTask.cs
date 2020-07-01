@@ -1,5 +1,6 @@
 ﻿using CommonLib.Clients;
 using CommonLib.Extensions;
+using IntercommConsole.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +31,14 @@ namespace IntercommConsole.Tasks
             result += result.ToCharArray().Sum(c => (int)c);
             //雷达数据是否合格
             bool is_radar_valid = !Const.IsStacker || ( Const.RadarInfo.DistWheelLeft != 0 &&  Const.RadarInfo.DistWheelRight != 0 &&  Const.RadarInfo.DistWheelAverage != 0 &&  Const.RadarInfo.DistWheelDiff.Between(0, Config.DistDiffThres[1]));
-            //单机姿态数据是否合格
-            bool is_gnss_valid =  Const.GnssInfo.WalkingPosition != 0 ||  Const.GnssInfo.PitchAngle != 0 ||  Const.GnssInfo.YawAngle != 0;
+            ////单机姿态数据是否合格
+            //bool is_gnss_valid =  Const.GnssInfo.WalkingPosition != 0 ||  Const.GnssInfo.PitchAngle != 0 ||  Const.GnssInfo.YawAngle != 0;
             //附加条件
-            bool additional = Const.OpcDatasource.PileHeight > 0;
+            bool additional = Const.OpcDatasource.PileHeight != 0;
             //皮带上料流是否符合要求
             bool is_coal_valid = !Const.IsStacker || Const.OpcDatasource.CoalOnBelt;
             //所有条件均符合要求后才发送消息，否则发送随机字符
-            result = is_radar_valid && is_gnss_valid && additional && is_coal_valid ? result : "#";
+            result = is_radar_valid && Const.IsGnssValid && additional && is_coal_valid ? result : "#";
             udp.SendString(result, Config.ModelServerIp, Config.UdpModelRemotePort);
 
             _taskLogsBuffer = new List<string>() { result };

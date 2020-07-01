@@ -30,10 +30,6 @@ namespace IntercommConsole.Tasks
         /// 任务日志
         /// </summary>
         public List<string> TaskLogs { get; private set; }
-        //{
-        //    get { return _taskLogs; }
-        //    private set { _taskLogs = value; }
-        //}
 
         /// <summary>
         /// 是否打印任务日志

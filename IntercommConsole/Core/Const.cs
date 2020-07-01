@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole
+namespace IntercommConsole.Core
 {
     /// <summary>
     /// 变量
@@ -51,6 +51,11 @@ namespace IntercommConsole
             get { return _gnssInfo; }
             set { _gnssInfo = value; }
         }
+
+        ///// <summary>
+        ///// 单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
+        ///// </summary>
+        public static bool IsGnssValid { get { return GnssInfo.WalkingPosition != 0 || GnssInfo.PitchAngle != 0 || GnssInfo.YawAngle != 0; } }
 
         /// <summary>
         /// OPC数据源

@@ -1,4 +1,5 @@
 ﻿using CommonLib.DataUtil;
+using IntercommConsole.Core;
 using IntercommConsole.Model;
 using SerializationFactory;
 using System;
@@ -7,11 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole
+namespace IntercommConsole.DataUtil
 {
     public class DataService_Machine
     {
-        private readonly OracleProvider provider = new OracleProvider("172.17.10.2", "pdborcl", "ysurcms", "8508991");
+        //private readonly OracleProvider provider = new OracleProvider("172.17.10.2", "pdborcl", "ysurcms", "8508991");
+        private readonly OracleProvider provider = new OracleProvider(DbDef.HostAddress, DbDef.ServiceName, DbDef.UserName, DbDef.Password);
 
         /// <summary>
         /// 更新单机姿态

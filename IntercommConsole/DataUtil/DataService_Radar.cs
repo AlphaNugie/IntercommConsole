@@ -1,5 +1,6 @@
 ﻿//using ARS408.Model;
 using CommonLib.DataUtil;
+using IntercommConsole.Core;
 using SerializationFactory;
 using System;
 using System.Collections.Generic;
@@ -8,15 +9,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole
+namespace IntercommConsole.DataUtil
 {
     /// <summary>
     /// 雷达SQLITE服务类
     /// </summary>
     public class DataService_Radar
     {
-        private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
-        //private readonly SqliteProvider provider = new SqliteProvider();
+        //private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
+        private readonly SqliteProvider provider = new SqliteProvider(Config.SqliteFileDir, Config.SqliteFileName);
 
         /// <summary>
         /// 插入雷达测距值

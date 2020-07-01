@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using CommonLib.Clients;
 using System.Threading;
 using IntercommConsole.Tasks;
+using IntercommConsole.Core;
+using IntercommConsole.Model;
+using Newtonsoft.Json;
 
 namespace IntercommConsole
 {
-    class Program
+    public class Program
     {
         static void Main(string[] args)
         {
+            //string json = "{\"dataId\":\"20200629112446\",\"materialHeight\":12.2,\"materialVolume\":0.0,\"reposeAngle\":0.0,\"blankingDistance\":6.88,\"runningPosition\":522.12,\"rotationAngle\":-62.78,\"pitchAngle\":8.3,\"collisionInfo\":\"11110111000000000011\"}";
+            //StrategyDataSource source = JsonConvert.DeserializeObject<StrategyDataSource>(json);
+            //json = JsonConvert.SerializeObject(source);
+            DbDef.Update();
             Const.WriteConsoleLog("IntercommConsole启动，本地IP: " + Const.LocalIp);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException_Raising); //未捕获异常触发事件
             //任务

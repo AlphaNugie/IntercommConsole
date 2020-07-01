@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole
+namespace IntercommConsole.Core
 {
     /// <summary>
     /// 配置
@@ -16,6 +16,11 @@ namespace IntercommConsole
     public partial struct Config
     {
         private static readonly IniFileHelper _iniHelper = new IniFileHelper("Config.ini");
+
+        /// <summary>
+        /// INI配置文件读取工具
+        /// </summary>
+        public static IniFileHelper IniHelper { get { return _iniHelper; } }
 
         /// <summary>
         /// 大机名称
@@ -173,6 +178,18 @@ namespace IntercommConsole
         /// 料流信号维持的时间长度（秒）
         /// </summary>
         public static double BeltSignalDuration = double.Parse(_iniHelper.ReadData("Belt", "Duration"));
+        #endregion
+
+        #region Sqlite
+        /// <summary>
+        /// Sqlite文件路径，可为相对路径
+        /// </summary>
+        public static string SqliteFileDir = _iniHelper.ReadData("Sqlite", "FileDir");
+
+        /// <summary>
+        /// Sqlite文件名称，包括后缀
+        /// </summary>
+        public static string SqliteFileName = _iniHelper.ReadData("Sqlite", "FileName");
         #endregion
     }
 

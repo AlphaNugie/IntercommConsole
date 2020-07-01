@@ -1,5 +1,6 @@
 ﻿using ConnectServerWrapper;
 using gprotocol;
+using IntercommConsole.Core;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -32,10 +33,9 @@ namespace IntercommConsole.Tasks
             //_taskLogs.Clear();
             //皮带料流状态
             beltWrapper.MachineName = JsonConvert.SerializeObject(new { ID = Const.OpcDatasource.CoalOnBelt ? 1 : 0, status = Config.WrapperId }, Formatting.None);
-            //string.Format(_format, Const.OpcDatasource.CoalOnBelt ? 1 : 0, Config.WrapperId).Replace('[', '{').Replace(']', '}');
 
             //单机姿态
-            bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;
+            //bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;
             Const.Wrapper.Walking = (float)Const.GnssInfo.WalkingPosition;
             Const.Wrapper.PitchAngle = (float)Const.GnssInfo.PitchAngle;
             Const.Wrapper.YawAngle = (float)Const.GnssInfo.YawAngle;
@@ -48,12 +48,11 @@ namespace IntercommConsole.Tasks
             if (++_counter >= _send_interval)
             {
                 _counter = 0;
-                //beltWrapper.MachineName = string.Format(_format, Const.OpcDatasource.CoalOnBelt ? 1 : 0, Config.WrapperId).Replace('[', '{').Replace(']', '}');
                 NetworkGateway.SendProtobufCmd(beltWrapper.MachineType, beltWrapper.Instance);
             }
             try
             {
-                if (is_gnss_valid)
+                if (Const.IsGnssValid)
                 {
                     NetworkGateway.SendProtobufCmd(Const.Wrapper.MachineType, Const.Wrapper.Instance);
                     _taskLogsBuffer.Add("已向3维成像服务器发送单机姿态数据");

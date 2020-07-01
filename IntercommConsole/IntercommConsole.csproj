@@ -84,14 +84,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Config.cs" />
-    <Compile Include="Individual\ConstIndividual.cs" />
-    <Compile Include="Individual\ConfigIndividual.cs" />
-    <Compile Include="Const.cs" />
-    <Compile Include="DataService_Machine.cs" />
-    <Compile Include="DataService_Opc.cs" />
-    <Compile Include="DataService_Radar.cs" />
+    <Compile Include="Core\Config.cs" />
+    <Compile Include="Core\DbDef.cs" />
+    <Compile Include="Core.Individual\ConstIndividual.cs" />
+    <Compile Include="Core.Individual\ConfigIndividual.cs" />
+    <Compile Include="Core\Const.cs" />
+    <Compile Include="DataUtil\DataService_Machine.cs" />
+    <Compile Include="DataUtil\DataService_Opc.cs" />
+    <Compile Include="DataUtil\DataService_Radar.cs" />
     <Compile Include="Model\OpcDataSource.cs" />
+    <Compile Include="Model\RadarCoor.cs" />
     <Compile Include="Model\StrategyDataSource.cs" />
     <Compile Include="Tasks\DataProcessTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />

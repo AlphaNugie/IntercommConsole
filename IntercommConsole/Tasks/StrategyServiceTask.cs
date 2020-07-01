@@ -1,4 +1,5 @@
 ﻿using CommonLib.Clients;
+using IntercommConsole.Core;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System;
@@ -20,11 +21,7 @@ namespace IntercommConsole.Tasks
         {
             ContractResolver = new DefaultContractResolver()
             {
-                //大小写格式
-                NamingStrategy = new CamelCaseNamingStrategy() //lowerCamelCase
-                //NamingStrategy = new DefaultNamingStrategy() //UpperCamelCase
-                //NamingStrategy = new SnakeCaseNamingStrategy() //snake_case
-                //NamingStrategy = new KebabCaseNamingStrategy() //kebab-case
+                NamingStrategy = new CamelCaseNamingStrategy() //大小写格式，lowerCamelCase
             },
             Formatting = Formatting.None //无特殊格式，一行输出
             //Formatting = Formatting.Indented //带缩进多行输出
@@ -50,14 +47,14 @@ namespace IntercommConsole.Tasks
         /// </summary>
         public override void LoopContent()
         {
-            bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;
-            if (is_gnss_valid)
+            //bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;
+            if (Const.IsGnssValid)
             {
                 Const.StrategyDataSource.RunningPosition = Const.GnssInfo.WalkingPosition;
                 Const.StrategyDataSource.PitchAngle = Const.GnssInfo.PitchAngle;
                 Const.StrategyDataSource.RotationAngle = Const.GnssInfo.YawAngle;
             }
-            Const.StrategyDataSource.CollisionInfo = Const.RadarInfo.RadarList == null ? string.Empty : string.Join("", Const.RadarInfo.RadarList.Select(r => Convert.ToString(r.ThreatLevel, 2).PadLeft(2, '0')));
+            Const.StrategyDataSource.CollisionInfo = Const.RadarInfo.RadarList == null ? string.Empty : string.Join(string.Empty, Const.RadarInfo.RadarList.Select(r => Convert.ToString(r.ThreatLevel, 2).PadLeft(2, '0')));
             string result = JsonConvert.SerializeObject(Const.StrategyDataSource, _jsonSetting);
             udp.SendString(result, Config.StrategyIPCIp, Config.UdpStrategyRemotePort);
 

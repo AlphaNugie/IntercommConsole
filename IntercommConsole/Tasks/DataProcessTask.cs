@@ -3,6 +3,7 @@ using CommonLib.Events;
 using CommonLib.Extensions;
 using CommonLib.Extensions.Property;
 using CommonLib.Function;
+using IntercommConsole.Core;
 using ProtobufNetLibrary;
 using SerializationFactory;
 using System;
@@ -16,7 +17,7 @@ namespace IntercommConsole.Tasks
     public class DataProcessTask : Task
     {
         private readonly DataFilterClient _filterClient = new DataFilterClient(Config.FilterLength, FilterType.Gaussian, Config.Sigma, false);
-        private readonly TimerEventRaiser _raiser = new TimerEventRaiser(1000) { RaiseInterval = 3000, RaiseThreshold = (ulong)Math.Round(1000 * Config.BeltSignalDuration) }; //有煤则Click，30秒无Click则无煤
+        private readonly TimerEventRaiser _raiser = new TimerEventRaiser(1000) { RaiseInterval = 3000, RaiseThreshold = (ulong)Math.Round(1000 * Config.BeltSignalDuration) }; //有煤则Click，10秒无Click则无煤
         private readonly List<double> _filterSamples = new List<double>();
 
         /// <summary>
@@ -30,8 +31,6 @@ namespace IntercommConsole.Tasks
             _raiser.Clicked += new TimerEventRaiser.ClickedEventHandler(Raiser_Clicked);
             _raiser.Run();
 
-            //RadarInfo = new RadarProtoInfo();
-            //GnssInfo = new GnssProtoInfo();
             InitClients();
         }
 
@@ -106,10 +105,8 @@ namespace IntercommConsole.Tasks
                 switch (type)
                 {
                     case ProtoInfoType.GNSS:
-                        //double pileHeight = GnssInfo.PileHeight;
                         Const.GnssInfo = ProtobufNetWrapper.DeserializeFromBytes<GnssProtoInfo>(received);
                         Const.GnssInfo.CopyPropertyValueTo(ref Const.OpcDatasource);
-                        //GnssInfo.PileHeight = pileHeight;
                         break;
                     case ProtoInfoType.RADAR:
                         Const.RadarInfo = ProtobufNetWrapper.DeserializeFromBytes<RadarProtoInfo>(received);

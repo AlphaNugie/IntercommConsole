@@ -28,20 +28,33 @@ namespace ConnectServerWrapper
         /// <summary>
         /// 用户名
         /// </summary>
-        public static string UserName
-        {
-            get { return login_server.Instance.login_name; }
-            set { login_server.Instance.login_name = value; }
-        }
+        public static string UserName { get; set; }
 
+        //旧版本
+        ///// <summary>
+        ///// 用户名
+        ///// </summary>
+        //public static string UserName
+        //{
+        //    get { return login_server.Instance.login_name; }
+        //    set { login_server.Instance.login_name = value; }
+        //}
+
+        //新版本
         /// <summary>
         /// 密码
         /// </summary>
-        public static string Password
-        {
-            get { return login_server.Instance.login_upwd; }
-            set { login_server.Instance.login_upwd = value; }
-        }
+        public static string Password { get; set; }
+
+        //旧版本
+        ///// <summary>
+        ///// 密码
+        ///// </summary>
+        //public static string Password
+        //{
+        //    get { return login_server.Instance.login_upwd; }
+        //    set { login_server.Instance.login_upwd = value; }
+        //}
 
         /// <summary>
         /// 是否已连上3D模型server
@@ -96,7 +109,7 @@ namespace ConnectServerWrapper
                 network.Instance.Start();
                 network.Instance.Update();
                 login_server.Instance.init();
-                Login(UserName, Password);
+                //Login(UserName, Password);
             }
             catch (Exception)
             {
@@ -128,7 +141,8 @@ namespace ConnectServerWrapper
                 {
                     UserName = user_name;
                     Password = password;
-                    login_server.Instance.on_login();
+                    login_server.Instance.on_login(UserName, Password); //新版本
+                    //login_server.Instance.on_login(); //旧版本
                 }
             }
             catch (Exception)
