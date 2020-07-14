@@ -32,7 +32,7 @@ namespace IntercommConsole.Tasks
         {
             //_taskLogs.Clear();
             //皮带料流状态
-            beltWrapper.MachineName = JsonConvert.SerializeObject(new { ID = Const.OpcDatasource.CoalOnBelt ? 1 : 0, status = Config.WrapperId }, Formatting.None);
+            beltWrapper.MachineName = JsonConvert.SerializeObject(new { ID = Config.WrapperId, status = Const.OpcDatasource.CoalOnBelt ? 1 : 0 }, Formatting.None);
 
             //单机姿态
             //bool is_gnss_valid = Const.GnssInfo.WalkingPosition != 0 || Const.GnssInfo.PitchAngle != 0 || Const.GnssInfo.YawAngle != 0;

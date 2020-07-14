@@ -1,4 +1,5 @@
-﻿using ProtoBuf;
+﻿using CommonLib.Extensions.Property;
+using ProtoBuf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,10 @@ namespace SerializationFactory
         private double _dist_wheel_left, _dist_wheel_right;
 
         /// <summary>
-        /// 斗轮左侧距离
+        /// 斗轮左侧测距（假如为堆料机则为落料口左侧测距）
         /// </summary>
         [ProtoMember(1)]
+        [PropertyMapperTo("WheelLeftDist")]
         public double DistWheelLeft
         {
             get { return this._dist_wheel_left; }
@@ -31,9 +33,10 @@ namespace SerializationFactory
         }
 
         /// <summary>
-        /// 斗轮右侧距离
+        /// 斗轮右侧测距（假如为堆料机则为落料口右侧测距）
         /// </summary>
         [ProtoMember(2)]
+        [PropertyMapperTo("WheelRightDist")]
         public double DistWheelRight
         {
             get { return this._dist_wheel_right; }
@@ -106,11 +109,25 @@ namespace SerializationFactory
         public List<RadarInfoDetail> RadarList { get; set; }
 
         /// <summary>
+        /// 斗轮左侧雷达坐标列表
+        /// </summary>
+        [ProtoMember(13)]
+        public List<RadarCoor> WheelLeftCoorList { get; set; }
+
+        /// <summary>
+        /// 斗轮右侧雷达坐标列表
+        /// </summary>
+        [ProtoMember(14)]
+        public List<RadarCoor> WheelRightCoorList { get; set; }
+
+        /// <summary>
         /// 构造器
         /// </summary>
         public RadarProtoInfo()
         {
             this.RadarList = new List<RadarInfoDetail>();
+            this.WheelLeftCoorList = new List<RadarCoor>();
+            this.WheelRightCoorList = new List<RadarCoor>();
         }
     }
 }

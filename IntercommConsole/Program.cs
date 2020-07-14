@@ -25,7 +25,7 @@ namespace IntercommConsole
                 new OpcTask(),
                 new ModelBuildingServiceTask(),
                 new ModelDisplayServiceTask(),
-                new StrategyServiceTask(),
+                new StrategyServiceTask() { Interval = 500 },
                 new DbOracleTask(),
                 new DbSqliteTask()
             };

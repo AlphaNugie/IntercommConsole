@@ -1,4 +1,6 @@
-﻿using System;
+﻿using IntercommConsole.Core;
+using SerializationFactory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -63,7 +65,11 @@ namespace IntercommConsole.Model
         public double RunningPosition
         {
             get { return _run_pos; }
-            set { _run_pos = Math.Round(value, 2); }
+            set
+            {
+                _run_pos = Math.Round(value, 2);
+                this.RunningDiff = _run_pos - Const.OpcDatasource.WalkingPositionLeft_Plc;
+            }
         }
 
         private double _rot_angle = 0;
@@ -73,7 +79,11 @@ namespace IntercommConsole.Model
         public double RotationAngle
         {
             get { return _rot_angle; }
-            set { _rot_angle = Math.Round(value, 2); }
+            set
+            {
+                _rot_angle = Math.Round(value, 2);
+                this.RotationDiff = _rot_angle - Const.OpcDatasource.YawAngle_Plc;
+            }
         }
 
         private double _pitch_angle = 0;
@@ -83,7 +93,11 @@ namespace IntercommConsole.Model
         public double PitchAngle
         {
             get { return _pitch_angle; }
-            set { _pitch_angle = Math.Round(value, 2); }
+            set
+            {
+                _pitch_angle = Math.Round(value, 2);
+                this.PitchDiff = _pitch_angle - Const.OpcDatasource.PitchAngle_Plc;
+            }
         }
 
         private double _run_pos_diff = 0;
@@ -136,25 +150,25 @@ namespace IntercommConsole.Model
             set { _wheel_right_dist = Math.Round(value, 2); }
         }
 
-        private List<RadarCoor> _list_left_coors = new List<RadarCoor>();
+        //private List<RadarCoor> _list_left_coors = new List<RadarCoor>();
         /// <summary>
         /// 斗轮左雷达点数据列表
         /// </summary>
-        public List<RadarCoor> ListLeftRadarCoors
-        {
-            get { return _list_left_coors; }
-            set { _list_left_coors = value; }
-        }
+        public List<RadarCoor> ListLeftRadarCoors { get { return Const.RadarInfo.WheelLeftCoorList; } }
+        //{
+        //    get { return _list_left_coors; }
+        //    set { _list_left_coors = value; }
+        //}
 
-        private List<RadarCoor> _list_right_coors = new List<RadarCoor>();
+        //private List<RadarCoor> _list_right_coors = new List<RadarCoor>();
         /// <summary>
         /// 斗轮右雷达点数据列表
         /// </summary>
-        public List<RadarCoor> ListRightRadarCoors
-        {
-            get { return _list_right_coors; }
-            set { _list_right_coors = value; }
-        }
+        public List<RadarCoor> ListRightRadarCoors { get { return Const.RadarInfo.WheelRightCoorList; } }
+        //{
+        //    get { return _list_right_coors; }
+        //    set { _list_right_coors = value; }
+        //}
 
         /// <summary>
         /// 防碰数据，一串由各个雷达防碰级别2进制字符串所拼接成的字符串

@@ -89,6 +89,16 @@ namespace IntercommConsole.Core
         public static int UdpStrategyRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyRemotePort"));
 
         /// <summary>
+        /// 出料堆判断斗轮两侧雷达距离差的阈值
+        /// </summary>
+        public static double BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Main", "BeyondStackThreshold"));
+
+        /// <summary>
+        /// 出料堆判断两侧雷达测距值的分界线
+        /// </summary>
+        public static double BeyondStackBorder = double.Parse(_iniHelper.ReadData("Main", "BeyondStackBorder"));
+
+        /// <summary>
         /// 雷达子系统端口
         /// </summary>
         public static int RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));

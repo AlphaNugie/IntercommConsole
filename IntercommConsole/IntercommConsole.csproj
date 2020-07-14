@@ -93,7 +93,6 @@
     <Compile Include="DataUtil\DataService_Opc.cs" />
     <Compile Include="DataUtil\DataService_Radar.cs" />
     <Compile Include="Model\OpcDataSource.cs" />
-    <Compile Include="Model\RadarCoor.cs" />
     <Compile Include="Model\StrategyDataSource.cs" />
     <Compile Include="Tasks\DataProcessTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />

@@ -48,9 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Coordinate.cs" />
     <Compile Include="Enum.cs" />
     <Compile Include="GnssProtoInfo.cs" />
+    <Compile Include="RadarCoor.cs" />
     <Compile Include="RadarInfoDetail.cs" />
     <Compile Include="RadarProtoInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
