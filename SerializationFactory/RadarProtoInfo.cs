@@ -76,30 +76,35 @@ namespace SerializationFactory
         /// 臂架左侧
         /// </summary>
         [ProtoMember(8)]
+        [PropertyMapperTo("ArmLeftDist")]
         public double DistArmLeft { get; set; }
 
         /// <summary>
         /// 臂架右侧距离
         /// </summary>
         [ProtoMember(9)]
+        [PropertyMapperTo("ArmRightDist")]
         public double DistArmRight { get; set; }
 
         /// <summary>
         /// 臂架下方距离
         /// </summary>
         [ProtoMember(10)]
+        [PropertyMapperTo("ArmBelowDist")]
         public double DistArmBelow { get; set; }
 
         /// <summary>
         /// 配重左侧距离
         /// </summary>
         [ProtoMember(11)]
+        [PropertyMapperTo("CounterLeftDist")]
         public double DistCounterLeft { get; set; }
 
         /// <summary>
         /// 配重右侧距离
         /// </summary>
         [ProtoMember(12)]
+        [PropertyMapperTo("CounterRightDist")]
         public double DistCounterRight { get; set; }
 
         /// <summary>

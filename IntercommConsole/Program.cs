@@ -13,9 +13,7 @@ namespace IntercommConsole
     {
         static void Main(string[] args)
         {
-            //string json = "{\"dataId\":\"20200629112446\",\"materialHeight\":12.2,\"materialVolume\":0.0,\"reposeAngle\":0.0,\"blankingDistance\":6.88,\"runningPosition\":522.12,\"rotationAngle\":-62.78,\"pitchAngle\":8.3,\"collisionInfo\":\"11110111000000000011\"}";
-            //StrategyDataSource source = JsonConvert.DeserializeObject<StrategyDataSource>(json);
-            //json = JsonConvert.SerializeObject(source);
+            Config.Update();
             DbDef.Update();
             Const.WriteConsoleLog("IntercommConsole启动，本地IP: " + Const.LocalIp);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException_Raising); //未捕获异常触发事件
@@ -27,7 +25,8 @@ namespace IntercommConsole
                 new ModelDisplayServiceTask(),
                 new StrategyServiceTask() { Interval = 500 },
                 new DbOracleTask(),
-                new DbSqliteTask()
+                new DbSqliteTask(),
+                new PostureTask()
             };
             tasks.ForEach(task =>
             {

@@ -13,7 +13,7 @@ namespace IntercommConsole.Core
     /// <summary>
     /// 配置
     /// </summary>
-    public partial struct Config
+    public partial class Config
     {
         private static readonly IniFileHelper _iniHelper = new IniFileHelper("Config.ini");
 
@@ -25,182 +25,256 @@ namespace IntercommConsole.Core
         /// <summary>
         /// 大机名称
         /// </summary>
-        public static string MachineName = _iniHelper.ReadData("Main", "MachineName");
+        public static string MachineName { get; set; }
 
         /// <summary>
         /// 大机类型
         /// </summary>
-        public static MachineType MachineType = (MachineType)int.Parse(_iniHelper.ReadData("Main", "MachineType"));
-
-        ///// <summary>
-        ///// 单机包裹类对象
-        ///// </summary>
-        //public static RadioWrapper<Radio_S1> Wrapper = new RadioWrapper<Radio_S1>(MachineName);
+        public static MachineType MachineType { get; set; }
 
         #region Main
         /// <summary>
         /// 高度非负校正值
         /// </summary>
-        public static double HeightOffset = double.Parse(_iniHelper.ReadData("Main", "HeightOffset"));
+        public static double HeightOffset { get; set; }
 
         /// <summary>
         /// 高度备用校正值
         /// </summary>
-        public static double HeightOffset2 = double.Parse(_iniHelper.ReadData("Main", "HeightOffset2"));
+        public static double HeightOffset2 { get; set; }
 
         /// <summary>
         /// 距离拟合校正值
         /// </summary>
-        public static double DistOffset = double.Parse(_iniHelper.ReadData("Main", "DistOffset"));
+        public static double DistOffset { get; set; }
 
         /// <summary>
         /// 距离差阈值，具有两个分界点，小于a时补上拟合校正值，大于等于a小于b时取平均值，大于b时放弃
         /// </summary>
-        public static double[] DistDiffThres = _iniHelper.ReadData("Main", "DistDiffThres").Split(',').Select(d => double.Parse(d)).ToArray();
+        public static List<double> DistDiffThres { get; set; }
 
         /// <summary>
         /// 建模服务器IP
         /// </summary>
-        public static string ModelServerIp = _iniHelper.ReadData("Main", "ModelServerIp");
+        public static string ModelServerIp { get; set; }
 
         /// <summary>
         /// 建模服务数据发送UDP本地端口
         /// </summary>
-        public static int UdpModelLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpLocalPort"));
+        public static int UdpModelLocalPort { get; set; }
 
         /// <summary>
         /// 建模服务数据发送UDP远程端口
         /// </summary>
-        public static int UdpModelRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpRemotePort"));
+        public static int UdpModelRemotePort { get; set; }
 
         /// <summary>
         /// 策略工控机IP
         /// </summary>
-        public static string StrategyIPCIp = _iniHelper.ReadData("Main", "StrategyIPCIp");
+        public static string StrategyIPCIp { get; set; }
 
         /// <summary>
         /// 策略工控机数据发送UDP本地端口
         /// </summary>
-        public static int UdpStrategyLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyLocalPort"));
+        public static int UdpStrategyLocalPort { get; set; }
 
         /// <summary>
         /// 策略工控机数据发送UDP远程端口
         /// </summary>
-        public static int UdpStrategyRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyRemotePort"));
+        public static int UdpStrategyRemotePort { get; set; }
 
         /// <summary>
         /// 出料堆判断斗轮两侧雷达距离差的阈值
         /// </summary>
-        public static double BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Main", "BeyondStackThreshold"));
+        public static double BeyondStackThreshold { get; set; }
 
         /// <summary>
         /// 出料堆判断两侧雷达测距值的分界线
         /// </summary>
-        public static double BeyondStackBorder = double.Parse(_iniHelper.ReadData("Main", "BeyondStackBorder"));
+        public static double BeyondStackBorder { get; set; }
 
         /// <summary>
         /// 雷达子系统端口
         /// </summary>
-        public static int RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));
+        public static int RadarPort { get; set; }
 
         /// <summary>
         /// 北斗子系统端口
         /// </summary>
-        public static int GnssPort = int.Parse(_iniHelper.ReadData("Main", "GnssPort"));
+        public static int GnssPort { get; set; }
 
         /// <summary>
         /// 是否将数据保存到Sqlite
         /// </summary>
-        public static bool Save2Sqlite = _iniHelper.ReadData("Main", "Save2Sqlite").Equals("1");
+        public static bool Save2Sqlite { get; set; }
 
         /// <summary>
         /// 是否将数据保存到Oracle数据库
         /// </summary>
-        public static bool Save2Oracle = _iniHelper.ReadData("Main", "Save2Oracle").Equals("1");
+        public static bool Save2Oracle { get; set; }
 
         /// <summary>
         /// 数据库服务器IP
         /// </summary>
-        public static string DataServerIp = _iniHelper.ReadData("Main", "DataServerIp");
+        public static string DataServerIp { get; set; }
 
         /// <summary>
         /// 用户名
         /// </summary>
-        public static string UserName = _iniHelper.ReadData("Main", "UserName");
+        public static string UserName { get; set; }
 
         /// <summary>
         /// 用户密码
         /// </summary>
-        public static string Password = _iniHelper.ReadData("Main", "Password");
+        public static string Password { get; set; }
         #endregion
 
         #region OPC
         /// <summary>
         /// 是否使用OPC
         /// </summary>
-        public static bool OpcEnabled = _iniHelper.ReadData("OPC", "OpcEnabled").Equals("1");
+        public static bool OpcEnabled { get; set; }
 
         /// <summary>
         /// OPC SERVER IP地址
         /// </summary>
-        public static string OpcServerIp = _iniHelper.ReadData("OPC", "OpcServerIp");
+        public static string OpcServerIp { get; set; }
 
         /// <summary>
         /// OPC SERVER 名称
         /// </summary>
-        public static string OpcServerName = _iniHelper.ReadData("OPC", "OpcServerName");
+        public static string OpcServerName { get; set; }
 
         /// <summary>
         /// 是否写入PLC
         /// </summary>
-        public static bool Write2Plc = _iniHelper.ReadData("OPC", "Write2Plc").Equals("1");
+        public static bool Write2Plc { get; set; }
         #endregion
 
         #region Calc
         /// <summary>
         /// 是否使用高斯滤波
         /// </summary>
-        public static bool UseGaussianFilter = _iniHelper.ReadData("Calc", "UseGaussianFilter").Equals("1");
+        public static bool UseGaussianFilter { get; set; }
 
         /// <summary>
         /// 滤波样本数量
         /// </summary>
-        public static ushort FilterLength = ushort.Parse(_iniHelper.ReadData("Calc", "FilterLength"));
+        public static ushort FilterLength { get; set; }
 
         /// <summary>
         /// 高斯分布（正态分布）标准差，越大越发散，越小越集中
         /// </summary>
-        public static double Sigma = double.Parse(_iniHelper.ReadData("Calc", "Sigma"));
+        public static double Sigma { get; set; }
         #endregion
 
         #region Belt
         /// <summary>
         /// 是否使用
         /// </summary>
-        public static bool DistBeltThresholdEnabled = _iniHelper.ReadData("Belt", "UseThreshold").Equals("1");
+        public static bool DistBeltThresholdEnabled { get; set; }
 
         /// <summary>
         /// 料流距离阈值
         /// </summary>
-        public static double DistBeltThreshold = double.Parse(_iniHelper.ReadData("Belt", "DistBeltThreshold"));
+        public static double DistBeltThreshold { get; set; }
 
         /// <summary>
         /// 料流信号维持的时间长度（秒）
         /// </summary>
-        public static double BeltSignalDuration = double.Parse(_iniHelper.ReadData("Belt", "Duration"));
+        public static double BeltSignalDuration { get; set; }
+        #endregion
+
+        #region PostureAdjustment
+        /// <summary>
+        /// 单机姿态多系统校正过程中行走位置的阈值，超过此阈值则为偏离
+        /// </summary>
+        public static double WalkingThreshold { get; set; }
+
+        /// <summary>
+        /// 单机姿态多系统校正过程中俯仰角的阈值，超过此阈值则为偏离
+        /// </summary>
+        public static double PitchThreshold { get; set; }
+
+        /// <summary>
+        /// 单机姿态多系统校正过程中回转角的阈值，超过此阈值则为偏离
+        /// </summary>
+        public static double YawThreshold { get; set; }
         #endregion
 
         #region Sqlite
         /// <summary>
         /// Sqlite文件路径，可为相对路径
         /// </summary>
-        public static string SqliteFileDir = _iniHelper.ReadData("Sqlite", "FileDir");
+        public static string SqliteFileDir { get; set; }
 
         /// <summary>
         /// Sqlite文件名称，包括后缀
         /// </summary>
-        public static string SqliteFileName = _iniHelper.ReadData("Sqlite", "FileName");
+        public static string SqliteFileName { get; set; }
         #endregion
+
+        /// <summary>
+        /// 更新配置
+        /// </summary>
+        public static void Update()
+        {
+            MachineName = _iniHelper.ReadData("Main", "MachineName");
+            MachineType = (MachineType)int.Parse(_iniHelper.ReadData("Main", "MachineType"));
+
+            #region Main
+            HeightOffset = double.Parse(_iniHelper.ReadData("Main", "HeightOffset"));
+            HeightOffset2 = double.Parse(_iniHelper.ReadData("Main", "HeightOffset2"));
+            DistOffset = double.Parse(_iniHelper.ReadData("Main", "DistOffset"));
+            DistDiffThres = _iniHelper.ReadData("Main", "DistDiffThres").Split(',').Select(d => double.Parse(d)).ToList();
+            ModelServerIp = _iniHelper.ReadData("Main", "ModelServerIp");
+            UdpModelLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpLocalPort"));
+            UdpModelRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpRemotePort"));
+            StrategyIPCIp = _iniHelper.ReadData("Main", "StrategyIPCIp");
+            UdpStrategyLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyLocalPort"));
+            UdpStrategyRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyRemotePort"));
+            BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Main", "BeyondStackThreshold"));
+            BeyondStackBorder = double.Parse(_iniHelper.ReadData("Main", "BeyondStackBorder"));
+            RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));
+            GnssPort = int.Parse(_iniHelper.ReadData("Main", "GnssPort"));
+            Save2Sqlite = _iniHelper.ReadData("Main", "Save2Sqlite").Equals("1");
+            Save2Oracle = _iniHelper.ReadData("Main", "Save2Oracle").Equals("1");
+            DataServerIp = _iniHelper.ReadData("Main", "DataServerIp");
+            UserName = _iniHelper.ReadData("Main", "UserName");
+            Password = _iniHelper.ReadData("Main", "Password");
+            #endregion
+
+            #region OPC
+            OpcEnabled = _iniHelper.ReadData("OPC", "OpcEnabled").Equals("1");
+            OpcServerIp = _iniHelper.ReadData("OPC", "OpcServerIp");
+            OpcServerName = _iniHelper.ReadData("OPC", "OpcServerName");
+            Write2Plc = _iniHelper.ReadData("OPC", "Write2Plc").Equals("1");
+            #endregion
+
+            #region Calc
+            UseGaussianFilter = _iniHelper.ReadData("Calc", "UseGaussianFilter").Equals("1");
+            FilterLength = ushort.Parse(_iniHelper.ReadData("Calc", "FilterLength"));
+            Sigma = double.Parse(_iniHelper.ReadData("Calc", "Sigma"));
+            #endregion
+
+            #region Belt
+            DistBeltThresholdEnabled = _iniHelper.ReadData("Belt", "UseThreshold").Equals("1");
+            DistBeltThreshold = double.Parse(_iniHelper.ReadData("Belt", "DistBeltThreshold"));
+            BeltSignalDuration = double.Parse(_iniHelper.ReadData("Belt", "Duration"));
+            #endregion
+
+            #region PostureAdjustment
+            WalkingThreshold = double.Parse(_iniHelper.ReadData("PostureAdjustment", "WalkingThreshold"));
+            PitchThreshold = double.Parse(_iniHelper.ReadData("PostureAdjustment", "PitchThreshold"));
+            YawThreshold = double.Parse(_iniHelper.ReadData("PostureAdjustment", "YawThreshold"));
+            Posture.Type = (PostureType)int.Parse(_iniHelper.ReadData("PostureAdjustment", "PostureType"));
+            #endregion
+
+            #region Sqlite
+            SqliteFileDir = _iniHelper.ReadData("Sqlite", "FileDir");
+            SqliteFileName = _iniHelper.ReadData("Sqlite", "FileName");
+            #endregion
+        }
     }
 
     /// <summary>

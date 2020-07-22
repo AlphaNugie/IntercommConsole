@@ -93,6 +93,7 @@
     <Compile Include="DataUtil\DataService_Opc.cs" />
     <Compile Include="DataUtil\DataService_Radar.cs" />
     <Compile Include="Model\OpcDataSource.cs" />
+    <Compile Include="Core\Posture.cs" />
     <Compile Include="Model\StrategyDataSource.cs" />
     <Compile Include="Tasks\DataProcessTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="Tasks\ModelBuildingServiceTask.cs" />
     <Compile Include="Tasks\ModelDisplayServiceTask.cs" />
     <Compile Include="Tasks\OpcTask.cs" />
+    <Compile Include="Tasks\PostureTask.cs" />
     <Compile Include="Tasks\StrategyServiceTask.cs" />
     <Compile Include="Tasks\Task.cs" />
     <Compile Include="Program.cs" />

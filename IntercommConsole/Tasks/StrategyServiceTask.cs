@@ -17,7 +17,7 @@ namespace IntercommConsole.Tasks
     {
         private DerivedUdpClient udp = null;
         //序列化设置
-        private JsonSerializerSettings _jsonSetting = new JsonSerializerSettings()
+        private readonly JsonSerializerSettings _jsonSetting = new JsonSerializerSettings()
         {
             ContractResolver = new DefaultContractResolver()
             {
@@ -53,9 +53,12 @@ namespace IntercommConsole.Tasks
             //    Const.StrategyDataSource.PitchAngle = Const.GnssInfo.PitchAngle;
             //    Const.StrategyDataSource.RotationAngle = Const.GnssInfo.YawAngle;
             //}
-            Const.StrategyDataSource.RunningPosition = Const.OpcDatasource.WalkingPositionLeft_Plc;
-            Const.StrategyDataSource.PitchAngle = Const.OpcDatasource.PitchAngle_Plc;
-            Const.StrategyDataSource.RotationAngle = Const.OpcDatasource.YawAngle_Plc;
+            //Const.StrategyDataSource.RunningPosition = Const.OpcDatasource.WalkingPositionLeft_Plc;
+            //Const.StrategyDataSource.PitchAngle = Const.OpcDatasource.PitchAngle_Plc;
+            //Const.StrategyDataSource.RotationAngle = Const.OpcDatasource.YawAngle_Plc;
+            Const.StrategyDataSource.RunningPosition = Posture.WalkingPosition;
+            Const.StrategyDataSource.PitchAngle = Posture.PitchAngle;
+            Const.StrategyDataSource.RotationAngle = Posture.YawAngle;
             Const.StrategyDataSource.CollisionInfo = Const.RadarInfo.RadarList == null ? string.Empty : string.Join(string.Empty, Const.RadarInfo.RadarList.Select(r => Convert.ToString(r.ThreatLevel, 2).PadLeft(2, '0')));
             Const.StrategyDataSource.WheelLeftDist = Const.RadarInfo.DistWheelLeft;
             Const.StrategyDataSource.WheelRightDist = Const.RadarInfo.DistWheelRight;

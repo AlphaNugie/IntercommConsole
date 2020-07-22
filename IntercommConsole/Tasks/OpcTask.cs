@@ -1,4 +1,5 @@
-﻿using CommonLib.Function;
+﻿using CommonLib.Clients;
+using CommonLib.Function;
 using IntercommConsole.Core;
 using IntercommConsole.DataUtil;
 using OpcLibrary;
@@ -34,8 +35,13 @@ namespace IntercommConsole.Tasks
         /// </summary>
         public override void LoopContent()
         {
+            Const.OpcDatasource.RadarStatus = Const.RadarInfo.RadarList == null ? 0 : Convert.ToInt32(new string(string.Join(string.Empty, Const.RadarInfo.RadarList.Select(r => r.Working)).Reverse().ToArray()), 2);
+            Const.OpcDatasource.SetWheelBeyondStack(Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
             OpcReadValues();
             OpcWriteValues();
+            Const.OpcDatasource.WalkingQueue_Plc.Push(Const.OpcDatasource.WalkingPositionLeft_Plc * 1000 / this.Interval); //按照任务执行间隔对PLC行走位置进行放大，相邻数据相减即可得到速度
+            Const.OpcDatasource.YawQueue_Plc.Push(Const.OpcDatasource.YawAngle_Plc * 1000 / this.Interval); //按照任务执行间隔对PLC行走位置进行放大，相邻数据相减即可得到速度
+            this.CalculateMovements();
         }
 
         /// <summary>
@@ -142,6 +148,14 @@ namespace IntercommConsole.Tasks
                 if (!group.WriteValues(out _errorMessage))
                     Const.WriteConsoleLog(string.Format("写入PLC失败，写入过程中出现问题：{0}", _errorMessage));
             });
+        }
+
+        private void CalculateMovements()
+        {
+            GenericStorage<double> wqueue = Const.OpcDatasource.WalkingQueue_Plc, yqueue = Const.OpcDatasource.YawQueue_Plc;
+            Const.OpcDatasource.WalkingSpeed_Plc = wqueue == null ? 0 : Math.Round(wqueue.ElementAt(2) - wqueue.ElementAt(1), 3);
+            Const.OpcDatasource.WalkingAcce_Plc = wqueue == null ? 0 : Math.Round(wqueue.ElementAt(0) - 2 * wqueue.ElementAt(1) + wqueue.ElementAt(2), 3);
+            Const.OpcDatasource.YawSpeed_Plc = yqueue == null ? 0 : Math.Round(yqueue.ElementAt(1) - yqueue.ElementAt(0), 3);
         }
     }
 }
