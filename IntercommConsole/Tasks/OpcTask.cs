@@ -37,6 +37,12 @@ namespace IntercommConsole.Tasks
         {
             Const.OpcDatasource.RadarStatus = Const.RadarInfo.RadarList == null ? 0 : Convert.ToInt32(new string(string.Join(string.Empty, Const.RadarInfo.RadarList.Select(r => r.Working)).Reverse().ToArray()), 2);
             Const.OpcDatasource.SetWheelBeyondStack(Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
+            Const.OpcDatasource.WalkingPositionCorr = Posture.WalkingPosition;
+            Const.OpcDatasource.PitchAngleCorr = Posture.PitchAngle;
+            Const.OpcDatasource.YawAngleCorr = Posture.YawAngle;
+            //代表单击姿态可用性的状态
+            string temp = (Posture.WalkingValid ? "1" : "0") + (Posture.PitchValid ? "1" : "0") + (Posture.YawValid ? "1" : "0") + Convert.ToString((int)Posture.WalkingInvalidResource, 2) + Convert.ToString((int)Posture.PitchInvalidResource, 2) + Convert.ToString((int)Posture.YawInvalidResource, 2);
+            Const.OpcDatasource.PostureStates = Convert.ToInt32(new string(temp.Reverse().ToArray()), 2);
             OpcReadValues();
             OpcWriteValues();
             Const.OpcDatasource.WalkingQueue_Plc.Push(Const.OpcDatasource.WalkingPositionLeft_Plc * 1000 / this.Interval); //按照任务执行间隔对PLC行走位置进行放大，相邻数据相减即可得到速度

@@ -76,22 +76,58 @@ namespace IntercommConsole.Model
         public double YawSpeed_Plc { get; set; }
         //public double YawSpeed_Plc { get { return YawQueue_Plc == null ? 0 : YawQueue_Plc.ElementAt(1) - YawQueue_Plc.ElementAt(0); } }
         #endregion
-
+        
         #region 惯导姿态
         /// <summary>
         /// 惯导行走加速度
         /// </summary>
         public double WalkingAcce_Ins { get; set; }
 
+        private const int PITCH_QUEUE_MAXCOUNT = 5;
+        private readonly Queue<double> _pitch_queue = new Queue<double>(PITCH_QUEUE_MAXCOUNT);
+        private double _pitch_ins;
         /// <summary>
         /// 惯导俯仰角
         /// </summary>
-        public double PitchAngle_Ins { get; set; }
+        public double PitchAngle_Ins
+        {
+            get { return _pitch_ins; }
+            set
+            {
+                _pitch_queue.Enqueue(_pitch_ins);
+                if (_pitch_queue.Count > PITCH_QUEUE_MAXCOUNT)
+                    _pitch_queue.Dequeue();
+                _pitch_ins = value;
+                Const.IsPlcInsValid = _pitch_ins != _pitch_queue.Average();
+            }
+        }
 
         /// <summary>
         /// 惯导回转速度
         /// </summary>
         public double YawSpeed_Ins { get; set; }
+        #endregion
+
+        #region 校正后姿态
+        /// <summary>
+        /// 校正后行走位置
+        /// </summary>
+        public double WalkingPositionCorr { get; set; }
+
+        /// <summary>
+        /// 校正后俯仰角
+        /// </summary>
+        public double PitchAngleCorr { get; set; }
+
+        /// <summary>
+        /// 校正后回转角
+        /// </summary>
+        public double YawAngleCorr { get; set; }
+
+        /// <summary>
+        /// 校正后单击姿态的状态，由9位2进制数构成，分别对应行走俯仰回转是否可用，以及（假如可用）在三个定位系统中具体哪个数据不可用：0 均可用，1 北斗，2 编码器，3 惯导
+        /// </summary>
+        public int PostureStates { get; set; }
         #endregion
 
         /// <summary>
@@ -103,6 +139,11 @@ namespace IntercommConsole.Model
         /// 皮带是否有料
         /// </summary>
         public bool CoalOnBelt { get; set; }
+
+        /// <summary>
+        /// 皮带上料流的大小等级
+        /// </summary>
+        public int CoalOnBeltLevel { get; set; }
 
         /// <summary>
         /// 皮带是否有料（PLC信号）
@@ -185,10 +226,26 @@ namespace IntercommConsole.Model
             double diff = left_dist - right_dist; //左右测距的差
             //double abs_diff = Math.Abs(left_dist - right_dist); //斗轮两侧雷达距离差
             //bool on_each_side = (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0; //左侧、右侧雷达测距是否分属分界线两侧
-            //斗轮两侧雷达距离差达到阈值，同时左右侧雷达测距分属分界线两侧
+            //斗轮两侧雷达距离差达到阈值，同时左右侧雷达测距分属分界线两侧；或者某一侧距离超过底线距离
             bool _out = Math.Abs(diff) >= Config.BeyondStackThreshold && (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0;
-            WheelLeftBeyondStack = _out && diff > 0 ? 1 : 0;
-            WheelRightBeyondStack = _out && diff < 0 ? 1 : 0;
+            WheelLeftBeyondStack = (_out && diff > 0) || left_dist > Config.BeyondStackBaseline ? 1 : 0;
+            WheelRightBeyondStack = (_out && diff < 0) || right_dist > Config.BeyondStackBaseline ? 1 : 0;
+        }
+
+        /// <summary>
+        /// 根据皮带料流雷达距离判断料流等级
+        /// </summary>
+        /// <param name="dist_belt"></param>
+        public void UpdateCoalOnBeltLevel(double dist_belt)
+        {
+            int level = 0;
+            foreach (var dist in Config.DistBeltLevels)
+            {
+                if (dist_belt >= dist)
+                    break;
+                level++;
+            }
+            CoalOnBeltLevel = level;
         }
 
         /// <summary>

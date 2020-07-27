@@ -94,6 +94,11 @@ namespace IntercommConsole.Core
         public static double BeyondStackBorder { get; set; }
 
         /// <summary>
+        /// 出料堆的底线距离，有一侧距离超出此值，则亦判断出料堆
+        /// </summary>
+        public static double BeyondStackBaseline { get; set; }
+
+        /// <summary>
         /// 雷达子系统端口
         /// </summary>
         public static int RadarPort { get; set; }
@@ -180,6 +185,11 @@ namespace IntercommConsole.Core
         public static double DistBeltThreshold { get; set; }
 
         /// <summary>
+        /// 根据料流雷达距离判断料流大小的阶段阈值（大于等于最大的值为0级）
+        /// </summary>
+        public static List<double> DistBeltLevels { get; set; }
+
+        /// <summary>
         /// 料流信号维持的时间长度（秒）
         /// </summary>
         public static double BeltSignalDuration { get; set; }
@@ -233,8 +243,6 @@ namespace IntercommConsole.Core
             StrategyIPCIp = _iniHelper.ReadData("Main", "StrategyIPCIp");
             UdpStrategyLocalPort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyLocalPort"));
             UdpStrategyRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyRemotePort"));
-            BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Main", "BeyondStackThreshold"));
-            BeyondStackBorder = double.Parse(_iniHelper.ReadData("Main", "BeyondStackBorder"));
             RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));
             GnssPort = int.Parse(_iniHelper.ReadData("Main", "GnssPort"));
             Save2Sqlite = _iniHelper.ReadData("Main", "Save2Sqlite").Equals("1");
@@ -260,7 +268,14 @@ namespace IntercommConsole.Core
             #region Belt
             DistBeltThresholdEnabled = _iniHelper.ReadData("Belt", "UseThreshold").Equals("1");
             DistBeltThreshold = double.Parse(_iniHelper.ReadData("Belt", "DistBeltThreshold"));
+            DistBeltLevels = _iniHelper.ReadData("Belt", "DistBeltLevels").Split(',').Select(s => double.Parse(s)).OrderByDescending(s => s).ToList();
             BeltSignalDuration = double.Parse(_iniHelper.ReadData("Belt", "Duration"));
+            #endregion
+
+            #region Wheel
+            BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackThreshold"));
+            BeyondStackBorder = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBorder"));
+            BeyondStackBaseline = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBaseline"));
             #endregion
 
             #region PostureAdjustment

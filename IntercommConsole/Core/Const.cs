@@ -52,15 +52,25 @@ namespace IntercommConsole.Core
             set { _gnssInfo = value; }
         }
 
-        ///// <summary>
-        ///// 单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
-        ///// </summary>
+        /// <summary>
+        /// 北斗单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
+        /// </summary>
         public static bool IsGnssValid { get { return GnssInfo.WalkingPosition != 0 || GnssInfo.PitchAngle != 0 || GnssInfo.YawAngle != 0; } }
 
         /// <summary>
         /// OPC数据源
         /// </summary>
         public static OpcDataSource OpcDatasource = new OpcDataSource();
+
+        /// <summary>
+        /// PLC单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
+        /// </summary>
+        public static bool IsPlcPostureValid { get { return OpcDatasource.WalkingPositionLeft_Plc != 0 || OpcDatasource.PitchAngle_Plc != 0 || OpcDatasource.YawAngle_Plc != 0; } }
+
+        /// <summary>
+        /// 从PLC获取的惯导数据是否可用
+        /// </summary>
+        public static bool IsPlcInsValid { get; set; }
 
         /// <summary>
         /// 策略工控机数据源

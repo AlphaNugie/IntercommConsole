@@ -98,6 +98,7 @@
     <Compile Include="Tasks\DataProcessTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />
     <Compile Include="Tasks\DbSqliteTask.cs" />
+    <Compile Include="Tasks\InternelCommTask.cs" />
     <Compile Include="Tasks\ModelBuildingServiceTask.cs" />
     <Compile Include="Tasks\ModelDisplayServiceTask.cs" />
     <Compile Include="Tasks\OpcTask.cs" />
