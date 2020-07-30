@@ -16,7 +16,8 @@ namespace DemoRealChart
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new RealChart());
+            //Application.Run(new FormWheelDistChart());
+            Application.Run(new FormCharts());
         }
     }
 }

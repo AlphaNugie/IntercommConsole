@@ -1,6 +1,6 @@
 ﻿namespace ChartDisplay
 {
-    partial class RealChart
+    partial class FormBeltDistChart
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -117,7 +117,7 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(1186, 44);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
-            // RealChart
+            // FormBeltDistChart
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -125,8 +125,8 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.Name = "RealChart";
-            this.Text = "Network";
+            this.Name = "FormBeltDistChart";
+            this.Text = "料流测距";
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);

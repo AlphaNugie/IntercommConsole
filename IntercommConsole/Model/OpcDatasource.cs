@@ -160,6 +160,16 @@ namespace IntercommConsole.Model
         /// </summary>
         public double StreamTotal { get; set; }
 
+        /// <summary>
+        /// 斗轮功率（原始数据）
+        /// </summary>
+        public double WheelPowerRaw { get; set; }
+
+        /// <summary>
+        /// 斗轮功率（经过平滑处理）
+        /// </summary>
+        public double WheelPowerPolished { get; set; }
+
         #region 雷达
         /// <summary>
         /// 斗轮左侧测距（假如为堆料机则为落料口左侧测距）

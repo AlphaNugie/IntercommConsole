@@ -159,8 +159,8 @@ namespace ConnectServerWrapper
         /// <param name="body">发送实体类</param>
         public static bool SendProtobufCmd(Cmd cmd, IExtensible body)
         {
-            if (!LoggedIn)
-                return false;
+            //if (!LoggedIn)
+            //    return false;
             try { network.Instance.send_protobuf_cmd((int)Stype.Logic, (int)cmd, body); }
             catch (Exception)
             {

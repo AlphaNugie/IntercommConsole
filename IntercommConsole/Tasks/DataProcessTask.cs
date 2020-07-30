@@ -54,7 +54,7 @@ namespace IntercommConsole.Tasks
                 _filterSamples.Clear();
             }
             #endregion
-            string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2},{3},{4}),落料距离:{5},垛高:{6},行走:{7},俯仰:{8},回转:{9},有料流:{10},料流距离:{11},料流级别:{12},瞬时:{13},PLC行走速度、加速度:({14},{15}),PLC回转速度:{16}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.RadarInfo.DistWheelAverage, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.OpcDatasource.CoalOnBelt, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.StreamPerHour, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.WalkingAcce_Plc, Const.OpcDatasource.YawSpeed_Plc);
+            string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2},{3},{4}),落料距离:{5},垛高:{6},行走:{7},俯仰:{8},回转:{9},有料流:{10},料流距离:{11},料流级别:{12},斗轮功率:{13},瞬时:{14},PLC行走速度、加速度:({15},{16}),PLC回转速度:{17}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.RadarInfo.DistWheelAverage, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.OpcDatasource.CoalOnBelt, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.WheelPowerPolished, Const.OpcDatasource.StreamPerHour, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.WalkingAcce_Plc, Const.OpcDatasource.YawSpeed_Plc);
             _taskLogsBuffer = new List<string>() { result };
         }
 

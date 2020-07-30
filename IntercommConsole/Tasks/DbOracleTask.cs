@@ -29,7 +29,7 @@ namespace IntercommConsole.Tasks
 
             int gnss_result = 0;
             bool radar_result = false;
-            try { gnss_result = _dataService.UpdateMachinePosture(Config.MachineName, Const.GnssInfo, Const.OpcDatasource); }
+            try { gnss_result = _dataService.UpdateMachinePosture(Config.MachineName, Const.RadarInfo, Const.GnssInfo, Const.OpcDatasource); }
             catch (Exception e) { Const.WriteConsoleLog("GNSS数据保存失败：" + e.Message); }
             try { radar_result = _dataService.UpdateRadarInfo(Config.MachineName, Const.RadarInfo); }
             catch (Exception e) { Const.WriteConsoleLog("雷达数据保存失败：" + e.Message); }

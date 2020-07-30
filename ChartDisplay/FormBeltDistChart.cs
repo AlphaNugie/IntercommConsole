@@ -11,18 +11,19 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartDisplay
 {
-    public partial class RealChart : Form
+    public partial class FormBeltDistChart : Form
     {
-        private readonly string _machineName = "S1"; //大机名称
-        private readonly int _maxCount = 120;
+        private readonly string _machineName; //大机名称
+        private readonly int _maxCount = 60 * 5;
         private readonly int _num = 1;//每次删除增加点的数目
         private readonly OracleProvider provider = new OracleProvider("172.17.10.2", "pdborcl", "ysurcms", "8508991");
-        private readonly Queue<DataGroup> _dataQueue;
+        private readonly Queue<BeltDistPowers> _dataQueue;
 
-        public RealChart()
+        public FormBeltDistChart(string machine_name)
         {
             InitializeComponent();
-            _dataQueue = new Queue<DataGroup>(_maxCount);
+            _machineName = machine_name;
+            _dataQueue = new Queue<BeltDistPowers>(_maxCount);
             this.InitChart();
         }
 
@@ -68,10 +69,10 @@ namespace ChartDisplay
                 series.Points.Clear();
             for (int i = 0; i < _dataQueue.Count; i++)
             {
-                DataGroup group = _dataQueue.ElementAt(i);
-                this.chart1.Series["WheelLeft"].Points.AddXY(i, group.WheelLeftDist);
-                this.chart1.Series["WheelRight"].Points.AddXY(i, group.WheelRightDist);
-                this.chart1.Series["YawAngle"].Points.AddXY(i, group.YawAngle);
+                BeltDistPowers group = _dataQueue.ElementAt(i);
+                this.chart1.Series["BeltDist"].Points.AddXY(i, group.BeltDist);
+                this.chart1.Series["WheelPowerRaw"].Points.AddXY(i, group.WheelPowerRaw);
+                this.chart1.Series["WheelPowerPolished"].Points.AddXY(i, group.WheelPowerPolished);
             }
         }
 
@@ -84,27 +85,27 @@ namespace ChartDisplay
             ChartArea chartArea = new ChartArea("C1");
             //设置图表显示样式
             chartArea.AxisX.Minimum = 0;
-            chartArea.AxisY.Minimum = 0;
-            chartArea.AxisY.Maximum = 32; //Y轴最大值，回转角度范围为-160~160，除以10加上16，则范围为0~32
-            chartArea.AxisX.Interval = 5;
+            chartArea.AxisY.Minimum = -1;
+            chartArea.AxisY.Maximum = 5; //斗轮功率最大值，功率范围为1000~10000，除以2000，则范围为0.5~5
+            chartArea.AxisX.Interval = 20;
             chartArea.AxisX.MajorGrid.LineColor = Color.Silver;
             chartArea.AxisY.MajorGrid.LineColor = Color.Silver;
-            Series seriesWheelLeft = new Series("WheelLeft") { ChartArea = "C1", Color = Color.Red, ChartType = SeriesChartType.Line }, seriesWheelRight = new Series("WheelRight") { ChartArea = "C1", Color = Color.Blue, ChartType = SeriesChartType.Line }, seriesYawAngle = new Series("YawAngle") { ChartArea = "C1", Color = Color.Orange, ChartType = SeriesChartType.Line };
-            Legend legendWheelLeft = new Legend("斗轮左") { ForeColor = Color.Red }, legendWheelRight = new Legend("斗轮右") { ForeColor = Color.Blue }, legendYaw = new Legend("回转") { ForeColor = Color.Orange };
-            Title title = new Title("斗轮雷达测距折线图", Docking.Top, new Font("Microsoft Sans Serif", 12F), Color.RoyalBlue);
+            Series seriesBeltDist = new Series("BeltDist") { ChartArea = "C1", Color = Color.Red, ChartType = SeriesChartType.Line }, seriesWheelPowerRaw = new Series("WheelPowerRaw") { ChartArea = "C1", Color = Color.Blue, ChartType = SeriesChartType.Line }, seriesWheelPowerPolished = new Series("WheelPowerPolished") { ChartArea = "C1", Color = Color.Orange, ChartType = SeriesChartType.Line };
+            Legend legendBeltDist = new Legend("皮带雷达测距") { ForeColor = Color.Red }, legendWheelPowerRaw = new Legend("斗轮功率(原始") { ForeColor = Color.Blue }, legendWheelPowerPolished = new Legend("斗轮功率(滤波") { ForeColor = Color.Orange };
+            Title title = new Title("料流雷达测距折线图", Docking.Top, new Font("Microsoft Sans Serif", 12F), Color.RoyalBlue);
 
             this.chart1.ChartAreas.Clear();
             this.chart1.ChartAreas.Add(chartArea);
             //Series
             this.chart1.Series.Clear();
-            this.chart1.Series.Add(seriesWheelLeft);
-            this.chart1.Series.Add(seriesWheelRight);
-            this.chart1.Series.Add(seriesYawAngle);
+            this.chart1.Series.Add(seriesBeltDist);
+            this.chart1.Series.Add(seriesWheelPowerRaw);
+            this.chart1.Series.Add(seriesWheelPowerPolished);
             //Legends
             this.chart1.Legends.Clear();
-            this.chart1.Legends.Add(legendWheelLeft);
-            this.chart1.Legends.Add(legendWheelRight);
-            this.chart1.Legends.Add(legendYaw);
+            this.chart1.Legends.Add(legendBeltDist);
+            this.chart1.Legends.Add(legendWheelPowerRaw);
+            this.chart1.Legends.Add(legendWheelPowerPolished);
             //设置标题
             this.chart1.Titles.Clear();
             this.chart1.Titles.Add(title);
@@ -118,25 +119,25 @@ namespace ChartDisplay
                 //先出列
                 for (int i = 0; i < _num; i++)
                     this._dataQueue.Dequeue();
-            string sqlString = string.Format("select t.wheel_left_dist, t.wheel_right_dist, t.yaw_plc from t_rcms_machineposture_time t where t.machine_name = '{0}'", _machineName);
+            string sqlString = string.Format("select t.belt_dist, t.wheel_power_raw, t.wheel_power_polished from t_rcms_machineposture_time t where t.machine_name = '{0}'", _machineName);
             DataTable table = this.provider.Query(sqlString);
             if (table == null || table.Rows.Count == 0)
                 return;
-            this._dataQueue.Enqueue(DataGroup.GetInstance(table.Rows[0]));
+            this._dataQueue.Enqueue(BeltDistPowers.GetInstance(table.Rows[0]));
         }
     }
 
-    public class DataGroup
+    public class BeltDistPowers
     {
-        public double WheelLeftDist { get; set; }
+        public double BeltDist { get; set; }
 
-        public double WheelRightDist { get; set; }
+        public double WheelPowerRaw { get; set; }
 
-        public double YawAngle { get; set; }
+        public double WheelPowerPolished { get; set; }
 
-        public static DataGroup GetInstance(DataRow row)
+        public static BeltDistPowers GetInstance(DataRow row)
         {
-            return row == null ? null : new DataGroup() { WheelLeftDist = double.Parse(row["wheel_left_dist"].ToString()), WheelRightDist = double.Parse(row["wheel_right_dist"].ToString()), YawAngle = double.Parse(row["yaw_plc"].ToString()) / 10 + 16 };
+            return row == null ? null : new BeltDistPowers() { BeltDist = double.Parse(row["belt_dist"].ToString()), WheelPowerRaw = double.Parse(row["wheel_power_raw"].ToString()) / 2000, WheelPowerPolished = double.Parse(row["wheel_power_polished"].ToString()) / 2000 };
         }
     }
 }
