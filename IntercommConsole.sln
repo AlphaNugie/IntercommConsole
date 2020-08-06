@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntercommConsole", "Interco
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChartDisplay", "ChartDisplay\ChartDisplay.csproj", "{64431894-D465-4181-9D51-71589A0EBAAB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SerializationFactory.Genuine", "SerializationFactory.Genuine\SerializationFactory.Genuine.csproj", "{2501913D-67A3-4A8E-8EC5-BB587090F056}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,14 @@ Global
 		{64431894-D465-4181-9D51-71589A0EBAAB}.Release|Any CPU.ActiveCfg = Release|x86
 		{64431894-D465-4181-9D51-71589A0EBAAB}.Release|x86.ActiveCfg = Release|x86
 		{64431894-D465-4181-9D51-71589A0EBAAB}.Release|x86.Build.0 = Release|x86
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Debug|x86.Build.0 = Debug|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Release|x86.ActiveCfg = Release|Any CPU
+		{2501913D-67A3-4A8E-8EC5-BB587090F056}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

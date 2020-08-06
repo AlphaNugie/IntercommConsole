@@ -28,6 +28,8 @@ namespace IntercommConsole
                 new DbSqliteTask(),
                 new PostureTask()
             };
+            //添加RCMS发送任务
+            tasks.AddRange(Const.DataServiceSqlite.GetRcmsList());
             tasks.ForEach(task =>
             {
                 task.Init();

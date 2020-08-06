@@ -8,6 +8,11 @@ namespace IntercommConsole.Core
     public static class DbDef
     {
         /// <summary>
+        /// 是否将数据保存到Oracle数据库
+        /// </summary>
+        public static bool Save2Oracle { get; set; }
+
+        /// <summary>
         /// 地址
         /// </summary>
         public static string HostAddress { get; set; }
@@ -32,6 +37,7 @@ namespace IntercommConsole.Core
         /// </summary>
         public static void Update()
         {
+            Save2Oracle = Config.IniHelper.ReadData("Oracle", "Save2Oracle").Equals("1");
             HostAddress = Config.IniHelper.ReadData("Oracle", "HostAddress");
             ServiceName = Config.IniHelper.ReadData("Oracle", "ServiceName");
             UserName = Config.IniHelper.ReadData("Oracle", "UserName");

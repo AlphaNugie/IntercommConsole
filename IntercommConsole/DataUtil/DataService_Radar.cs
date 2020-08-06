@@ -1,6 +1,7 @@
 ﻿//using ARS408.Model;
 using CommonLib.DataUtil;
 using IntercommConsole.Core;
+using IntercommConsole.Tasks;
 using SerializationFactory;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,6 @@ namespace IntercommConsole.DataUtil
     /// </summary>
     public class DataService_Radar
     {
-        //private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
         private readonly SqliteProvider provider = new SqliteProvider(Config.SqliteFileDir, Config.SqliteFileName);
 
         /// <summary>

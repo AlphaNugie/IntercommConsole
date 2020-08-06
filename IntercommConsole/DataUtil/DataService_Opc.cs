@@ -11,7 +11,6 @@ namespace IntercommConsole.DataUtil
 {
     public class DataService_Opc
     {
-        //private readonly SqliteProvider provider = new SqliteProvider(string.Empty, "base.db");
         private readonly SqliteProvider provider = new SqliteProvider(Config.SqliteFileDir, Config.SqliteFileName);
 
         public DataTable GetOpcInfo()

@@ -109,16 +109,6 @@ namespace IntercommConsole.Core
         public static int GnssPort { get; set; }
 
         /// <summary>
-        /// 是否将数据保存到Sqlite
-        /// </summary>
-        public static bool Save2Sqlite { get; set; }
-
-        /// <summary>
-        /// 是否将数据保存到Oracle数据库
-        /// </summary>
-        public static bool Save2Oracle { get; set; }
-
-        /// <summary>
         /// 数据库服务器IP
         /// </summary>
         public static string DataServerIp { get; set; }
@@ -214,6 +204,11 @@ namespace IntercommConsole.Core
 
         #region Sqlite
         /// <summary>
+        /// 是否将数据保存到Sqlite
+        /// </summary>
+        public static bool Save2Sqlite { get; set; }
+
+        /// <summary>
         /// Sqlite文件路径，可为相对路径
         /// </summary>
         public static string SqliteFileDir { get; set; }
@@ -245,8 +240,6 @@ namespace IntercommConsole.Core
             UdpStrategyRemotePort = int.Parse(_iniHelper.ReadData("Main", "UdpStrategyRemotePort"));
             RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));
             GnssPort = int.Parse(_iniHelper.ReadData("Main", "GnssPort"));
-            Save2Sqlite = _iniHelper.ReadData("Main", "Save2Sqlite").Equals("1");
-            Save2Oracle = _iniHelper.ReadData("Main", "Save2Oracle").Equals("1");
             DataServerIp = _iniHelper.ReadData("Main", "DataServerIp");
             UserName = _iniHelper.ReadData("Main", "UserName");
             Password = _iniHelper.ReadData("Main", "Password");
@@ -286,6 +279,7 @@ namespace IntercommConsole.Core
             #endregion
 
             #region Sqlite
+            Save2Sqlite = _iniHelper.ReadData("Sqlite", "Save2Sqlite").Equals("1");
             SqliteFileDir = _iniHelper.ReadData("Sqlite", "FileDir");
             SqliteFileName = _iniHelper.ReadData("Sqlite", "FileName");
             #endregion

@@ -230,9 +230,9 @@ namespace IntercommConsole.Model
         public void SetWheelBeyondStack(double left_dist, double right_dist)
         {
             //left_out = right_out = false;
-            //假如距离为0则改为99，代表没有数据时是打到了远处
-            left_dist = left_dist == 0 ? 99 : left_dist;
-            right_dist = right_dist == 0 ? 99 : right_dist;
+            ////假如距离为0则改为99，代表没有数据时是打到了远处
+            //left_dist = left_dist == 0 ? 99 : left_dist;
+            //right_dist = right_dist == 0 ? 99 : right_dist;
             double diff = left_dist - right_dist; //左右测距的差
             //double abs_diff = Math.Abs(left_dist - right_dist); //斗轮两侧雷达距离差
             //bool on_each_side = (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0; //左侧、右侧雷达测距是否分属分界线两侧

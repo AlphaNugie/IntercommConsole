@@ -24,7 +24,7 @@ namespace IntercommConsole.Tasks
         /// </summary>
         public override void LoopContent()
         {
-            if (!Config.Save2Oracle)
+            if (!DbDef.Save2Oracle)
                 return;
 
             int gnss_result = 0;

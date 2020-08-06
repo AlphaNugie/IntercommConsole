@@ -1,5 +1,6 @@
 ﻿using CommonLib.Clients;
 using CommonLib.Function;
+using IntercommConsole.DataUtil;
 using IntercommConsole.Model;
 using SerializationFactory;
 using System;
@@ -21,6 +22,16 @@ namespace IntercommConsole.Core
         /// 日志
         /// </summary>
         public static LogClient Log { get { return _log; } }
+
+        private static DataService_Sqlite _dataService = new DataService_Sqlite();
+        /// <summary>
+        /// Sqlite数据库服务
+        /// </summary>
+        public static DataService_Sqlite DataServiceSqlite
+        {
+            get { return _dataService; }
+            set { _dataService = value; }
+        }
 
         /// <summary>
         /// 本地IP
@@ -53,14 +64,24 @@ namespace IntercommConsole.Core
         }
 
         /// <summary>
-        /// 北斗单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
-        /// </summary>
-        public static bool IsGnssValid { get { return GnssInfo.WalkingPosition != 0 || GnssInfo.PitchAngle != 0 || GnssInfo.YawAngle != 0; } }
-
-        /// <summary>
         /// OPC数据源
         /// </summary>
         public static OpcDataSource OpcDatasource = new OpcDataSource();
+
+        /// <summary>
+        /// 策略工控机数据源
+        /// </summary>
+        public static StrategyDataSource StrategyDataSource = new StrategyDataSource();
+
+        /// <summary>
+        /// RCMS数据源
+        /// </summary>
+        public static RcmsDataSource RcmsDataSource = new RcmsDataSource();
+
+        /// <summary>
+        /// 北斗单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
+        /// </summary>
+        public static bool IsGnssValid { get { return GnssInfo.WalkingPosition != 0 || GnssInfo.PitchAngle != 0 || GnssInfo.YawAngle != 0; } }
 
         /// <summary>
         /// PLC单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
@@ -71,11 +92,6 @@ namespace IntercommConsole.Core
         /// 从PLC获取的惯导数据是否可用
         /// </summary>
         public static bool IsPlcInsValid { get; set; }
-
-        /// <summary>
-        /// 策略工控机数据源
-        /// </summary>
-        public static StrategyDataSource StrategyDataSource = new StrategyDataSource();
 
         /// <summary>
         /// 写入日志同时在控制台输出
