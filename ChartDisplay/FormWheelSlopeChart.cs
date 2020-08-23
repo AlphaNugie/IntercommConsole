@@ -11,19 +11,19 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace ChartDisplay
 {
-    public partial class FormWheelDistChart : Form
+    public partial class FormWheelSlopeChart : Form
     {
         private readonly string _machineName; //大机名称
-        private readonly int _maxCount = 120;
+        private readonly int _maxCount = 60 * 5;
         private readonly int _num = 1;//每次删除增加点的数目
         private readonly OracleProvider provider = new OracleProvider("172.17.10.2", "pdborcl", "ysurcms", "8508991");
-        private readonly Queue<WheelDists> _dataQueue;
+        private readonly Queue<WheelSlopes> _dataQueue;
 
-        public FormWheelDistChart(string machine_name)
+        public FormWheelSlopeChart(string machine_name)
         {
             InitializeComponent();
             _machineName = machine_name;
-            _dataQueue = new Queue<WheelDists>(_maxCount);
+            _dataQueue = new Queue<WheelSlopes>(_maxCount);
             this.InitChart();
         }
 
@@ -69,9 +69,9 @@ namespace ChartDisplay
                 series.Points.Clear();
             for (int i = 0; i < _dataQueue.Count; i++)
             {
-                WheelDists group = _dataQueue.ElementAt(i);
-                this.chart1.Series["WheelLeft"].Points.AddXY(i, group.WheelLeftDist);
-                this.chart1.Series["WheelRight"].Points.AddXY(i, group.WheelRightDist);
+                WheelSlopes group = _dataQueue.ElementAt(i);
+                this.chart1.Series["WheelLeft"].Points.AddXY(i, group.WheelLeftSlope);
+                this.chart1.Series["WheelRight"].Points.AddXY(i, group.WheelRightSlope);
                 this.chart1.Series["YawAngle"].Points.AddXY(i, group.YawAngle);
             }
         }
@@ -92,7 +92,7 @@ namespace ChartDisplay
             chartArea.AxisY.MajorGrid.LineColor = Color.Silver;
             Series seriesWheelLeft = new Series("WheelLeft") { ChartArea = "C1", Color = Color.Red, ChartType = SeriesChartType.Line }, seriesWheelRight = new Series("WheelRight") { ChartArea = "C1", Color = Color.Blue, ChartType = SeriesChartType.Line }, seriesYawAngle = new Series("YawAngle") { ChartArea = "C1", Color = Color.Orange, ChartType = SeriesChartType.Line };
             Legend legendWheelLeft = new Legend("斗轮左") { ForeColor = Color.Red }, legendWheelRight = new Legend("斗轮右") { ForeColor = Color.Blue }, legendYaw = new Legend("回转") { ForeColor = Color.Orange };
-            Title title = new Title("斗轮雷达测距折线图", Docking.Top, new Font("Microsoft Sans Serif", 12F), Color.RoyalBlue);
+            Title title = new Title("斗轮雷达斜率折线图", Docking.Top, new Font("Microsoft Sans Serif", 12F), Color.RoyalBlue);
 
             this.chart1.ChartAreas.Clear();
             this.chart1.ChartAreas.Add(chartArea);
@@ -119,25 +119,25 @@ namespace ChartDisplay
                 //先出列
                 for (int i = 0; i < _num; i++)
                     this._dataQueue.Dequeue();
-            string sqlString = string.Format("select t.wheel_left_dist, t.wheel_right_dist, t.yaw_plc from t_rcms_machineposture_time t where t.machine_name = '{0}'", _machineName);
+            string sqlString = string.Format("select t.wheel_left_slope, t.wheel_right_slope, t.yaw_plc from t_rcms_machineposture_time t where t.machine_name = '{0}'", _machineName);
             DataTable table = this.provider.Query(sqlString);
             if (table == null || table.Rows.Count == 0)
                 return;
-            this._dataQueue.Enqueue(WheelDists.GetInstance(table.Rows[0]));
+            this._dataQueue.Enqueue(WheelSlopes.GetInstance(table.Rows[0]));
         }
     }
 
-    public class WheelDists
+    public class WheelSlopes
     {
-        public double WheelLeftDist { get; set; }
+        public double WheelLeftSlope { get; set; }
 
-        public double WheelRightDist { get; set; }
+        public double WheelRightSlope { get; set; }
 
         public double YawAngle { get; set; }
 
-        public static WheelDists GetInstance(DataRow row)
+        public static WheelSlopes GetInstance(DataRow row)
         {
-            return row == null ? null : new WheelDists() { WheelLeftDist = double.Parse(row["wheel_left_dist"].ToString()), WheelRightDist = double.Parse(row["wheel_right_dist"].ToString()), YawAngle = double.Parse(row["yaw_plc"].ToString()) / 10 + 18 };
+            return row == null ? null : new WheelSlopes() { WheelLeftSlope = double.Parse(row["wheel_left_slope"].ToString()), WheelRightSlope = double.Parse(row["wheel_right_slope"].ToString()), YawAngle = double.Parse(row["yaw_plc"].ToString()) / 10 + 18 };
         }
     }
 }

@@ -20,7 +20,7 @@ namespace IntercommConsole
             //任务
             List<Task> tasks = new List<Task>() {
                 new DataProcessTask(),
-                new OpcTask(),
+                new OpcTask() { Interval = Config.OpcLoopInterval },
                 new ModelBuildingServiceTask(),
                 new ModelDisplayServiceTask(),
                 new StrategyServiceTask() { Interval = 500 },

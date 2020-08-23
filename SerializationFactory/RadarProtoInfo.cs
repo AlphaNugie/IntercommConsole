@@ -125,6 +125,50 @@ namespace SerializationFactory
         [ProtoMember(14)]
         public List<RadarCoor> WheelRightCoorList { get; set; }
 
+        private double _slope_wheel_left;
+        /// <summary>
+        /// 斗轮左侧雷达一次拟合斜率
+        /// </summary>
+        [ProtoMember(15)]
+        public double SlopeWheelLeft
+        {
+            get { return this._slope_wheel_left; }
+            set { this._slope_wheel_left = Math.Round(value, 3); }
+        }
+
+        private double _slope_wheel_right;
+        /// <summary>
+        /// 斗轮右侧雷达一次拟合斜率
+        /// </summary>
+        [ProtoMember(16)]
+        public double SlopeWheelRight
+        {
+            get { return this._slope_wheel_right; }
+            set { this._slope_wheel_right = Math.Round(value, 3); }
+        }
+
+        private double _surface_wheel_left;
+        /// <summary>
+        /// 斗轮左侧雷达一次拟合斜率
+        /// </summary>
+        [ProtoMember(17)]
+        public double SurfaceAngleWheelLeft
+        {
+            get { return this._surface_wheel_left; }
+            set { this._surface_wheel_left = Math.Round(value, 3); }
+        }
+
+        private double _surface_wheel_right;
+        /// <summary>
+        /// 斗轮右侧雷达一次拟合斜率
+        /// </summary>
+        [ProtoMember(18)]
+        public double SurfaceAngleWheelRight
+        {
+            get { return this._surface_wheel_right; }
+            set { this._surface_wheel_right = Math.Round(value, 3); }
+        }
+
         /// <summary>
         /// 构造器
         /// </summary>

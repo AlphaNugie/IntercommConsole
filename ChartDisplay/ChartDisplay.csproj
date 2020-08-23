@@ -72,6 +72,12 @@
     <Compile Include="FormCharts.Designer.cs">
       <DependentUpon>FormCharts.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormWheelSlopeChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWheelSlopeChart.Designer.cs">
+      <DependentUpon>FormWheelSlopeChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FormWheelDistChart.cs">
@@ -85,6 +91,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormCharts.resx">
       <DependentUpon>FormCharts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWheelSlopeChart.resx">
+      <DependentUpon>FormWheelSlopeChart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

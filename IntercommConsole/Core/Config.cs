@@ -144,6 +144,11 @@ namespace IntercommConsole.Core
         /// 是否写入PLC
         /// </summary>
         public static bool Write2Plc { get; set; }
+
+        /// <summary>
+        /// OPC读取与写入间隔（毫秒）
+        /// </summary>
+        public static int OpcLoopInterval { get; set; }
         #endregion
 
         #region Calc
@@ -250,6 +255,7 @@ namespace IntercommConsole.Core
             OpcServerIp = _iniHelper.ReadData("OPC", "OpcServerIp");
             OpcServerName = _iniHelper.ReadData("OPC", "OpcServerName");
             Write2Plc = _iniHelper.ReadData("OPC", "Write2Plc").Equals("1");
+            OpcLoopInterval = int.Parse(_iniHelper.ReadData("OPC", "LoopInterval"));
             #endregion
 
             #region Calc
