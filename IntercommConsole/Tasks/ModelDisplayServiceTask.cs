@@ -1,4 +1,5 @@
-﻿using ConnectServerWrapper;
+﻿using CommonLib.Clients.Tasks;
+using ConnectServerWrapper;
 using gprotocol;
 using IntercommConsole.Core;
 using Newtonsoft.Json;
@@ -6,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace IntercommConsole.Tasks
 {

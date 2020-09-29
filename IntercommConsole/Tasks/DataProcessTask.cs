@@ -1,4 +1,5 @@
 ﻿using CommonLib.Clients;
+using CommonLib.Clients.Tasks;
 using CommonLib.Events;
 using CommonLib.Extensions;
 using CommonLib.Extensions.Property;
@@ -10,7 +11,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace IntercommConsole.Tasks
 {

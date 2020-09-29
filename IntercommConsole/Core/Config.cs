@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace IntercommConsole.Core
@@ -21,6 +22,11 @@ namespace IntercommConsole.Core
         /// INI配置文件读取工具
         /// </summary>
         public static IniFileHelper IniHelper { get { return _iniHelper; } }
+
+        /// <summary>
+        /// 刷新配置的线程
+        /// </summary>
+        public static Thread Thread_RefreshConfigs { get; set; }
 
         /// <summary>
         /// 大机名称
@@ -82,21 +88,6 @@ namespace IntercommConsole.Core
         /// 策略工控机数据发送UDP远程端口
         /// </summary>
         public static int UdpStrategyRemotePort { get; set; }
-
-        /// <summary>
-        /// 出料堆判断斗轮两侧雷达距离差的阈值
-        /// </summary>
-        public static double BeyondStackThreshold { get; set; }
-
-        /// <summary>
-        /// 出料堆判断两侧雷达测距值的分界线
-        /// </summary>
-        public static double BeyondStackBorder { get; set; }
-
-        /// <summary>
-        /// 出料堆的底线距离，有一侧距离超出此值，则亦判断出料堆
-        /// </summary>
-        public static double BeyondStackBaseline { get; set; }
 
         /// <summary>
         /// 雷达子系统端口
@@ -190,6 +181,38 @@ namespace IntercommConsole.Core
         public static double BeltSignalDuration { get; set; }
         #endregion
 
+        #region Wheel
+        /// <summary>
+        /// 出料堆判断斗轮两侧雷达距离差的阈值
+        /// </summary>
+        public static double BeyondStackThreshold { get; set; }
+
+        /// <summary>
+        /// 出料堆判断两侧雷达测距值的分界线
+        /// </summary>
+        public static double BeyondStackBorder { get; set; }
+
+        /// <summary>
+        /// 出料堆判断两侧雷达拟合平面角度的阈值（低于此值则出边界）
+        /// </summary>
+        public static double BeyondStackAngleThreshold { get; set; }
+
+        /// <summary>
+        /// 出料堆的底线距离，有一侧距离超出此值，则亦判断出料堆
+        /// </summary>
+        public static double BeyondStackBaseline { get; set; }
+
+        /// <summary>
+        /// 是否启用出垛边角度记录
+        /// </summary>
+        public static bool EnableAngleRecording { get; set; }
+
+        /// <summary>
+        /// 垛边角度记录数据源
+        /// </summary>
+        public static AngleSource AngleRecordingSource { get; set; }
+        #endregion
+
         #region PostureAdjustment
         /// <summary>
         /// 单机姿态多系统校正过程中行走位置的阈值，超过此阈值则为偏离
@@ -223,6 +246,24 @@ namespace IntercommConsole.Core
         /// </summary>
         public static string SqliteFileName { get; set; }
         #endregion
+
+        /// <summary>
+        /// 配置文件初始化
+        /// </summary>
+        public static void Init()
+        {
+            Thread_RefreshConfigs = new Thread(new ThreadStart(() =>
+            {
+                while (true)
+                {
+                    try { Update(); }
+                    catch (Exception) { }
+                    Thread.Sleep(1000);
+                }
+            }))
+            { IsBackground = true };
+            Thread_RefreshConfigs.Start();
+        }
 
         /// <summary>
         /// 更新配置
@@ -274,7 +315,10 @@ namespace IntercommConsole.Core
             #region Wheel
             BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackThreshold"));
             BeyondStackBorder = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBorder"));
+            BeyondStackAngleThreshold = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackAngleThreshold"));
             BeyondStackBaseline = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBaseline"));
+            EnableAngleRecording = _iniHelper.ReadData("Wheel", "EnableAngleRecording").Equals("1");
+            AngleRecordingSource = (AngleSource)int.Parse(_iniHelper.ReadData("Wheel", "AngleRecordingSource"));
             #endregion
 
             #region PostureAdjustment
@@ -306,5 +350,15 @@ namespace IntercommConsole.Core
         /// 取料机
         /// </summary>
         Reclaimer = 2
+    }
+
+    /// <summary>
+    /// 角度数据源
+    /// </summary>
+    public enum AngleSource
+    {
+        PLC = 1,
+
+        BEIDOU = 2
     }
 }

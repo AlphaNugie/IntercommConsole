@@ -97,6 +97,7 @@
     <Compile Include="Core\Posture.cs" />
     <Compile Include="Model\RcmsDataSource.cs" />
     <Compile Include="Model\StrategyDataSource.cs" />
+    <Compile Include="Tasks\AngleRecordTask.cs" />
     <Compile Include="Tasks\DataProcessTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />
     <Compile Include="Tasks\DbSqliteTask.cs" />
@@ -107,7 +108,6 @@
     <Compile Include="Tasks\PostureTask.cs" />
     <Compile Include="Tasks\RcmsServiceTask.cs" />
     <Compile Include="Tasks\StrategyServiceTask.cs" />
-    <Compile Include="Tasks\Task.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

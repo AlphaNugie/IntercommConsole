@@ -72,6 +72,12 @@
     <Compile Include="FormCharts.Designer.cs">
       <DependentUpon>FormCharts.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormWheelSurfaceAngleChart.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormWheelSurfaceAngleChart.Designer.cs">
+      <DependentUpon>FormWheelSurfaceAngleChart.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormWheelSlopeChart.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -91,6 +97,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormCharts.resx">
       <DependentUpon>FormCharts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormWheelSurfaceAngleChart.resx">
+      <DependentUpon>FormWheelSurfaceAngleChart.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormWheelSlopeChart.resx">
       <DependentUpon>FormWheelSlopeChart.cs</DependentUpon>

@@ -1,4 +1,5 @@
 ﻿using CommonLib.Clients;
+using CommonLib.Clients.Tasks;
 using CommonLib.Function;
 using IntercommConsole.Core;
 using IntercommConsole.DataUtil;
@@ -8,7 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace IntercommConsole.Tasks
 {
@@ -36,7 +36,8 @@ namespace IntercommConsole.Tasks
         public override void LoopContent()
         {
             Const.OpcDatasource.RadarStatus = Const.RadarInfo.RadarList == null ? 0 : Convert.ToInt32(new string(string.Join(string.Empty, Const.RadarInfo.RadarList.Select(r => r.Working)).Reverse().ToArray()), 2);
-            Const.OpcDatasource.SetWheelBeyondStack(Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
+            //Const.OpcDatasource.SetWheelBeyondStackByDist(Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
+            Const.OpcDatasource.SetWheelBeyondStackByAngleDist(Const.RadarInfo.SurfaceAngleWheelLeft, Const.RadarInfo.SurfaceAngleWheelRight, Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
             Const.OpcDatasource.WalkingPositionCorr = Posture.WalkingPosition;
             Const.OpcDatasource.PitchAngleCorr = Posture.PitchAngle;
             Const.OpcDatasource.YawAngleCorr = Posture.YawAngle;

@@ -182,7 +182,7 @@ namespace IntercommConsole.Model
         public double WheelRightDist { get; set; }
 
         /// <summary>
-        /// 斗轮左侧雷达判断出垛边
+        /// 斗轮左侧雷达判断出垛边，0 未出垛边，1 出垛边
         /// </summary>
         public int WheelLeftBeyondStack { get; set; }
 
@@ -222,24 +222,37 @@ namespace IntercommConsole.Model
         public int RadarStatus { get; set; }
         #endregion
 
+        ///// <summary>
+        ///// 根据两侧斗轮雷达测距设置左右出料堆状态
+        ///// </summary>
+        ///// <param name="left_dist">斗轮左侧雷达测距</param>
+        ///// <param name="right_dist">斗轮右侧雷达测距</param>
+        //public void SetWheelBeyondStackByDist(double left_dist, double right_dist)
+        //{
+        //    //left_out = right_out = false;
+        //    ////假如距离为0则改为99，代表没有数据时是打到了远处
+        //    //left_dist = left_dist == 0 ? 99 : left_dist;
+        //    //right_dist = right_dist == 0 ? 99 : right_dist;
+        //    double diff = left_dist - right_dist; //左右测距的差
+        //    //double abs_diff = Math.Abs(left_dist - right_dist); //斗轮两侧雷达距离差
+        //    //bool on_each_side = (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0; //左侧、右侧雷达测距是否分属分界线两侧
+        //    //斗轮两侧雷达距离差达到阈值，同时左右侧雷达测距分属分界线两侧；或者某一侧距离超过底线距离
+        //    bool _out = Math.Abs(diff) >= Config.BeyondStackThreshold && (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0;
+        //    WheelLeftBeyondStack = (_out && diff > 0) || left_dist > Config.BeyondStackBaseline ? 1 : 0;
+        //    WheelRightBeyondStack = (_out && diff < 0) || right_dist > Config.BeyondStackBaseline ? 1 : 0;
+        //}
+
         /// <summary>
-        /// 设置左右出料堆状态
+        /// 根据两侧斗轮雷达拟合平面角与测距设置左右出料堆状态
         /// </summary>
+        /// <param name="left_angle">斗轮左侧雷达平面角</param>
+        /// <param name="right_angle">斗轮右侧雷达平面角</param>
         /// <param name="left_dist">斗轮左侧雷达测距</param>
         /// <param name="right_dist">斗轮右侧雷达测距</param>
-        public void SetWheelBeyondStack(double left_dist, double right_dist)
+        public void SetWheelBeyondStackByAngleDist(double left_angle, double right_angle, double left_dist, double right_dist)
         {
-            //left_out = right_out = false;
-            ////假如距离为0则改为99，代表没有数据时是打到了远处
-            //left_dist = left_dist == 0 ? 99 : left_dist;
-            //right_dist = right_dist == 0 ? 99 : right_dist;
-            double diff = left_dist - right_dist; //左右测距的差
-            //double abs_diff = Math.Abs(left_dist - right_dist); //斗轮两侧雷达距离差
-            //bool on_each_side = (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0; //左侧、右侧雷达测距是否分属分界线两侧
-            //斗轮两侧雷达距离差达到阈值，同时左右侧雷达测距分属分界线两侧；或者某一侧距离超过底线距离
-            bool _out = Math.Abs(diff) >= Config.BeyondStackThreshold && (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0;
-            WheelLeftBeyondStack = (_out && diff > 0) || left_dist > Config.BeyondStackBaseline ? 1 : 0;
-            WheelRightBeyondStack = (_out && diff < 0) || right_dist > Config.BeyondStackBaseline ? 1 : 0;
+            WheelLeftBeyondStack = left_angle < Config.BeyondStackAngleThreshold || left_dist > Config.BeyondStackBaseline ? 1 : 0;
+            WheelRightBeyondStack = right_angle < Config.BeyondStackAngleThreshold || right_dist > Config.BeyondStackBaseline ? 1 : 0;
         }
 
         /// <summary>

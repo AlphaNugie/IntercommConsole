@@ -25,6 +25,7 @@ namespace ChartDisplay
             this.tabControl_Charts.ShowForm(new FormWheelDistChart(_machineName));
             this.tabControl_Charts.ShowForm(new FormBeltDistChart(_machineName));
             this.tabControl_Charts.ShowForm(new FormWheelSlopeChart(_machineName));
+            this.tabControl_Charts.ShowForm(new FormWheelSurfaceAngleChart(_machineName));
         }
     }
 }
