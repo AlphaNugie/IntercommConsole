@@ -36,8 +36,6 @@ namespace IntercommConsole.Tasks
         public override void LoopContent()
         {
             Const.OpcDatasource.RadarStatus = Const.RadarInfo.RadarList == null ? 0 : Convert.ToInt32(new string(string.Join(string.Empty, Const.RadarInfo.RadarList.Select(r => r.Working)).Reverse().ToArray()), 2);
-            //Const.OpcDatasource.SetWheelBeyondStackByDist(Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
-            Const.OpcDatasource.SetWheelBeyondStackByAngleDist(Const.RadarInfo.SurfaceAngleWheelLeft, Const.RadarInfo.SurfaceAngleWheelRight, Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
             Const.OpcDatasource.WalkingPositionCorr = Posture.WalkingPosition;
             Const.OpcDatasource.PitchAngleCorr = Posture.PitchAngle;
             Const.OpcDatasource.YawAngleCorr = Posture.YawAngle;
@@ -140,13 +138,9 @@ namespace IntercommConsole.Tasks
         /// </summary>
         private void OpcWriteValues()
         {
-            if (!Config.OpcEnabled && !Config.Write2Plc)
+            if (!Config.OpcEnabled || !Config.Write2Plc)
                 return;
 
-            //OpcDatasource.WalkingPosition = 542.492;
-            //OpcDatasource.PitchAngle = 11.2;
-            //OpcDatasource.YawAngle = 15.12;
-            //OpcDatasource.PileHeight = 15.23;
             opcHelper.ListGroupInfo.ForEach(group =>
             {
                 if (group.GroupType != GroupType.WRITE)
@@ -160,9 +154,9 @@ namespace IntercommConsole.Tasks
         private void CalculateMovements()
         {
             GenericStorage<double> wqueue = Const.OpcDatasource.WalkingQueue_Plc, yqueue = Const.OpcDatasource.YawQueue_Plc;
-            Const.OpcDatasource.WalkingSpeed_Plc = wqueue == null ? 0 : Math.Round(wqueue.ElementAt(2) - wqueue.ElementAt(1), 3);
+            //Const.OpcDatasource.WalkingSpeed_Plc = wqueue == null ? 0 : Math.Round(wqueue.ElementAt(2) - wqueue.ElementAt(1), 3);
             Const.OpcDatasource.WalkingAcce_Plc = wqueue == null ? 0 : Math.Round(wqueue.ElementAt(0) - 2 * wqueue.ElementAt(1) + wqueue.ElementAt(2), 3);
-            Const.OpcDatasource.YawSpeed_Plc = yqueue == null ? 0 : Math.Round(yqueue.ElementAt(1) - yqueue.ElementAt(0), 3);
+            //Const.OpcDatasource.YawSpeed_Plc = yqueue == null ? 0 : Math.Round(yqueue.ElementAt(1) - yqueue.ElementAt(0), 3);
         }
     }
 }

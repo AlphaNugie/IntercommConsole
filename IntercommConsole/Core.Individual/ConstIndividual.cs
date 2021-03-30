@@ -18,6 +18,11 @@ namespace IntercommConsole.Core
         /// </summary>
         public static RadioWrapper<Radio_S1> Wrapper = new RadioWrapper<Radio_S1>(Config.MachineName);
 
+        ///// <summary>
+        ///// 单机包裹类对象
+        ///// </summary>
+        //public static RadioDisplayWrapper<csdisplay::gprotocol.Radio_S1> WrapperDisplay = new RadioDisplayWrapper<csdisplay::gprotocol.Radio_S1>(Config.MachineName);
+
         /// <summary>
         /// 单机雷达报警包括类
         /// </summary>

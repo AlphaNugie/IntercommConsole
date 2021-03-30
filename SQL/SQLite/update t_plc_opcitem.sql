@@ -1,0 +1,1 @@
+﻿update t_plc_opcitem set item_id = replace(item_id, 'S1_TOPIC', 'S3_TOPIC') where item_id like '%S1_TOPIC%'

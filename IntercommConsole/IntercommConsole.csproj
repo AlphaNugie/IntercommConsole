@@ -46,6 +46,7 @@
     </Reference>
     <Reference Include="connect_server">
       <HintPath>..\..\connect_server\connect_server_lib\connect_server.dll</HintPath>
+      <Aliases>global</Aliases>
     </Reference>
     <Reference Include="Interop.OPCAutomation">
       <HintPath>..\..\..\OPC\DLL\Interop.OPCAutomation.dll</HintPath>
@@ -93,16 +94,22 @@
     <Compile Include="DataUtil\DataService_Opc.cs" />
     <Compile Include="DataUtil\DataService_Radar.cs" />
     <Compile Include="DataUtil\DataService_Sqlite.cs" />
+    <Compile Include="Model\BeyondStackCounter.cs" />
     <Compile Include="Model\OpcDataSource.cs" />
     <Compile Include="Core\Posture.cs" />
     <Compile Include="Model\RcmsDataSource.cs" />
     <Compile Include="Model\StrategyDataSource.cs" />
     <Compile Include="Tasks\AngleRecordTask.cs" />
+    <Compile Include="Tasks\AntiCollRecordTask.cs" />
+    <Compile Include="Tasks\BeyondStackTask.cs" />
     <Compile Include="Tasks\DataProcessTask.cs" />
+    <Compile Include="Tasks\DbOracleRapidTask.cs" />
     <Compile Include="Tasks\DbOracleTask.cs" />
     <Compile Include="Tasks\DbSqliteTask.cs" />
     <Compile Include="Tasks\InternelCommTask.cs" />
+    <Compile Include="Tasks\ModelAngleRecordTask.cs" />
     <Compile Include="Tasks\ModelBuildingServiceTask.cs" />
+    <Compile Include="Tasks\ModelWebDisplayServiceTask.cs" />
     <Compile Include="Tasks\ModelDisplayServiceTask.cs" />
     <Compile Include="Tasks\OpcTask.cs" />
     <Compile Include="Tasks\PostureTask.cs" />
@@ -122,6 +129,10 @@
     <Content Include="task_exchange_512x.ico" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\ConnectServerDisplayWrapper\ConnectServerDisplayWrapper.csproj">
+      <Project>{ce7614db-982d-42bd-903e-590ab671e8c5}</Project>
+      <Name>ConnectServerDisplayWrapper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ConnectServerWrapper\ConnectServerWrapper.csproj">
       <Project>{af40ee07-30ae-414d-8d26-29afae8faa50}</Project>
       <Name>ConnectServerWrapper</Name>

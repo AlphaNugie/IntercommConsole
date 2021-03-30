@@ -4,6 +4,7 @@ using ConnectServerWrapper;
 using gprotocol;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -100,9 +101,24 @@ namespace IntercommConsole.Core
         public static int GnssPort { get; set; }
 
         /// <summary>
-        /// 数据库服务器IP
+        /// 建模服务IP
         /// </summary>
         public static string DataServerIp { get; set; }
+
+        /// <summary>
+        /// 建模UDP服务IP
+        /// </summary>
+        public static string DataUdpServerIp { get; set; }
+
+        /// <summary>
+        /// 建模纯展示服务IP
+        /// </summary>
+        public static string DataDisplayServerIp { get; set; }
+
+        /// <summary>
+        /// 建模纯展示服务端口
+        /// </summary>
+        public static int DataDisplayServerPort { get; set; }
 
         /// <summary>
         /// 用户名
@@ -113,6 +129,16 @@ namespace IntercommConsole.Core
         /// 用户密码
         /// </summary>
         public static string Password { get; set; }
+
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        public static string UserNameDisplay { get; set; }
+
+        /// <summary>
+        /// 用户密码
+        /// </summary>
+        public static string PasswordDisplay { get; set; }
         #endregion
 
         #region OPC
@@ -140,6 +166,21 @@ namespace IntercommConsole.Core
         /// OPC读取与写入间隔（毫秒）
         /// </summary>
         public static int OpcLoopInterval { get; set; }
+
+        /// <summary>
+        /// 向PLC写入的垛位高度修正值类型
+        /// </summary>
+        public static PileHeightCorrType PileHeightCorrType { get; set; }
+
+        /// <summary>
+        /// 垛位高度修正的固定值
+        /// </summary>
+        public static double PileHeightCorr { get; set; }
+
+        /// <summary>
+        /// 地面高度基础数据列表
+        /// </summary>
+        public static List<double> GroundHeightValues { get; set; }
         #endregion
 
         #region Calc
@@ -160,15 +201,20 @@ namespace IntercommConsole.Core
         #endregion
 
         #region Belt
-        /// <summary>
-        /// 是否使用
-        /// </summary>
-        public static bool DistBeltThresholdEnabled { get; set; }
+        ///// <summary>
+        ///// 是否使用料流雷达距离判断是否有料流
+        ///// </summary>
+        //public static bool DistBeltThresholdEnabled { get; set; }
 
         /// <summary>
-        /// 料流距离阈值
+        /// 建模时料流有效性判断模式
         /// </summary>
-        public static double DistBeltThreshold { get; set; }
+        public static CoalValidMode CoalValidMode { get; set; }
+
+        ///// <summary>
+        ///// 料流距离阈值
+        ///// </summary>
+        //public static double DistBeltThreshold { get; set; }
 
         /// <summary>
         /// 根据料流雷达距离判断料流大小的阶段阈值（大于等于最大的值为0级）
@@ -198,9 +244,19 @@ namespace IntercommConsole.Core
         public static double BeyondStackAngleThreshold { get; set; }
 
         /// <summary>
+        /// 平面角度的阈值是否可用，不可用则不参与判断
+        /// </summary>
+        public static bool BeyondStackAngleEnabled { get; set; }
+
+        /// <summary>
         /// 出料堆的底线距离，有一侧距离超出此值，则亦判断出料堆
         /// </summary>
         public static double BeyondStackBaseline { get; set; }
+
+        /// <summary>
+        /// 出料堆的底线距离是否可用，不可用则不参与判断
+        /// </summary>
+        public static bool BeyondStackBaseEnabled { get; set; }
 
         /// <summary>
         /// 是否启用出垛边角度记录
@@ -287,8 +343,13 @@ namespace IntercommConsole.Core
             RadarPort = int.Parse(_iniHelper.ReadData("Main", "RadarPort"));
             GnssPort = int.Parse(_iniHelper.ReadData("Main", "GnssPort"));
             DataServerIp = _iniHelper.ReadData("Main", "DataServerIp");
+            DataUdpServerIp = _iniHelper.ReadData("Main", "DataUdpServerIp");
+            DataDisplayServerIp = _iniHelper.ReadData("Main", "DataDisplayServerIp");
+            DataDisplayServerPort = int.Parse(_iniHelper.ReadData("Main", "DataDisplayServerPort"));
             UserName = _iniHelper.ReadData("Main", "UserName");
             Password = _iniHelper.ReadData("Main", "Password");
+            UserNameDisplay = _iniHelper.ReadData("Main", "UserNameDisplay");
+            PasswordDisplay = _iniHelper.ReadData("Main", "PasswordDisplay");
             #endregion
 
             #region OPC
@@ -297,6 +358,10 @@ namespace IntercommConsole.Core
             OpcServerName = _iniHelper.ReadData("OPC", "OpcServerName");
             Write2Plc = _iniHelper.ReadData("OPC", "Write2Plc").Equals("1");
             OpcLoopInterval = int.Parse(_iniHelper.ReadData("OPC", "LoopInterval"));
+            PileHeightCorrType = (PileHeightCorrType)int.Parse(_iniHelper.ReadData("OPC", "PileHeightCorrType"));
+            PileHeightCorr = double.Parse(_iniHelper.ReadData("OPC", "PileHeightCorr"));
+            try { GroundHeightValues = File.ReadAllLines(_iniHelper.ReadData("OPC", "GroundHeightFile")).Select(line => double.Parse(line)).ToList(); }
+            catch (Exception) { }
             #endregion
 
             #region Calc
@@ -306,17 +371,20 @@ namespace IntercommConsole.Core
             #endregion
 
             #region Belt
-            DistBeltThresholdEnabled = _iniHelper.ReadData("Belt", "UseThreshold").Equals("1");
-            DistBeltThreshold = double.Parse(_iniHelper.ReadData("Belt", "DistBeltThreshold"));
+            //DistBeltThresholdEnabled = _iniHelper.ReadData("Belt", "UseThreshold").Equals("1");
+            CoalValidMode = (CoalValidMode)int.Parse(_iniHelper.ReadData("Belt", "CoalValidMode"));
+            //DistBeltThreshold = double.Parse(_iniHelper.ReadData("Belt", "DistBeltThreshold"));
             DistBeltLevels = _iniHelper.ReadData("Belt", "DistBeltLevels").Split(',').Select(s => double.Parse(s)).OrderByDescending(s => s).ToList();
             BeltSignalDuration = double.Parse(_iniHelper.ReadData("Belt", "Duration"));
             #endregion
 
             #region Wheel
-            BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackThreshold"));
-            BeyondStackBorder = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBorder"));
+            //BeyondStackThreshold = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackThreshold"));
+            //BeyondStackBorder = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBorder"));
             BeyondStackAngleThreshold = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackAngleThreshold"));
+            BeyondStackAngleEnabled = _iniHelper.ReadData("Wheel", "BeyondStackAngleEnabled").Equals("1");
             BeyondStackBaseline = double.Parse(_iniHelper.ReadData("Wheel", "BeyondStackBaseline"));
+            BeyondStackBaseEnabled = _iniHelper.ReadData("Wheel", "BeyondStackBaseEnabled").Equals("1");
             EnableAngleRecording = _iniHelper.ReadData("Wheel", "EnableAngleRecording").Equals("1");
             AngleRecordingSource = (AngleSource)int.Parse(_iniHelper.ReadData("Wheel", "AngleRecordingSource"));
             #endregion
@@ -360,5 +428,42 @@ namespace IntercommConsole.Core
         PLC = 1,
 
         BEIDOU = 2
+    }
+
+    /// <summary>
+    /// 向PLC写入的垛位高度修正值类型
+    /// </summary>
+    public enum PileHeightCorrType
+    {
+        /// <summary>
+        /// 固定数值修正
+        /// </summary>
+        SolidValue = 1,
+
+        /// <summary>
+        /// 地形基础数据修正(地面高度文本文件)
+        /// </summary>
+        GroundHeightFile = 2
+    }
+
+    /// <summary>
+    /// 料流有效性判断模式
+    /// </summary>
+    public enum CoalValidMode
+    {
+        /// <summary>
+        /// 料流永远有效（无论料流雷达或悬皮的状态如何）
+        /// </summary>
+        AlwaysValid = 0,
+
+        /// <summary>
+        /// 根据皮带料流雷达判断
+        /// </summary>
+        RadarDist = 1,
+
+        /// <summary>
+        /// 根据悬皮皮带状态判断
+        /// </summary>
+        BeltStatus = 2
     }
 }

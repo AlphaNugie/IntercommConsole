@@ -14,6 +14,8 @@ namespace DemoRealChart
         [STAThread]
         static void Main()
         {
+            Def.Update();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             //Application.Run(new FormWheelDistChart());

@@ -82,6 +82,27 @@ namespace SerializationFactory
         public double LocalCoor_Antez { get; set; }
 
         /// <summary>
+        /// 回转轴本地X坐标
+        /// </summary>
+        [ProtoMember(16)]
+        [PropertyMapperFrom("LocalCoor_YawAxis.XPrime")]
+        public double LocalCoor_Centrex { get; set; }
+
+        /// <summary>
+        /// 回转轴本地Y坐标
+        /// </summary>
+        [ProtoMember(17)]
+        [PropertyMapperFrom("LocalCoor_YawAxis.YPrime")]
+        public double LocalCoor_Centrey { get; set; }
+
+        /// <summary>
+        /// 回转轴本地Z坐标
+        /// </summary>
+        [ProtoMember(18)]
+        [PropertyMapperFrom("LocalCoor_YawAxis.Z")]
+        public double LocalCoor_Centrez { get; set; }
+
+        /// <summary>
         /// 臂架顶端本地X坐标
         /// </summary>
         [ProtoMember(1)]

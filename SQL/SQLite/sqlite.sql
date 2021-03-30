@@ -23,7 +23,8 @@ CREATE TABLE [t_plc_opcitem](
   [record_id] INTEGER PRIMARY KEY ON CONFLICT FAIL AUTOINCREMENT NOT NULL ON CONFLICT FAIL, 
   [item_id] VARCHAR2(64) NOT NULL ON CONFLICT FAIL, 
   [opcgroup_id] INTEGER NOT NULL ON CONFLICT FAIL, 
-  [field_name] VARCHAR2(64));
+  [field_name] VARCHAR2(64)), 
+  [enabled] INTEGER NOT NULL ON CONFLICT FAIL DEFAULT 1);
 
 insert into t_plc_opcgroup (group_name, group_type) values('OPC_GROUP_READ', 1);
 insert into t_plc_opcgroup (group_name, group_type) values('OPC_GROUP_WRITE', 2);

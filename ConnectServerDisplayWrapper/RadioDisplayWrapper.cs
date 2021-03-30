@@ -13,7 +13,7 @@ namespace ConnectServerWrapper
     /// Radio_XX单机实体类的包裹类
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class RadioWrapper<T> where T : IExtensible
+    public class RadioDisplayWrapper<T> where T : IExtensible
     {
         public const string MACHINE_NAME_PROPERTY = "machine_name"; //Radio_XX类中代表单机名称的属性名
         public const string FLOAT_ARRAY_PROPERTY = "floatarrawy"; //Radio_XX类中代表单机姿态的属性名
@@ -110,13 +110,13 @@ namespace ConnectServerWrapper
         /// <summary>
         /// 默认构造器
         /// </summary>
-        public RadioWrapper() : this(string.Empty) { }
+        public RadioDisplayWrapper() : this(string.Empty) { }
 
         /// <summary>
         /// 构造器
         /// </summary>
         /// <param name="machine_name">单机名称</param>
-        public RadioWrapper(string machine_name)
+        public RadioDisplayWrapper(string machine_name)
         {
             _type = typeof(T);
             //_base = new T();

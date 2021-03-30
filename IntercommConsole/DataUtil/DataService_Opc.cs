@@ -15,7 +15,7 @@ namespace IntercommConsole.DataUtil
 
         public DataTable GetOpcInfo()
         {
-            string sql = "select * from t_plc_opcgroup g left join t_plc_opcitem i on g.group_id = i.opcgroup_id order by g.group_id, i.record_id";
+            string sql = "select * from t_plc_opcgroup g left join t_plc_opcitem i on g.group_id = i.opcgroup_id where i.enabled = 1 order by g.group_id, i.record_id";
             return this.provider.Query(sql);
         }
     }

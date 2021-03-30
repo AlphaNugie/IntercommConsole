@@ -7,6 +7,10 @@ using IntercommConsole.Core;
 using IntercommConsole.Model;
 using Newtonsoft.Json;
 using CommonLib.Clients.Tasks;
+using System.Linq;
+using CommonLib.Function;
+//using Operation_server;
+using ConnectServerWrapper;
 
 namespace IntercommConsole
 {
@@ -14,22 +18,41 @@ namespace IntercommConsole
     {
         static void Main(string[] args)
         {
-            //Config.Update();
             Config.Init();
             DbDef.Update();
+            #region test
+            //string result = string.Format("{0},{1:f3},{2:f3},{3:f3}", Config.MachineName, 444, 555, 4);
+            //string result1 = HexHelper.GetStringSumResult(result);
+            //result += ',';
+            //string result2 = result + result.ToCharArray().Sum(c => (int)c);
+            //bool b = HexHelper.IsStringSumVerified(result2);
+            //b = HexHelper.IsStringSumVerified(result1);
+            //return;
+
+            //string input = "testy";
+            //int sum = input.ToCharArray().Sum(c => (int)c);
+            //string result = HexHelper.GetStringSumResult(input);
+            //bool verified = HexHelper.IsStringSumVerified(result);
+            #endregion
             Const.WriteConsoleLog("IntercommConsole启动，本地IP: " + Const.LocalIp);
             AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledException_Raising); //未捕获异常触发事件
             //任务
             List<Task> tasks = new List<Task>() {
                 new DataProcessTask(),
+                new BeyondStackTask() { Interval = 500 },
                 new OpcTask() { Interval = Config.OpcLoopInterval },
                 new ModelBuildingServiceTask(),
                 new ModelDisplayServiceTask(),
+                new ModelWebDisplayServiceTask(),
                 new StrategyServiceTask() { Interval = 500 },
                 new DbOracleTask(),
+                new DbOracleRapidTask() { Interval = 50 },
                 new DbSqliteTask(),
                 new PostureTask(),
                 new AngleRecordTask(),
+                new InternalCommTask() { Interval = 100 },
+                //new ModelAngleRecordTask(),
+                new AntiCollRecordTask(),
             };
             //添加RCMS发送任务
             tasks.AddRange(Const.DataServiceSqlite.GetRcmsList());

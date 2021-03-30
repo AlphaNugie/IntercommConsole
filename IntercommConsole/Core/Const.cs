@@ -43,6 +43,11 @@ namespace IntercommConsole.Core
         /// </summary>
         public static bool IsStacker { get { return Config.MachineType == MachineType.Stacker; } }
 
+        /// <summary>
+        /// 雷达应用是否连接
+        /// </summary>
+        public static bool RadarClientConnected { get; set; }
+
         private static RadarProtoInfo _radarInfo = new RadarProtoInfo();
         /// <summary>
         /// 雷达消息
@@ -52,6 +57,11 @@ namespace IntercommConsole.Core
             get { return _radarInfo; }
             set { _radarInfo = value; }
         }
+
+        /// <summary>
+        /// GNSS应用是否连接
+        /// </summary>
+        public static bool GnssClientConnected { get; set; }
 
         private static GnssProtoInfo _gnssInfo = new GnssProtoInfo();
         /// <summary>
@@ -92,6 +102,11 @@ namespace IntercommConsole.Core
         /// 从PLC获取的惯导数据是否可用
         /// </summary>
         public static bool IsPlcInsValid { get; set; }
+
+        ///// <summary>
+        ///// 是否位于底层
+        ///// </summary>
+        //public static bool OnBottomLevel { get { return OpcDatasource.PileHeight < 2; } }
 
         /// <summary>
         /// 写入日志同时在控制台输出

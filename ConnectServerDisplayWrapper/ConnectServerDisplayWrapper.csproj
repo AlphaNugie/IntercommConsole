@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AF40EE07-30AE-414D-8D26-29AFAE8FAA50}</ProjectGuid>
+    <ProjectGuid>{CE7614DB-982D-42BD-903E-590AB671E8C5}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>ConnectServerWrapper</RootNamespace>
-    <AssemblyName>ConnectServerWrapper</AssemblyName>
+    <RootNamespace>ConnectServerDisplayWrapper</RootNamespace>
+    <AssemblyName>ConnectServerDisplayWrapper</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,9 +31,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="connect_server, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\connect_server\connect_server_lib\connect_server.dll</HintPath>
+    <Reference Include="JavaClientdll">
+      <HintPath>..\..\connect_server\connect_server_lib\JavaClientdll.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -45,10 +44,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="NetworkGateway.cs" />
+    <Compile Include="NetworkDisplayGateway.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RadioAlarmWrapper.cs" />
-    <Compile Include="RadioWrapper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

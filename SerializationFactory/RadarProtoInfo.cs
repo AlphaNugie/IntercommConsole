@@ -108,6 +108,90 @@ namespace SerializationFactory
         public double DistCounterRight { get; set; }
 
         /// <summary>
+        /// 大臂左前距离
+        /// </summary>
+        [ProtoMember(19)]
+        [PropertyMapperTo("DistLeftFront")]
+        public double DistLeftFront { get; set; }
+
+        /// <summary>
+        /// 大臂左中距离
+        /// </summary>
+        [ProtoMember(20)]
+        [PropertyMapperTo("DistLeftMiddle")]
+        public double DistLeftMiddle { get; set; }
+
+        /// <summary>
+        /// 大臂左后距离
+        /// </summary>
+        [ProtoMember(21)]
+        [PropertyMapperTo("DistLeftBack")]
+        public double DistLeftBack { get; set; }
+
+        /// <summary>
+        /// 大臂右前距离
+        /// </summary>
+        [ProtoMember(22)]
+        [PropertyMapperTo("DistRightFront")]
+        public double DistRightFront { get; set; }
+
+        /// <summary>
+        /// 大臂右中距离
+        /// </summary>
+        [ProtoMember(23)]
+        [PropertyMapperTo("DistRightMiddle")]
+        public double DistRightMiddle { get; set; }
+
+        /// <summary>
+        /// 大臂右后距离
+        /// </summary>
+        [ProtoMember(24)]
+        [PropertyMapperTo("DistRightBack")]
+        public double DistRightBack { get; set; }
+
+        /// <summary>
+        /// 左前距离级别
+        /// </summary>
+        [ProtoMember(31)]
+        [PropertyMapperTo("LevelLeftFront")]
+        public double LevelLeftFront { get; set; }
+
+        /// <summary>
+        /// 左中距离级别
+        /// </summary>
+        [ProtoMember(32)]
+        [PropertyMapperTo("LevelLeftMiddle")]
+        public double LevelLeftMiddle { get; set; }
+
+        /// <summary>
+        /// 左后距离级别
+        /// </summary>
+        [ProtoMember(33)]
+        [PropertyMapperTo("LevelLeftBack")]
+        public double LevelLeftBack { get; set; }
+
+        /// <summary>
+        /// 右前距离级别
+        /// </summary>
+        [ProtoMember(34)]
+        [PropertyMapperTo("LevelRightFront")]
+        public double LevelRightFront { get; set; }
+
+        /// <summary>
+        /// 右中距离级别
+        /// </summary>
+        [ProtoMember(35)]
+        [PropertyMapperTo("LevelRightMiddle")]
+        public double LevelRightMiddle { get; set; }
+
+        /// <summary>
+        /// 右后距离级别
+        /// </summary>
+        [ProtoMember(36)]
+        [PropertyMapperTo("LevelRightBack")]
+        public double LevelRightBack { get; set; }
+
+        /// <summary>
         /// 雷达基础信息列表
         /// </summary>
         [ProtoMember(6)]
@@ -168,6 +252,43 @@ namespace SerializationFactory
             get { return this._surface_wheel_right; }
             set { this._surface_wheel_right = Math.Round(value, 3); }
         }
+
+        /// <summary>
+        /// 左侧是否出垛边（由matlab模型决定）
+        /// </summary>
+        [ProtoMember(25)]
+        public bool OutOfStackLeft { get; set; }
+
+        /// <summary>
+        /// 右侧是否出垛边（由matlab模型决定）
+        /// </summary>
+        [ProtoMember(26)]
+        public bool OutOfStackRight { get; set; }
+
+        /// <summary>
+        /// 左侧平均半径
+        /// </summary>
+        [ProtoMember(27)]
+        public double RadiusAverageLeft { get; set; }
+
+        /// <summary>
+        /// 右侧平均半径
+        /// </summary>
+        [ProtoMember(28)]
+        public double RadiusAverageRight { get; set; }
+
+        /// <summary>
+        /// 是否位于底层
+        /// </summary>
+        [ProtoMember(29)]
+        public bool OnBottomLevel { get; set; }
+
+        /// <summary>
+        /// 所有网格测距值的集合，格式为“a0,a1,...a5;b0,b1,...b5;c0,c1,...,c5;d0,d1,...,d5”
+        /// abcd大项分别代表原始值、远距过滤值、变化差异过滤纸以及卡尔曼滤波过滤值，内部序号分别代表左前中后、右前中后
+        /// </summary>
+        [ProtoMember(30)]
+        public string BlockDistances { get; set; }
 
         /// <summary>
         /// 构造器

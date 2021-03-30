@@ -43,17 +43,26 @@ namespace IntercommConsole.Model
         /// </summary>
         public GenericStorage<double> WalkingQueue_Plc { get; set; }
 
+        ///// <summary>
+        ///// PLC行走速度
+        ///// </summary>
+        //public double WalkingSpeed_Plc { get; set; }
+
+        private double _walkSpeedPlc = 0;
         /// <summary>
-        /// PLC行走速度
+        /// 回转角速度（PLC）
         /// </summary>
-        public double WalkingSpeed_Plc { get; set; }
-        //public double WalkingSpeed_Plc { get { return WalkingQueue_Plc == null ? 0 : WalkingQueue_Plc.ElementAt(2) - WalkingQueue_Plc.ElementAt(1); } }
+        public double WalkingSpeed_Plc
+        {
+            get { return _walkSpeedPlc; }
+            //变频器最大值为15000，对应最大走行速度为0.5米/秒（30米/分钟）
+            set { _walkSpeedPlc = value / 15000 * 0.5; }
+        }
 
         /// <summary>
         /// PLC行走加速度
         /// </summary>
         public double WalkingAcce_Plc { get; set; }
-        //public double WalkingAcce_Plc { get { return WalkingQueue_Plc == null ? 0 : WalkingQueue_Plc.ElementAt(0) - 2 * WalkingQueue_Plc.ElementAt(1) + WalkingQueue_Plc.ElementAt(2); } }
 
         /// <summary>
         /// 编码器俯仰角
@@ -70,13 +79,23 @@ namespace IntercommConsole.Model
         /// </summary>
         public GenericStorage<double> YawQueue_Plc { get; set; }
 
+        ///// <summary>
+        ///// PLC回转速度
+        ///// </summary>
+        //public double YawSpeed_Plc { get; set; }
+
+        private double _yawSpeedPlc = 0;
         /// <summary>
-        /// PLC回转速度
+        /// 回转角速度（PLC）
         /// </summary>
-        public double YawSpeed_Plc { get; set; }
-        //public double YawSpeed_Plc { get { return YawQueue_Plc == null ? 0 : YawQueue_Plc.ElementAt(1) - YawQueue_Plc.ElementAt(0); } }
+        public double YawSpeed_Plc
+        {
+            get { return _yawSpeedPlc; }
+            //变频器最大值为14500，对应最大转速为0.13rpm，转换为°/s
+            set { _yawSpeedPlc = value / 14500 * 0.13 * 360 / 60; }
+        }
         #endregion
-        
+
         #region 惯导姿态
         /// <summary>
         /// 惯导行走加速度
@@ -131,6 +150,36 @@ namespace IntercommConsole.Model
         #endregion
 
         /// <summary>
+        /// 是否正在自动作业，0 否，1 是
+        /// </summary>
+        public int AutoControl { get; set; }
+
+        /// <summary>
+        /// 出模型边界角度1
+        /// </summary>
+        public double ModelBoundAngle1 { get; set; }
+
+        /// <summary>
+        /// 出模型边界角度2
+        /// </summary>
+        public double ModelBoundAngle2 { get; set; }
+
+        /// <summary>
+        /// 斗轮是否逆向转动，0 逆向转动，1 非逆向转动
+        /// </summary>
+        public int WheelTurningBackwards { get; set; }
+
+        /// <summary>
+        /// 悬皮是否启动，0 未启动，1 启动
+        /// </summary>
+        public int BeltStatus { get; set; }
+
+        /// <summary>
+        /// 地面皮带是否启动，0 未启动，1 启动
+        /// </summary>
+        public int GroundBeltStatus { get; set; }
+
+        /// <summary>
         /// 该点煤堆高度
         /// </summary>
         public double PileHeight { get; set; }
@@ -146,7 +195,7 @@ namespace IntercommConsole.Model
         public int CoalOnBeltLevel { get; set; }
 
         /// <summary>
-        /// 皮带是否有料（PLC信号）
+        /// 皮带是否有料（PLC信号），1 有料，0 无料
         /// </summary>
         public int CoalOnBeltPlc { get { return CoalOnBelt ? 1 : 0; } }
 
@@ -217,43 +266,70 @@ namespace IntercommConsole.Model
         public double CounterRightDist { get; set; }
 
         /// <summary>
+        /// 左前距离
+        /// </summary>
+        public double DistLeftFront { get; set; }
+
+        /// <summary>
+        /// 左中距离
+        /// </summary>
+        public double DistLeftMiddle { get; set; }
+
+        /// <summary>
+        /// 左后距离
+        /// </summary>
+        public double DistLeftBack { get; set; }
+
+        /// <summary>
+        /// 右前距离
+        /// </summary>
+        public double DistRightFront { get; set; }
+
+        /// <summary>
+        /// 右中距离
+        /// </summary>
+        public double DistRightMiddle { get; set; }
+
+        /// <summary>
+        /// 右后距离
+        /// </summary>
+        public double DistRightBack { get; set; }
+
+        /// <summary>
+        /// 左前距离级别
+        /// </summary>
+        public double LevelLeftFront { get; set; }
+
+        /// <summary>
+        /// 左中距离级别
+        /// </summary>
+        public double LevelLeftMiddle { get; set; }
+
+        /// <summary>
+        /// 左后距离级别
+        /// </summary>
+        public double LevelLeftBack { get; set; }
+
+        /// <summary>
+        /// 右前距离级别
+        /// </summary>
+        public double LevelRightFront { get; set; }
+
+        /// <summary>
+        /// 右中距离级别
+        /// </summary>
+        public double LevelRightMiddle { get; set; }
+
+        /// <summary>
+        /// 右后距离级别
+        /// </summary>
+        public double LevelRightBack { get; set; }
+
+        /// <summary>
         /// 雷达信号
         /// </summary>
         public int RadarStatus { get; set; }
         #endregion
-
-        ///// <summary>
-        ///// 根据两侧斗轮雷达测距设置左右出料堆状态
-        ///// </summary>
-        ///// <param name="left_dist">斗轮左侧雷达测距</param>
-        ///// <param name="right_dist">斗轮右侧雷达测距</param>
-        //public void SetWheelBeyondStackByDist(double left_dist, double right_dist)
-        //{
-        //    //left_out = right_out = false;
-        //    ////假如距离为0则改为99，代表没有数据时是打到了远处
-        //    //left_dist = left_dist == 0 ? 99 : left_dist;
-        //    //right_dist = right_dist == 0 ? 99 : right_dist;
-        //    double diff = left_dist - right_dist; //左右测距的差
-        //    //double abs_diff = Math.Abs(left_dist - right_dist); //斗轮两侧雷达距离差
-        //    //bool on_each_side = (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0; //左侧、右侧雷达测距是否分属分界线两侧
-        //    //斗轮两侧雷达距离差达到阈值，同时左右侧雷达测距分属分界线两侧；或者某一侧距离超过底线距离
-        //    bool _out = Math.Abs(diff) >= Config.BeyondStackThreshold && (left_dist - Config.BeyondStackBorder) * (right_dist - Config.BeyondStackBorder) < 0;
-        //    WheelLeftBeyondStack = (_out && diff > 0) || left_dist > Config.BeyondStackBaseline ? 1 : 0;
-        //    WheelRightBeyondStack = (_out && diff < 0) || right_dist > Config.BeyondStackBaseline ? 1 : 0;
-        //}
-
-        /// <summary>
-        /// 根据两侧斗轮雷达拟合平面角与测距设置左右出料堆状态
-        /// </summary>
-        /// <param name="left_angle">斗轮左侧雷达平面角</param>
-        /// <param name="right_angle">斗轮右侧雷达平面角</param>
-        /// <param name="left_dist">斗轮左侧雷达测距</param>
-        /// <param name="right_dist">斗轮右侧雷达测距</param>
-        public void SetWheelBeyondStackByAngleDist(double left_angle, double right_angle, double left_dist, double right_dist)
-        {
-            WheelLeftBeyondStack = left_angle < Config.BeyondStackAngleThreshold || left_dist > Config.BeyondStackBaseline ? 1 : 0;
-            WheelRightBeyondStack = right_angle < Config.BeyondStackAngleThreshold || right_dist > Config.BeyondStackBaseline ? 1 : 0;
-        }
 
         /// <summary>
         /// 根据皮带料流雷达距离判断料流等级
@@ -280,11 +356,6 @@ namespace IntercommConsole.Model
             this.YawQueue_Plc = new GenericStorage<double>(2);
             this.WalkingQueue_Plc.FillEmptyShells();
             this.YawQueue_Plc.FillEmptyShells();
-            //this.WalkingQueue.Push(0);
-            //this.WalkingQueue.Push(0);
-            //this.WalkingQueue.Push(0);
-            //this.YawQueue.Push(0);
-            //this.YawQueue.Push(0);
         }
     }
 }

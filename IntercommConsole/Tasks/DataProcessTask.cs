@@ -50,12 +50,21 @@ namespace IntercommConsole.Tasks
             _filterSamples.Add(height);
             if (_filterSamples.Count >= (Config.UseGaussianFilter ? Config.FilterLength : 1))
             {
-                Const.StrategyDataSource.MaterialHeight = Const.OpcDatasource.PileHeight = Math.Round(_filterClient.GetGaussianValue(_filterSamples), 3);
+                //Const.StrategyDataSource.MaterialHeight = Const.OpcDatasource.PileHeight = Math.Round(_filterClient.GetGaussianValue(_filterSamples), 3);
+                //估算出的料堆高度
+                Const.StrategyDataSource.MaterialHeight = Math.Round(_filterClient.GetGaussianValue(_filterSamples), 3);
+                //给PLC传送的高度在估算出的料堆高度上进行修正
+                //假如修正类型为固定值，或地形数据为空，或坐标位置超出地形数据索引，则使用固定值修正，否则用对应行走位置的地面高度修正
+                //int index = (int)Const.GnssInfo.WalkingPosition - 1; //根据行走位置计算索引
+                int index = (int)Const.GnssInfo.LocalCoor_Tipx - 1; //根据落料口位置X坐标计算索引
+                index = index < 0 ? 0 : index;
+                double corr = Config.PileHeightCorrType == PileHeightCorrType.SolidValue || Config.GroundHeightValues == null || Config.GroundHeightValues.Count == 0 || index >= Config.GroundHeightValues.Count ? Config.PileHeightCorr : -1 * Config.GroundHeightValues[index];
+                Const.OpcDatasource.PileHeight = Const.StrategyDataSource.MaterialHeight + corr;
+                //string temp = "" + Const.OpcDatasource.PileHeight;
                 _filterSamples.Clear();
             }
             #endregion
-            string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2},{3},{4}),落料距离:{5},垛高:{6},行走:{7},俯仰:{8},回转:{9},斗轮左右角度:({18},{19}),有料流:{10},料流距离:{11},料流级别:{12},斗轮功率:{13},瞬时:{14},PLC行走速度、加速度:({15},{16}),PLC回转速度:{17}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.RadarInfo.DistWheelAverage, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.OpcDatasource.CoalOnBelt, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.WheelPowerPolished, Const.OpcDatasource.StreamPerHour, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.WalkingAcce_Plc, Const.OpcDatasource.YawSpeed_Plc, Const.RadarInfo.SurfaceAngleWheelLeft, Const.RadarInfo.SurfaceAngleWheelRight);
-            //string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2},{3},{4}),落料距离:{5},垛高:{6},行走:{7},俯仰:{8},回转:{9},斗轮左右斜率:({18},{19}),有料流:{10},料流距离:{11},料流级别:{12},斗轮功率:{13},瞬时:{14},PLC行走速度、加速度:({15},{16}),PLC回转速度:{17}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.RadarInfo.DistWheelAverage, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.OpcDatasource.CoalOnBelt, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.WheelPowerPolished, Const.OpcDatasource.StreamPerHour, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.WalkingAcce_Plc, Const.OpcDatasource.YawSpeed_Plc, Const.RadarInfo.SlopeWheelLeft, Const.RadarInfo.SlopeWheelRight);
+            string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2},{3},{4}),落料距离:{5},估算垛高:{6:f2},PLC垛高:{7:f2},行走:{8},俯仰:{9},回转:{10},斗轮左右角度:({11},{12}),左右半径:({23:f2},{24:f2}),左右出垛边:({25},{26}),斗轮逆变:{13},悬皮启动:{14},地面皮带:{27},有料流:{15},料流距离:{16},料流级别:{17},斗轮功率:{18},瞬时:{19},PLC行走速度、加速度:({20},{21}),PLC回转速度:{22}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.RadarInfo.DistWheelAverage, Const.StrategyDataSource.MaterialHeight, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.RadarInfo.SurfaceAngleWheelLeft, Const.RadarInfo.SurfaceAngleWheelRight, Const.OpcDatasource.WheelTurningBackwards == 1, Const.OpcDatasource.BeltStatus == 1, Const.OpcDatasource.CoalOnBelt, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.WheelPowerPolished, Const.OpcDatasource.StreamPerHour, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.WalkingAcce_Plc, Const.OpcDatasource.YawSpeed_Plc, Const.RadarInfo.RadiusAverageLeft, Const.RadarInfo.RadiusAverageRight, Const.OpcDatasource.WheelLeftBeyondStack, Const.OpcDatasource.WheelRightBeyondStack, Const.OpcDatasource.GroundBeltStatus == 1);
             _taskLogsBuffer = new List<string>() { result };
         }
 
@@ -115,7 +124,8 @@ namespace IntercommConsole.Tasks
                         //Const.OpcDatasource.SetWheelBeyondStack(Const.RadarInfo.DistWheelLeft, Const.RadarInfo.DistWheelRight);
                         Const.OpcDatasource.UpdateCoalOnBeltLevel(Const.RadarInfo.DistBelt);
                         //TODO 高于静止无料以及皮带运动无料的级别才判断为有料
-                        if (!Config.DistBeltThresholdEnabled || (Config.DistBeltThresholdEnabled && Const.OpcDatasource.CoalOnBeltLevel > 1))
+                        //if (!Config.DistBeltThresholdEnabled || (Config.DistBeltThresholdEnabled && Const.OpcDatasource.CoalOnBeltLevel > 1))
+                        if (Const.OpcDatasource.CoalOnBeltLevel > 1)
                             _raiser.Click();
                         //if (!Config.DistBeltThresholdEnabled || (Config.DistBeltThresholdEnabled && Const.RadarInfo.DistBelt < Config.DistBeltThreshold))
                         //    _raiser.Click();

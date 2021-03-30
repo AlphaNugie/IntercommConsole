@@ -16,7 +16,7 @@ namespace ChartDisplay
         private readonly string _machineName; //大机名称
         private readonly int _maxCount = 120;
         private readonly int _num = 1;//每次删除增加点的数目
-        private readonly OracleProvider provider = new OracleProvider("172.17.10.2", "pdborcl", "ysurcms", "8508991");
+        private readonly OracleProvider provider = new OracleProvider(Def.HostAddress, Def.ServiceName, Def.UserName, Def.Password);
         private readonly Queue<WheelDists> _dataQueue;
 
         public FormWheelDistChart(string machine_name)
