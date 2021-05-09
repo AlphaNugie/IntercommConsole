@@ -41,8 +41,10 @@ namespace IntercommConsole.Tasks
         {
             //渐变的雷达距离校正值，当斗轮两侧距离差不大于第1阶阈值时采用（否则为0），形如d'=(1-d/m)n，d为两侧距离差值，m为第1阶阈值，n为距离拟合校正值
             double dist_offset = !Const.RadarInfo.DistWheelDiff.Between(0, Config.DistDiffThres[0]) ? 0 : (1 - Const.RadarInfo.DistWheelDiff / Config.DistDiffThres[0]) * Config.DistOffset;
-            //落料口到落料点的高度：落料口雷达平均距离+渐变的雷达距离校正值（取料机此值为0）
-            Const.StrategyDataSource.BlankingDistance = Const.IsStacker ? Const.RadarInfo.DistWheelAverage + dist_offset : 0;
+            ////落料口到落料点的高度：落料口雷达平均距离+渐变的雷达距离校正值（取料机此值为0）
+            //Const.StrategyDataSource.BlankingDistance = Const.IsStacker ? Const.RadarInfo.DistWheelAverage + dist_offset : 0;
+            //落料口到落料点的高度：落料口雷达最小距离+渐变的雷达距离校正值（取料机此值为0）
+            Const.StrategyDataSource.BlankingDistance = Const.IsStacker ? Const.RadarInfo.DistWheelMin + dist_offset : 0;
             #region 料堆高度高斯过滤
             //煤堆高度=落料口Z坐标 - 落料口到落料点的高度
             //double height = Math.Round(Const.GnssInfo.LocalCoor_Tipz - (Const.IsStacker ? Const.RadarInfo.DistWheelAverage + dist_offset : 0) + Config.HeightOffset + Config.HeightOffset2, 3);
@@ -64,6 +66,7 @@ namespace IntercommConsole.Tasks
                 _filterSamples.Clear();
             }
             #endregion
+            //string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2},{3},{4}),落料距离:{5},估算垛高:{6:f2},PLC垛高:{7:f2},行走:{8},俯仰:{9},回转:{10},固定解:{19},收到航向:{28},斗轮左右角度:({11},{12}),左右半径:({23:f2},{24:f2}),左右出垛边:({25},{26}),斗轮逆变:{13},悬皮启动:{14},地面皮带:{27},有料流:{15},料流距离:{16},料流级别:{17},斗轮功率:{18},PLC行走、回转速度:({20},{22}),PLC错误:{21}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.StrategyDataSource.BlankingDistance, Const.StrategyDataSource.MaterialHeight, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.RadarInfo.SurfaceAngleWheelLeft, Const.RadarInfo.SurfaceAngleWheelRight, Const.OpcDatasource.WheelTurningBackwards, Const.OpcDatasource.BeltStatus, Const.OpcDatasource.CoalOnBeltPlc, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.WheelPowerPolished, Const.OpcDatasource.IsFixed, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.PlcErrorOccured, Const.OpcDatasource.YawSpeed_Plc, Const.RadarInfo.RadiusAverageLeft, Const.RadarInfo.RadiusAverageRight, Const.OpcDatasource.WheelLeftBeyondStack, Const.OpcDatasource.WheelRightBeyondStack, Const.OpcDatasource.GroundBeltStatus, Const.OpcDatasource.TrackDirection_Received);
             string result = string.Format("{0:yyyy-MM-dd HH:mm:ss}==>单机{1}落料口XYZ:({2:f3},{3:f3},{4:f3}),落料距离:{5:f2},估算垛高:{6:f2},PLC垛高:{7:f2},行走:{8:f3},俯仰:{9:f3},回转:{10:f3},固定解:{19},收到航向:{28},斗轮左右角度:({11:f2},{12:f2}),左右半径:({23:f2},{24:f2}),左右出垛边:({25},{26}),斗轮逆变:{13},悬皮启动:{14},地面皮带:{27},有料流:{15},料流距离:{16:f2},料流级别:{17},斗轮功率:{18:f2},PLC行走、回转速度:({20:f2},{22:f2}),PLC错误:{21}", DateTime.Now, Config.MachineName, Const.GnssInfo.LocalCoor_Tipx, Const.GnssInfo.LocalCoor_Tipy, Const.GnssInfo.LocalCoor_Tipz, Const.StrategyDataSource.BlankingDistance, Const.StrategyDataSource.MaterialHeight, Const.OpcDatasource.PileHeight, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.RadarInfo.SurfaceAngleWheelLeft, Const.RadarInfo.SurfaceAngleWheelRight, Const.OpcDatasource.WheelTurningBackwards, Const.OpcDatasource.BeltStatus, Const.OpcDatasource.CoalOnBeltPlc, Const.RadarInfo.DistBelt, Const.OpcDatasource.CoalOnBeltLevel, Const.OpcDatasource.WheelPowerPolished, Const.OpcDatasource.IsFixed, Const.OpcDatasource.WalkingSpeed_Plc, Const.OpcDatasource.PlcErrorOccured, Const.OpcDatasource.YawSpeed_Plc, Const.RadarInfo.RadiusAverageLeft, Const.RadarInfo.RadiusAverageRight, Const.OpcDatasource.WheelLeftBeyondStack, Const.OpcDatasource.WheelRightBeyondStack, Const.OpcDatasource.GroundBeltStatus, Const.OpcDatasource.TrackDirection_Received);
             _taskLogsBuffer = new List<string>() { result };
         }

@@ -85,7 +85,8 @@ namespace ChartDisplay
             BlockDistances dists;
             this.UpdateQueueValue(out dists);
             if (_start)
-                File.AppendAllLines(_fullPath, new string[] { string.Format("{0:yyyy-MM-dd HH:mm:ss},{1},{2},{3},{4},{5},{6}", DateTime.Now, dists.LeftFront, dists.LeftMiddle, dists.LeftBack, dists.RightFront, dists.RightMiddle, dists.RightBack) });
+                //File.AppendAllLines(_fullPath, new string[] { string.Format("{0:yyyy-MM-dd HH:mm:ss},{1},{2},{3},{4},{5},{6}", DateTime.Now, dists.LeftFront, dists.LeftMiddle, dists.LeftBack, dists.RightFront, dists.RightMiddle, dists.RightBack) });
+                File.AppendAllLines(string.Format(@"{0}{1:yyyyMMddHH}.csv", _filePath, DateTime.Now), new string[] { string.Format("{0:yyyy-MM-dd HH:mm:ss},{1},{2},{3},{4},{5},{6}", DateTime.Now, dists.LeftFront, dists.LeftMiddle, dists.LeftBack, dists.RightFront, dists.RightMiddle, dists.RightBack) });
             foreach (var series in this.chart1.Series)
                 series.Points.Clear();
             for (int i = 0; i < _dataQueue.Count; i++)
@@ -129,8 +130,8 @@ namespace ChartDisplay
             chartArea.AxisX.Minimum = 0;
             //chartArea.AxisX.Interval = 5;
             chartArea.AxisX.Interval = 10;
-            chartArea.AxisY.Minimum = 0;
-            chartArea.AxisY.Maximum = 55; //网格测距最大值为60
+            chartArea.AxisY.Minimum = -4;
+            chartArea.AxisY.Maximum = 52; //网格测距最大值为60
             chartArea.AxisY.Interval = 2;
             chartArea.AxisX.MajorGrid.LineColor = Color.Silver;
             chartArea.AxisY.MajorGrid.LineColor = Color.Silver;

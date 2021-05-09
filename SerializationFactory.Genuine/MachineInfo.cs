@@ -25,5 +25,10 @@ namespace SerializationFactory.Genuine
         /// 北斗信息
         /// </summary>
         public GnssInfo GnssInfo { get; set; }
+
+        /// <summary>
+        /// OPC数据源
+        /// </summary>
+        public OpcDataSource OpcDataSource { get; set; }
     }
 }

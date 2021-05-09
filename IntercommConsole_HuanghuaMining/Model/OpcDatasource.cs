@@ -49,22 +49,22 @@ namespace IntercommConsole.Model
         /// </summary>
         public double PitchAngle { get; set; }
 
+        private double _yawAngle;
         /// <summary>
-        /// 回转角
+        /// 回转角（PLC内部的值与实际值的符号相反）
         /// </summary>
-        public double YawAngle { get; set; }
+        public double YawAngle
+        {
+            get { return _yawAngle; }
+            set { _yawAngle = value * -1; }
+        }
         #endregion
 
         #region PLC姿态
         /// <summary>
-        /// 左编码器行走位置
+        /// 编码器行走位置
         /// </summary>
-        public double WalkingPositionLeft_Plc { get; set; }
-
-        /// <summary>
-        /// 右编码器行走位置
-        /// </summary>
-        public double WalkingPositionRight_Plc { get; set; }
+        public double WalkingPosition_Plc { get; set; }
 
         /// <summary>
         /// 存储PLC行走位置的队列

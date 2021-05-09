@@ -44,7 +44,7 @@ namespace IntercommConsole.Tasks
             Const.OpcDatasource.PostureStates = Convert.ToInt32(new string(temp.Reverse().ToArray()), 2);
             OpcReadValues();
             OpcWriteValues();
-            Const.OpcDatasource.WalkingQueue_Plc.Push(Const.OpcDatasource.WalkingPositionLeft_Plc * 1000 / this.Interval); //按照任务执行间隔对PLC行走位置进行放大，相邻数据相减即可得到速度
+            Const.OpcDatasource.WalkingQueue_Plc.Push(Const.OpcDatasource.WalkingPosition_Plc * 1000 / this.Interval); //按照任务执行间隔对PLC行走位置进行放大，相邻数据相减即可得到速度
             Const.OpcDatasource.YawQueue_Plc.Push(Const.OpcDatasource.YawAngle_Plc * 1000 / this.Interval); //按照任务执行间隔对PLC行走位置进行放大，相邻数据相减即可得到速度
             this.CalculateMovements();
         }

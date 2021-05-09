@@ -21,11 +21,6 @@ namespace IntercommConsole
             Config.Init();
             DbDef.Update();
             #region test
-            //string test = string.Format("{0:f3}", 3);
-            //return;
-            //string test = JsonConvert.SerializeObject(new OpcDataSource());
-            //return;
-
             //string result = string.Format("{0},{1:f3},{2:f3},{3:f3}", Config.MachineName, 444, 555, 4);
             //string result1 = HexHelper.GetStringSumResult(result);
             //result += ',';
@@ -44,24 +39,24 @@ namespace IntercommConsole
             //任务
             List<Task> tasks = new List<Task>() {
                 new DataProcessTask(),
-                new BeyondStackTask() { Interval = 500 },
+                //new BeyondStackTask() { Interval = 500 },
                 new OpcTask() { Interval = Config.OpcLoopInterval },
                 new OpcCommTask() { Interval = Config.OpcLoopInterval * 60 },
                 new ModelBuildingServiceTask(),
-                new ModelDisplayServiceTask(),
+                //new ModelDisplayServiceTask(),
                 new ModelWebDisplayServiceTask(),
-                new StrategyServiceTask() { Interval = 500 },
-                new DbOracleTask(),
-                new DbOracleRapidTask() { Interval = 50 },
+                //new StrategyServiceTask() { Interval = 500 },
+                //new DbOracleTask(),
+                //new DbOracleRapidTask() { Interval = 50 },
                 new DbSqliteTask(),
-                new PostureTask(),
-                new AngleRecordTask(),
+                //new PostureTask(),
+                //new AngleRecordTask(),
                 new InternalCommTask() { Interval = 100 },
-                //new ModelAngleRecordTask(),
-                new AntiCollRecordTask(),
+                ////new ModelAngleRecordTask(),
+                //new AntiCollRecordTask(),
             };
             //添加RCMS发送任务
-            tasks.AddRange(Const.DataServiceSqlite.GetRcmsList());
+            //tasks.AddRange(Const.DataServiceSqlite.GetRcmsList());
             tasks.ForEach(task =>
             {
                 task.Init();

@@ -22,6 +22,11 @@ namespace SerializationFactory.Genuine
         public bool IsFixed { get; set; }
 
         /// <summary>
+        /// 是否为固定解
+        /// </summary>
+        public bool TrackDirection_Received { get; set; }
+
+        /// <summary>
         /// 定位质量
         /// </summary>
         public string PositionQuality { get; set; }

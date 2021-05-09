@@ -44,8 +44,12 @@
   <ItemGroup>
     <Compile Include="GnssProtoInfo.cs" />
     <Compile Include="MachineInfo.cs" />
+    <Compile Include="OpcDataSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadarInfoDetail.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="bin\Debug\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

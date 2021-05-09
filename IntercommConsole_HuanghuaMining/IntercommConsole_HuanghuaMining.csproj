@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A2AA7DB4-29E0-4A6D-B0B3-8D857D03D1EF}</ProjectGuid>
+    <ProjectGuid>{90058FFE-7A51-4896-91F0-3D0DCFB99DE1}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>IntercommConsole</RootNamespace>
     <AssemblyName>IntercommConsole</AssemblyName>

@@ -36,7 +36,7 @@ namespace IntercommConsole.Core
         /// <summary>
         /// 本地IP
         /// </summary>
-        public static string LocalIp { get { return Functions.GetIPAddressV4(); } }
+        public static string LocalIp { get { return Functions.GetIPAddressV4("172.18."); } }
 
         /// <summary>
         /// 是否为堆料机
@@ -96,7 +96,7 @@ namespace IntercommConsole.Core
         /// <summary>
         /// PLC单机姿态数据是否可用（行走位置、俯仰角、回转角不全为空）
         /// </summary>
-        public static bool IsPlcPostureValid { get { return OpcDatasource.WalkingPositionLeft_Plc != 0 || OpcDatasource.PitchAngle_Plc != 0 || OpcDatasource.YawAngle_Plc != 0; } }
+        public static bool IsPlcPostureValid { get { return OpcDatasource.WalkingPosition_Plc != 0 || OpcDatasource.PitchAngle_Plc != 0 || OpcDatasource.YawAngle_Plc != 0; } }
 
         /// <summary>
         /// 从PLC获取的惯导数据是否可用
@@ -133,6 +133,32 @@ namespace IntercommConsole.Core
         ///// 是否位于底层
         ///// </summary>
         //public static bool OnBottomLevel { get { return OpcDatasource.PileHeight < 2; } }
+
+        ///// <summary>
+        ///// 判断是否有料流
+        ///// </summary>
+        ///// <returns></returns>
+        //public static bool IsCoalValid()
+        //{
+        //    bool is_coal_valid = !IsStacker; //假如不是堆料机，则料流状态始终为true
+        //    //堆料机进行额外判断
+        //    if (IsStacker)
+        //    {
+        //        switch (Config.CoalValidMode)
+        //        {
+        //            case CoalValidMode.AlwaysValid:
+        //                is_coal_valid = true;
+        //                break;
+        //            case CoalValidMode.RadarDist:
+        //                is_coal_valid = OpcDatasource.CoalOnBelt;
+        //                break;
+        //            case CoalValidMode.BeltStatus:
+        //                is_coal_valid = OpcDatasource.BeltStatus == 1;
+        //                break;
+        //        }
+        //    }
+        //    return is_coal_valid;
+        //}
 
         /// <summary>
         /// 写入日志同时在控制台输出

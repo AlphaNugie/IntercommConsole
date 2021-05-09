@@ -23,12 +23,13 @@ namespace SerializationFactory
         [PropertyMapperTo("WheelLeftDist")]
         public double DistWheelLeft
         {
-            get { return this._dist_wheel_left; }
+            get { return _dist_wheel_left; }
             set
             {
-                this._dist_wheel_left = Math.Round(value, 4);
-                this.DistWheelAverage = Math.Round((this._dist_wheel_left + this._dist_wheel_right) / 2, 4);
-                this.DistWheelDiff = Math.Abs(this._dist_wheel_left - this._dist_wheel_right);
+                _dist_wheel_left = Math.Round(value, 4);
+                DistWheelAverage = Math.Round((_dist_wheel_left + _dist_wheel_right) / 2, 4);
+                DistWheelDiff = Math.Abs(_dist_wheel_left - _dist_wheel_right);
+                DistWheelMin = Math.Min(_dist_wheel_left, _dist_wheel_right);
             }
         }
 
@@ -39,12 +40,13 @@ namespace SerializationFactory
         [PropertyMapperTo("WheelRightDist")]
         public double DistWheelRight
         {
-            get { return this._dist_wheel_right; }
+            get { return _dist_wheel_right; }
             set
             {
-                this._dist_wheel_right = Math.Round(value, 3);
-                this.DistWheelAverage = Math.Round((this._dist_wheel_left + this._dist_wheel_right) / 2, 4);
-                this.DistWheelDiff = Math.Abs(this._dist_wheel_left - this._dist_wheel_right);
+                _dist_wheel_right = Math.Round(value, 3);
+                DistWheelAverage = Math.Round((_dist_wheel_left + _dist_wheel_right) / 2, 4);
+                DistWheelDiff = Math.Abs(_dist_wheel_left - _dist_wheel_right);
+                DistWheelMin = Math.Min(_dist_wheel_left, _dist_wheel_right);
             }
         }
 
@@ -216,8 +218,8 @@ namespace SerializationFactory
         [ProtoMember(15)]
         public double SlopeWheelLeft
         {
-            get { return this._slope_wheel_left; }
-            set { this._slope_wheel_left = Math.Round(value, 3); }
+            get { return _slope_wheel_left; }
+            set { _slope_wheel_left = Math.Round(value, 3); }
         }
 
         private double _slope_wheel_right;
@@ -227,8 +229,8 @@ namespace SerializationFactory
         [ProtoMember(16)]
         public double SlopeWheelRight
         {
-            get { return this._slope_wheel_right; }
-            set { this._slope_wheel_right = Math.Round(value, 3); }
+            get { return _slope_wheel_right; }
+            set { _slope_wheel_right = Math.Round(value, 3); }
         }
 
         private double _surface_wheel_left;
@@ -238,8 +240,8 @@ namespace SerializationFactory
         [ProtoMember(17)]
         public double SurfaceAngleWheelLeft
         {
-            get { return this._surface_wheel_left; }
-            set { this._surface_wheel_left = Math.Round(value, 3); }
+            get { return _surface_wheel_left; }
+            set { _surface_wheel_left = Math.Round(value, 3); }
         }
 
         private double _surface_wheel_right;
@@ -249,8 +251,8 @@ namespace SerializationFactory
         [ProtoMember(18)]
         public double SurfaceAngleWheelRight
         {
-            get { return this._surface_wheel_right; }
-            set { this._surface_wheel_right = Math.Round(value, 3); }
+            get { return _surface_wheel_right; }
+            set { _surface_wheel_right = Math.Round(value, 3); }
         }
 
         /// <summary>
@@ -295,9 +297,9 @@ namespace SerializationFactory
         /// </summary>
         public RadarProtoInfo()
         {
-            this.RadarList = new List<RadarInfoDetail>();
-            this.WheelLeftCoorList = new List<RadarCoor>();
-            this.WheelRightCoorList = new List<RadarCoor>();
+            RadarList = new List<RadarInfoDetail>();
+            WheelLeftCoorList = new List<RadarCoor>();
+            WheelRightCoorList = new List<RadarCoor>();
         }
     }
 }

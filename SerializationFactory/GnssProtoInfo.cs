@@ -30,7 +30,15 @@ namespace SerializationFactory
         /// 是否为固定解
         /// </summary>
         [ProtoMember(8)]
+        [PropertyMapperFrom("IsFixedSolution")]
         public bool IsFixed { get; set; }
+
+        /// <summary>
+        /// 是否为固定解
+        /// </summary>
+        [ProtoMember(19)]
+        [PropertyMapperFrom("TrackDirection_Received")]
+        public bool TrackDirection_Received { get; set; }
 
         /// <summary>
         /// 定位质量

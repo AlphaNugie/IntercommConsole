@@ -1,4 +1,5 @@
 ﻿using CommonLib.Clients.Tasks;
+using CommonLib.Extensions;
 using ConnectServerWrapper;
 using gprotocol;
 using IntercommConsole.Core;
@@ -24,8 +25,7 @@ namespace IntercommConsole.Tasks
         public override void Init()
         {
             NetworkDisplayGateway.Start(Config.DataDisplayServerIp, Config.DataDisplayServerPort, Config.UserNameDisplay, Config.PasswordDisplay);
-            //NetworkDisplayGateway.Start(Config.DataDisplayServerIp, Config.DataDisplayServerPort, Config.UserName, Config.Password);
-            Const.WriteConsoleLog(string.Format("已向展示服务器{0}发起连接请求...", NetworkDisplayGateway.ServerIp));
+            Const.WriteConsoleLog(string.Format("已向展示服务器{0}:{1}发起连接请求...", NetworkDisplayGateway.ServerIp, NetworkDisplayGateway.ServerPort));
         }
 
         public override void LoopContent()
@@ -41,7 +41,13 @@ namespace IntercommConsole.Tasks
             //}
             if (Const.IsGnssValid)
             {
-                try { NetworkDisplayGateway.SendMachineMovements(Config.MachineName, Const.OpcDatasource.CoalOnBeltPlc, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, Const.GnssInfo.YawAngle, Const.StrategyDataSource.MaterialHeight); }
+                try
+                {
+                    double angle = Const.GnssInfo.YawAngle + 180;
+                    angle = angle.Between(180, 360) ? angle - 360 : angle;
+                    NetworkDisplayGateway.SendMachineMovements(Config.MachineName, Const.OpcDatasource.CoalOnBeltPlc, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, angle, Const.StrategyDataSource.MaterialHeight);
+                    _taskLogsBuffer.Add("已向3维展示服务器发送单机姿态数据");
+                }
                 catch (Exception) { }
             }
             //try { NetworkDisplayGateway.SendMachineWorkStatus(Config.MachineName, Const.OpcDatasource.WheelTurningBackwards, Const.OpcDatasource.BeltStatus, Const.OpcDatasource.GroundBeltStatus, Const.OpcDatasource.CoalOnBeltPlc); }

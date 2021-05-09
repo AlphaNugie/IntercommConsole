@@ -1,15 +1,14 @@
-﻿using CommonLib.Clients;
-using IntercommConsole.Core;
-using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IntercommConsole.Model
+namespace SerializationFactory.Genuine
 {
-    [JsonObject(MemberSerialization.OptIn)]
+    /// <summary>
+    /// OPC数据源
+    /// </summary>
     public class OpcDataSource
     {
         /// <summary>
@@ -25,20 +24,9 @@ namespace IntercommConsole.Model
         /// <summary>
         /// PLC出现故障
         /// </summary>
-        [JsonProperty]
         public bool PlcErrorOccured { get; set; }
 
         #region 北斗姿态
-        /// <summary>
-        /// 北斗定位是否为固定解，1 是，0 否
-        /// </summary>
-        public int IsFixed { get { return Const.GnssInfo.IsFixed ? 1 : 0; } }
-
-        /// <summary>
-        /// 是否接收到真北航向角，1 是，0 否
-        /// </summary>
-        public int TrackDirection_Received { get { return Const.GnssInfo.TrackDirection_Received ? 1 : 0; } }
-
         /// <summary>
         /// 行走位置
         /// </summary>
@@ -65,27 +53,10 @@ namespace IntercommConsole.Model
         /// 右编码器行走位置
         /// </summary>
         public double WalkingPositionRight_Plc { get; set; }
-
-        /// <summary>
-        /// 存储PLC行走位置的队列
-        /// </summary>
-        public GenericStorage<double> WalkingQueue_Plc { get; set; }
-
-        ///// <summary>
-        ///// PLC行走速度
-        ///// </summary>
-        //public double WalkingSpeed_Plc { get; set; }
-
-        private double _walkSpeedPlc = 0;
         /// <summary>
         /// 回转角速度（PLC）
         /// </summary>
-        public double WalkingSpeed_Plc
-        {
-            get { return _walkSpeedPlc; }
-            //变频器最大值为15000，对应最大走行速度为0.5米/秒（30米/分钟）
-            set { _walkSpeedPlc = value / 15000 * 0.5; }
-        }
+        public double WalkingSpeed_Plc { get; set; }
 
         /// <summary>
         /// PLC行走加速度
@@ -103,25 +74,9 @@ namespace IntercommConsole.Model
         public double YawAngle_Plc { get; set; }
 
         /// <summary>
-        /// 存储PLC回转角的队列
-        /// </summary>
-        public GenericStorage<double> YawQueue_Plc { get; set; }
-
-        ///// <summary>
-        ///// PLC回转速度
-        ///// </summary>
-        //public double YawSpeed_Plc { get; set; }
-
-        private double _yawSpeedPlc = 0;
-        /// <summary>
         /// 回转角速度（PLC）
         /// </summary>
-        public double YawSpeed_Plc
-        {
-            get { return _yawSpeedPlc; }
-            //变频器最大值为14500，对应最大转速为0.13rpm，转换为°/s
-            set { _yawSpeedPlc = value / 14500 * 0.13 * 360 / 60; }
-        }
+        public double YawSpeed_Plc { get; set; }
         #endregion
 
         #region 惯导姿态
@@ -130,24 +85,10 @@ namespace IntercommConsole.Model
         /// </summary>
         public double WalkingAcce_Ins { get; set; }
 
-        private const int PITCH_QUEUE_MAXCOUNT = 5;
-        private readonly Queue<double> _pitch_queue = new Queue<double>(PITCH_QUEUE_MAXCOUNT);
-        private double _pitch_ins;
         /// <summary>
         /// 惯导俯仰角
         /// </summary>
-        public double PitchAngle_Ins
-        {
-            get { return _pitch_ins; }
-            set
-            {
-                _pitch_queue.Enqueue(_pitch_ins);
-                if (_pitch_queue.Count > PITCH_QUEUE_MAXCOUNT)
-                    _pitch_queue.Dequeue();
-                _pitch_ins = value;
-                Const.IsPlcInsValid = _pitch_ins != _pitch_queue.Average();
-            }
-        }
+        public double PitchAngle_Ins { get; set; }
 
         /// <summary>
         /// 惯导回转速度
@@ -225,7 +166,7 @@ namespace IntercommConsole.Model
         /// <summary>
         /// 皮带是否有料（PLC信号），1 有料，0 无料
         /// </summary>
-        public int CoalOnBeltPlc { get { return CoalOnBelt ? 1 : 0; } }
+        public int CoalOnBeltPlc { get; set; }
 
         /// <summary>
         /// 瞬时流量
@@ -358,34 +299,5 @@ namespace IntercommConsole.Model
         /// </summary>
         public int RadarStatus { get; set; }
         #endregion
-
-        /// <summary>
-        /// 根据皮带料流雷达距离判断料流等级
-        /// </summary>
-        /// <param name="dist_belt"></param>
-        public void UpdateCoalOnBeltLevel(double dist_belt)
-        {
-            int level = 0;
-            foreach (var dist in Config.DistBeltLevels)
-            {
-                if (dist_belt >= dist)
-                    break;
-                level++;
-            }
-            CoalOnBeltLevel = level;
-        }
-
-        /// <summary>
-        /// 构造器
-        /// </summary>
-        public OpcDataSource()
-        {
-            PlcReadable = true;
-            PlcWritable = true;
-            WalkingQueue_Plc = new GenericStorage<double>(3);
-            YawQueue_Plc = new GenericStorage<double>(2);
-            WalkingQueue_Plc.FillEmptyShells();
-            YawQueue_Plc.FillEmptyShells();
-        }
     }
 }
