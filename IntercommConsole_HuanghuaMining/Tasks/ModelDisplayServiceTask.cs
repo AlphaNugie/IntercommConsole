@@ -57,7 +57,8 @@ namespace IntercommConsole.Tasks
                 if (Const.IsGnssValid)
                 {
                     NetworkGateway.SendProtobufCmd(SendMode.UDP, Const.Wrapper.MachineType, Const.Wrapper.Instance);
-                    _taskLogsBuffer.Add("已向3维成像服务器发送单机姿态数据");
+                    AddLog("已向3维成像服务器发送单机姿态数据");
+                    //_taskLogsBuffer.Add("已向3维成像服务器发送单机姿态数据");
                 }
                 //if (Const.WrapperAlarm.ThreatStatus != 0)
                 //{

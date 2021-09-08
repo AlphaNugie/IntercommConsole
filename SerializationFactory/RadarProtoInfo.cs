@@ -14,6 +14,7 @@ namespace SerializationFactory
     [ProtoContract]
     public class RadarProtoInfo
     {
+        #region 斗轮/堆料机雷达测距
         private double _dist_wheel_left, _dist_wheel_right;
 
         /// <summary>
@@ -43,7 +44,7 @@ namespace SerializationFactory
             get { return _dist_wheel_right; }
             set
             {
-                _dist_wheel_right = Math.Round(value, 3);
+                _dist_wheel_right = Math.Round(value, 4);
                 DistWheelAverage = Math.Round((_dist_wheel_left + _dist_wheel_right) / 2, 4);
                 DistWheelDiff = Math.Abs(_dist_wheel_left - _dist_wheel_right);
                 DistWheelMin = Math.Min(_dist_wheel_left, _dist_wheel_right);
@@ -67,6 +68,66 @@ namespace SerializationFactory
         /// </summary>
         [ProtoMember(5)]
         public double DistWheelDiff { get; set; }
+        #endregion
+
+        #region 斗轮/堆料机雷达测角
+        private double _angle_wheel_left, _angle_wheel_right;
+
+        /// <summary>
+        /// 斗轮左侧角度（假如为堆料机则为落料口左侧角度）
+        /// </summary>
+        [ProtoMember(37)]
+        public double AngleWheelLeft
+        {
+            get { return _angle_wheel_left; }
+            set
+            {
+                _angle_wheel_left = Math.Round(value, 2);
+                AngleWheelAverage = Math.Round((_angle_wheel_left + _angle_wheel_right) / 2, 2);
+                AngleWheelDiff = Math.Abs(_angle_wheel_left - _angle_wheel_right);
+                AngleWheelMin = Math.Min(_angle_wheel_left, _angle_wheel_right);
+            }
+        }
+
+        /// <summary>
+        /// 斗轮右侧角度（假如为堆料机则为落料口右侧角度）
+        /// </summary>
+        [ProtoMember(38)]
+        public double AngleWheelRight
+        {
+            get { return _angle_wheel_right; }
+            set
+            {
+                _angle_wheel_right = Math.Round(value, 2);
+                AngleWheelAverage = Math.Round((_angle_wheel_left + _angle_wheel_right) / 2, 2);
+                AngleWheelDiff = Math.Abs(_angle_wheel_left - _angle_wheel_right);
+                AngleWheelMin = Math.Min(_angle_wheel_left, _angle_wheel_right);
+            }
+        }
+
+        private double _angle_wheel_average = 0;
+        /// <summary>
+        /// 斗轮平均角度
+        /// </summary>
+        [ProtoMember(39)]
+        public double AngleWheelAverage
+        {
+            get { return _angle_wheel_average; }
+            set { _angle_wheel_average = value > 0 ? 0 : value; }
+        }
+
+        /// <summary>
+        /// 两侧斗轮角度的最小值
+        /// </summary>
+        [ProtoMember(40)]
+        public double AngleWheelMin { get; set; }
+
+        /// <summary>
+        /// 两侧斗轮角度的差值（绝对值）
+        /// </summary>
+        [ProtoMember(41)]
+        public double AngleWheelDiff { get; set; }
+        #endregion
 
         /// <summary>
         /// 皮带料流雷达下方距离

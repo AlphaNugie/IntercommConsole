@@ -37,8 +37,8 @@ namespace IntercommConsole.Tasks
             //所有条件均符合要求后才发送消息，否则发送随机字符
             result = is_radar_valid && Const.IsGnssValid && additional && Const.IsCoalValid ? result : "#";
             udp.SendString(result, Config.ModelServerIp, Config.UdpModelRemotePort);
-
-            _taskLogsBuffer = new List<string>() { result };
+            AddLog(result);
+            //_taskLogsBuffer = new List<string>() { result };
         }
     }
 }

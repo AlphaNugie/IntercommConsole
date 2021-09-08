@@ -14,7 +14,7 @@ namespace IntercommConsole.Tasks
 {
     public class OpcTask : Task
     {
-        private OpcUtilHelper opcHelper = new OpcUtilHelper(1000, true);
+        private OpcUtilHelper _opcHelper = new OpcUtilHelper(1000, true);
 
         /// <summary>
         /// 构造器
@@ -59,8 +59,8 @@ namespace IntercommConsole.Tasks
 
             Const.WriteConsoleLog(string.Format("开始连接IP地址为{0}的OPC SERVER {1}...", Config.OpcServerIp, Config.OpcServerName));
             DataService_Opc dataService_Opc = new DataService_Opc();
-            opcHelper = new OpcUtilHelper(1000, true);
-            string[] servers = opcHelper.ServerEnum(Config.OpcServerIp, out _errorMessage);
+            _opcHelper = new OpcUtilHelper(1000, true);
+            string[] servers = _opcHelper.ServerEnum(Config.OpcServerIp, out _errorMessage);
             if (!string.IsNullOrWhiteSpace(_errorMessage))
             {
                 Const.WriteConsoleLog(string.Format("枚举过程中出现问题：{0}", _errorMessage));
@@ -98,9 +98,9 @@ namespace IntercommConsole.Tasks
                 }
                 items.Add(new OpcItemInfo(itemId, clientHandle, fieldName));
             }
-            opcHelper.ListGroupInfo = groups;
-            opcHelper.ConnectRemoteServer(Config.OpcServerIp, Config.OpcServerName, out _errorMessage);
-            Const.WriteConsoleLog(string.Format("OPC连接状态：{0}", opcHelper.OpcConnected));
+            _opcHelper.ListGroupInfo = groups;
+            _opcHelper.ConnectRemoteServer(Config.OpcServerIp, Config.OpcServerName, out _errorMessage);
+            Const.WriteConsoleLog(string.Format("OPC连接状态：{0}", _opcHelper.OpcConnected));
             if (!string.IsNullOrWhiteSpace(_errorMessage))
                 Const.WriteConsoleLog(string.Format("连接过程中出现问题：{0}", _errorMessage));
             END_OF_OPC:;
@@ -111,8 +111,8 @@ namespace IntercommConsole.Tasks
         /// </summary>
         private void SetOpcGroupsDataSource()
         {
-            if (opcHelper != null && opcHelper.ListGroupInfo != null)
-                opcHelper.ListGroupInfo.ForEach(group => group.DataSource = Const.OpcDatasource);
+            if (_opcHelper != null && _opcHelper.ListGroupInfo != null)
+                _opcHelper.ListGroupInfo.ForEach(group => group.DataSource = Const.OpcDatasource);
         }
 
         /// <summary>
@@ -124,7 +124,7 @@ namespace IntercommConsole.Tasks
             if (!Config.OpcEnabled)
                 return;
 
-            opcHelper.ListGroupInfo.ForEach(group =>
+            _opcHelper.ListGroupInfo.ForEach(group =>
             {
                 if (group.GroupType != GroupType.READ)
                     return;
@@ -143,7 +143,7 @@ namespace IntercommConsole.Tasks
             if (!Config.OpcEnabled || !Config.Write2Plc)
                 return;
 
-            opcHelper.ListGroupInfo.ForEach(group =>
+            _opcHelper.ListGroupInfo.ForEach(group =>
             {
                 if (group.GroupType != GroupType.WRITE)
                     return;

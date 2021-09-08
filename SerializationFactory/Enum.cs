@@ -58,4 +58,81 @@ namespace SerializationFactory
         /// </summary>
         Other = 16
     }
+
+    /// <summary>
+    /// 雷达组类型
+    /// </summary>
+    public enum RadarGroupType
+    {
+        /// <summary>
+        /// 无归属
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 臂架
+        /// </summary>
+        Arm = 1,
+
+        /// <summary>
+        /// 斗轮
+        /// </summary>
+        Wheel = 2,
+
+        /// <summary>
+        /// 门腿
+        /// </summary>
+        Feet = 3,
+
+        /// <summary>
+        /// 皮带
+        /// </summary>
+        Belt = 4,
+
+        /// <summary>
+        /// 配重
+        /// </summary>
+        Counterweight = 5
+    }
+
+    /// <summary>
+    /// 方向
+    /// </summary>
+    public enum Directions
+    {
+        /// <summary>
+        /// 无归属
+        /// </summary>
+        None = 0,
+
+        /// <summary>
+        /// 前方
+        /// </summary>
+        Front = 1,
+
+        /// <summary>
+        /// 左方
+        /// </summary>
+        Left = 2,
+
+        /// <summary>
+        /// 后方
+        /// </summary>
+        Back = 3,
+
+        /// <summary>
+        /// 右方
+        /// </summary>
+        Right = 4,
+
+        /// <summary>
+        /// 上
+        /// </summary>
+        Up = 5,
+
+        /// <summary>
+        /// 下
+        /// </summary>
+        Down = 6
+    }
 }

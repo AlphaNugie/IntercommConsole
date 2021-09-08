@@ -13,8 +13,8 @@ namespace IntercommConsole.Tasks
     public class ModelWebDisplayServiceTask : Task
     {
         //private readonly RadioWrapper<Rcms_test> beltWrapper = new RadioWrapper<Rcms_test>();
-        private const int _send_interval = 5; //数据发送间隔
-        private int _counter = 0;
+        //private const int _send_interval = 5; //数据发送间隔
+        //private int _counter = 0;
 
         /// <summary>
         /// 构造器

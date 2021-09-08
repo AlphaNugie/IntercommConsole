@@ -14,8 +14,8 @@ namespace IntercommConsole.Tasks
     public class ModelWebDisplayServiceTask : Task
     {
         //private readonly RadioWrapper<Rcms_test> beltWrapper = new RadioWrapper<Rcms_test>();
-        private const int _send_interval = 5; //数据发送间隔
-        private int _counter = 0;
+        //private const int _send_interval = 5; //数据发送间隔
+        //private int _counter = 0;
 
         /// <summary>
         /// 构造器
@@ -46,7 +46,8 @@ namespace IntercommConsole.Tasks
                     double angle = Const.GnssInfo.YawAngle + 180;
                     angle = angle.Between(180, 360) ? angle - 360 : angle;
                     NetworkDisplayGateway.SendMachineMovements(Config.MachineName, Const.OpcDatasource.CoalOnBeltPlc, Const.GnssInfo.WalkingPosition, Const.GnssInfo.PitchAngle, angle, Const.StrategyDataSource.MaterialHeight);
-                    _taskLogsBuffer.Add("已向3维展示服务器发送单机姿态数据");
+                    AddLog("已向3维展示服务器发送单机姿态数据");
+                    //_taskLogsBuffer.Add("已向3维展示服务器发送单机姿态数据");
                 }
                 catch (Exception) { }
             }

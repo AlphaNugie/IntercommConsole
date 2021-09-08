@@ -11,6 +11,7 @@ using System.Linq;
 using CommonLib.Function;
 //using Operation_server;
 using ConnectServerWrapper;
+using System.Net;
 
 namespace IntercommConsole
 {
@@ -21,6 +22,23 @@ namespace IntercommConsole
             Config.Init();
             DbDef.Update();
             #region test
+            //string ipStr = "127.0.0.1";
+            //IPAddress ip;
+            //IPAddress.TryParse(ipStr, out ip);
+            //ipStr = ip.ToString();
+            //return;
+
+            //KalmanFilter _kalmanFilter = new KalmanFilter(0.05, 0.95);
+            ////double value = 0;
+            //double result = 0;
+            //List<double> values = new List<double>() { 1.7, 2.9, 4.5, 3, 2, 1, 1.1, 1.7, 1.9, 2.3 };
+            //foreach (var value in values)
+            //{
+            //    double v = value;
+            //    _kalmanFilter.SetValue(ref v, 0);
+            //    result = v;
+            //}
+
             //string result = string.Format("{0},{1:f3},{2:f3},{3:f3}", Config.MachineName, 444, 555, 4);
             //string result1 = HexHelper.GetStringSumResult(result);
             //result += ',';
@@ -45,7 +63,7 @@ namespace IntercommConsole
                 new ModelBuildingServiceTask(),
                 //new ModelDisplayServiceTask(),
                 new ModelWebDisplayServiceTask(),
-                //new StrategyServiceTask() { Interval = 500 },
+                new StrategyServiceTask() { Interval = 100 },
                 //new DbOracleTask(),
                 //new DbOracleRapidTask() { Interval = 50 },
                 new DbSqliteTask(),

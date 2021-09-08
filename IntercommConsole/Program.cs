@@ -50,7 +50,7 @@ namespace IntercommConsole
                 new ModelBuildingServiceTask(),
                 new ModelDisplayServiceTask(),
                 new ModelWebDisplayServiceTask(),
-                new StrategyServiceTask() { Interval = 500 },
+                new StrategyServiceTask(),
                 new DbOracleTask(),
                 new DbOracleRapidTask() { Interval = 50 },
                 new DbSqliteTask(),

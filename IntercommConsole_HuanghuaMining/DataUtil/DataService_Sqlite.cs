@@ -27,7 +27,7 @@ namespace IntercommConsole.DataUtil
             DataTable table = this.provider.Query(sql);
             if (table == null || table.Rows.Count == 0)
                 return null;
-            List<RcmsServiceTask> list = table.Rows.Cast<DataRow>().Select(row => new RcmsServiceTask(int.Parse(row["port"].ToString()), row["remote_ip"].ToString(), int.Parse(row["remote_port"].ToString()))).ToList();
+            List<RcmsServiceTask> list = table.Rows.Cast<DataRow>().Select(row => new RcmsServiceTask(row["name"].ToString(), int.Parse(row["port"].ToString()), row["remote_ip"].ToString(), int.Parse(row["remote_port"].ToString()))).ToList();
             return list;
         }
     }

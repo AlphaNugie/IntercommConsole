@@ -208,9 +208,19 @@ namespace IntercommConsole.Model
         public int GroundBeltStatus { get; set; }
 
         /// <summary>
+        /// 该点距下方煤堆的距离
+        /// </summary>
+        public double PileDist { get; set; }
+
+        /// <summary>
         /// 该点煤堆高度
         /// </summary>
         public double PileHeight { get; set; }
+
+        /// <summary>
+        /// 落料口/斗轮下沿距地面高度
+        /// </summary>
+        public double TipHeight { get; set; }
 
         /// <summary>
         /// 皮带是否有料
@@ -226,6 +236,11 @@ namespace IntercommConsole.Model
         /// 皮带是否有料（PLC信号），1 有料，0 无料
         /// </summary>
         public int CoalOnBeltPlc { get { return CoalOnBelt ? 1 : 0; } }
+
+        /// <summary>
+        /// 悬皮料流是否符合要求（PLC信号），1 符合，0 不符合
+        /// </summary>
+        public int IsCoalValidPlc { get { return Const.IsCoalValid ? 1 : 0; } }
 
         /// <summary>
         /// 瞬时流量

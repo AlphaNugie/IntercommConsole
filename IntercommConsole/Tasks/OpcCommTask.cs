@@ -24,8 +24,8 @@ namespace IntercommConsole.Tasks
             if (Const.OpcDatasource.PlcErrorOccured)
             {
                 Const.WriteConsoleLog("PLC出现故障，PLC Error Occured：true");
-                Const.WriteConsoleLog("准备重启操作系统...");
-                ExitWindowsUtils.Reboot(true);
+                //Const.WriteConsoleLog("准备重启操作系统...");
+                //ExitWindowsUtils.Reboot(true);
             }
             Const.OpcDatasource.PlcReadable = false;
             Const.OpcDatasource.PlcWritable = false;

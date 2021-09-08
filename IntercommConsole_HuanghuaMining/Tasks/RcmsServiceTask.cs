@@ -14,6 +14,8 @@ namespace IntercommConsole.Tasks
     {
         private DerivedUdpClient udp = null;
 
+        public string Name { get; set; }
+
         public string IpAddress { get { return Const.LocalIp; } }
 
         public int Port { get; set; }
@@ -23,19 +25,24 @@ namespace IntercommConsole.Tasks
         public int RemotePort { get; set; }
 
         /// <summary>
-        /// 构造器
+        /// RCMS通信服务构造器
         /// </summary>
-        public RcmsServiceTask(int port, string remote_ip, int remote_port) : base()
+        /// <param name="name">RCMS客户端名称</param>
+        /// <param name="port">本地端口</param>
+        /// <param name="remote_ip">客户端远程IP</param>
+        /// <param name="remote_port">客户端远程端口</param>
+        public RcmsServiceTask(string name, int port, string remote_ip, int remote_port) : base()
         {
-            this.Port = port;
-            this.RemoteIpAddress = remote_ip;
-            this.RemotePort = remote_port;
+            Name = name;
+            Port = port;
+            RemoteIpAddress = remote_ip;
+            RemotePort = remote_port;
         }
 
         public override void Init()
         {
             Const.WriteConsoleLog("初始化UDP...");
-            udp = new DerivedUdpClient(this.IpAddress, this.Port, true, false);
+            udp = new DerivedUdpClient(IpAddress, Port, true, false);
             Const.WriteConsoleLog(string.Format("{0}已启动", udp.Name));
         }
 
@@ -47,9 +54,10 @@ namespace IntercommConsole.Tasks
                 Formatting = Formatting.None
             });
             //MachineInfo info = JsonConvert.DeserializeObject<MachineInfo>(json);
-            udp.SendString(json, this.RemoteIpAddress, this.RemotePort);
+            udp.SendString(json, RemoteIpAddress, RemotePort);
 
-            _taskLogsBuffer.Add(string.Format("已向{0}:{1}发送，长度:{2}", this.RemoteIpAddress, this.RemotePort, string.IsNullOrWhiteSpace(json) ? 0 : json.Length));
+            AddLog(string.Format("已向{0}:{1}发送，长度:{2}", RemoteIpAddress, RemotePort, string.IsNullOrWhiteSpace(json) ? 0 : json.Length));
+            //_taskLogsBuffer.Add(string.Format("已向{0}:{1}发送，长度:{2}", RemoteIpAddress, RemotePort, string.IsNullOrWhiteSpace(json) ? 0 : json.Length));
         }
     }
 }
